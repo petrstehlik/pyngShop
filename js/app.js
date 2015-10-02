@@ -1,8 +1,6 @@
 app.config(function($routeProvider, $locationProvider){
 	$locationProvider.html5Mode(true);
 
-	console.log(SETTINGS.views());
-
 	$routeProvider
 		.when('/login', {
 			controller: 'loginController',

@@ -1,0 +1,49 @@
+$black : #000;
+$white : #FFF;
+
+.main-menu {
+	border-top: 3px solid $black;
+	border-bottom: 1px solid lighten($black, 80%);
+	padding: 2em 0;
+}
+
+.home {
+	background: url('../img/home_bg.jpg') no-repeat center center;
+	background-size: cover;
+	height: 100%;
+	text-align: center;
+	padding-bottom: 100px;
+
+	.logo {
+		text-align: center;
+		margin: 0 auto;
+		text-indent: -9999px;
+		height: 240px;
+		width: 360px;
+		padding-top: 100px;
+		background: url('../img/logo.png') no-repeat center center;
+	}
+}
+
+.btn {
+	padding: 1em 0.75em;
+	margin: 1.5em;
+	text-decoration: none;
+	display: inline-block;
+
+	&.btn-outline {
+		background: transparent;
+		border-width: 3px;
+	    border-style: solid;
+	}
+
+	&.btn-white {
+		border-color: $white;
+		color: $white;
+	}
+
+	&.center {
+		margin: 0 auto;
+		text-align: center;
+	}
+}
