@@ -1,30 +1,37 @@
 var app = angular.module('pyngShop', ['ngAnimate', 'ngMaterial', 'ngRoute' ]);
 
-app.constant('SETTINGS', {
-	template : 'default'
-});
+var SETTINGS = {
+	template : 'default',
+	templatePath : function() {return ('/templates/' + this.template)},
+	views : function() { return(this.templatePath() + '/views/')},
+	partials : function() { return(this.templatePath() + '/partials/')}
 
-app.config(function($routeProvider, SETTINGS){
+};
 
-	console.log(SETTINGS.template);
+
+app.config(function($routeProvider, $locationProvider){
+	$locationProvider.html5Mode(true);
+
+	console.log(SETTINGS.views());
+
 	$routeProvider
 		.when('/login', {
 			controller: 'loginController',
-			templateUrl: 'templates/' + SETTINGS.template  +'/login.html',
+			templateUrl: SETTINGS.views() + 'login.html',
 			// resolve: {
 			// 	isLogin: checkLogin
 			// }
 		})
 		.when('/', {
 			controller: 'homeController',
-			templateUrl: 'templates/' + SETTINGS.template  +'/home.html',
+			templateUrl: SETTINGS.views() + 'home.html',
 			// resolve: {
 			// 	isLogin: checkLogin
 			// }
 		})
 		.when('/404', {
 			controller: 'homeController',
-			templateUrl: 'templates/' + SETTINGS.template + '/home.html',
+			templateUrl: SETTINGS.views() + 'home.html',
 			// resolve: {
 			// 	isLogin: checkLogin
 			// }
@@ -32,5 +39,4 @@ app.config(function($routeProvider, SETTINGS){
 		.otherwise({
 			redirectTo: '/404'
 		});
-
 });

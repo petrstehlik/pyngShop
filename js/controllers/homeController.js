@@ -1,5 +1,5 @@
 app.controller('homeController', function($scope){
 
-	$scope.test = "hello";
+	$scope.test = "hello dsafasfjlksdj";
 	
 })
