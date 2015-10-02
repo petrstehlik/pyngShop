@@ -1,14 +1,3 @@
-var app = angular.module('pyngShop', ['ngAnimate', 'ngMaterial', 'ngRoute' ]);
-
-var SETTINGS = {
-	template : 'default',
-	templatePath : function() {return ('/templates/' + this.template)},
-	views : function() { return(this.templatePath() + '/views/')},
-	partials : function() { return(this.templatePath() + '/partials/')}
-
-};
-
-
 app.config(function($routeProvider, $locationProvider){
 	$locationProvider.html5Mode(true);
 
