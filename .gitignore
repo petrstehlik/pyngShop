@@ -58,3 +58,6 @@ target/
 
 #Bower
 bower_components/
+
+#SASS
+.sass-cache/
