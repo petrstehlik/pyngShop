@@ -16,6 +16,10 @@ app.config(function($routeProvider, $locationProvider){
 			// 	isLogin: checkLogin
 			// }
 		})
+		.when('/:page', {
+			controller: 'pageController',
+			templateUrl: SETTINGS.views() + 'page.html'
+		})
 		.when('/404', {
 			controller: 'homeController',
 			templateUrl: SETTINGS.views() + 'home.html',
