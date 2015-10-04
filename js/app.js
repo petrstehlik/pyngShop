@@ -5,29 +5,48 @@ app.config(function($routeProvider, $locationProvider){
 		.when('/login', {
 			controller: 'loginController',
 			templateUrl: SETTINGS.views() + 'login.html',
-			// resolve: {
-			// 	isLogin: checkLogin
-			// }
+			resolve: {
+				isLoggedIn: checkLogin
+			}
 		})
 		.when('/', {
 			controller: 'homeController',
 			templateUrl: SETTINGS.views() + 'home.html',
-			// resolve: {
-			// 	isLogin: checkLogin
-			// }
+			resolve: {
+				isLoggedIn: checkLogin
+			}
 		})
 		.when('/:page', {
 			controller: 'pageController',
-			templateUrl: SETTINGS.views() + 'page.html'
+			templateUrl: SETTINGS.views() + 'page.html',
+			resolve: {
+				isLoggedIn: checkLogin,
+				exists : checkPage
+			}
 		})
 		.when('/404', {
 			controller: 'homeController',
 			templateUrl: SETTINGS.views() + 'home.html',
-			// resolve: {
-			// 	isLogin: checkLogin
-			// }
+			resolve: {
+				isLoggedIn: checkLogin
+			}
 		})
 		.otherwise({
 			redirectTo: '/404'
 		});
 });
+
+checkLogin = function() {
+	if (USER.admin) {
+		console.log('You\'re loggen in as admin');
+	}
+	else {
+		console.log("You are nobody");
+	}
+}
+
+checkPage = function($location, $routeParams) {
+	if ($routeParams.page != "login" || $routeParams.page != "404") {
+		$location.path("/404");
+	}
+}

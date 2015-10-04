@@ -1,5 +1,16 @@
-<div class="main-menu">
-	<ul>
-		<li><a href="#">Hello!</a></li>
-	</ul>
+<div class="main-menu column" layout="vertical" ng-controller="mainMenuController">
+	<md-sidenav class="md-sidenav-top md-whiteframe-z2" md-component-id="top" md-is-locked-open="$mdMedia('gt-md')">
+		<md-toolbar class="sidebar-logo">
+			<md-button ng-click="closeLeft()" id="menu-toggle" hide-gt-md>
+		        <md-icon md-svg-src="img/icons/close.svg" aria-label="Enable Menu"></md-icon>
+			</md-button>
+		</md-toolbar>
+
+		<md-content>
+			<ul ng-repeat="menu_item in menu">
+
+				<li><a ng-href="{{ menu_item.href}} ">{{menu_item.title}}</a></li>
+				
+			</ul>
+		</md-content>
 </div>
