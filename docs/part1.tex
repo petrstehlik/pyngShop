@@ -1,0 +1,59 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[left=2cm,text={17cm,24cm},top=3cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+
+\begin{document}
+
+\begin{center}
+\LARGE{Administratorské rozhraní pro CMS}
+\end{center}
+Číslo projektu: 1\\
+Číslo a název týmu: 139. Tým xstehl14\\
+Autor: Petr Stehlík (xstehl14) \\
+Další členové týmu: Mário Kuka (xkukam00), Martin Veis (xveism00)\\
+Termín řešení: 21. 9. - 18. 12. 2015\\
+
+
+\section*{Abstrakt}
+Administrátorská webová rozhraní trpí mnoha UX prohřešky. Majoritní většina je nepřátelská, nepomáhající a zmatečná. Je zde několik důvodů proč tomu tak je. Administrátoři jsou minoritní skupina uživatelů dané stránky, negenerují přímý zisk, ale zprostředkovaný a v neposlední řadě u administrátorů je velká motivace dosáhnout cíle (většinou je jejich prací udělat na webu X a Y a pokud tuto práci neodvedou, nadřízený nebude spokojen).
+
+Největším problém současných administrátorských rozhraní je naprostá oddělenost od uživatelské části. Administrátor se musí přihlásit na speciální stránce (každý systém má adresu této stránky jinou) a přes tu vstoupit do administrace. Na e-shopech, při editaci produktu, zde nejdříve musí vyhledat správnou část administrace, správnou kategorii, v horším případě vyhledat rovnou produkt mezi tisíci dalších a objeví se obrovský formulář pro editaci produktu.
+
+S nastupujícími moderními technologiemi tento problém nemusí být až tak velký. Proto jsme se rozhodli navrhnout administrátorské rozhraní, které nebude až tak administrátorské jako spíše uživatelské. Administrátor nebude mít vlastní stránky na editaci, ale bude mít k dispozici editační mód přímo na stránce, kterou návštěvník vidí a použivá. Tím odpadá obrovská režie pro administrátora, který nemusí odhadovat, co uživatel uvidí, jak se změna projeví, atp. Své úpravy uvidí přímo na dané stránce v daný okamžik a tím se přibližíme k plně funčnímu WYSIWYG editoru.
+
+\section*{Cílové požadavky na aplikaci a její rozhraní}
+Hlavním cílem našeho snažení je vytvořit plnohodnotý e-shop, který nebude mít administrační rozhraní oddělené od uživatelského. Toho docílíme editačním módem uvnitř e-shopu. Aplikace tím pádem nemusí obhospodařovat dva, technicky vzato, rozdílné weby, ale vše obstará \uv{front-end} pro uživatele.
+
+Odstraněním \uv{back-endu} dosáhneme rychlejší a smysluplné editace stránek. Administrátor není nucen přecházet mezi 2 stránkami a načítat celý obsah znovu. Jakoukoliv úpravu ihned vidí. To odstraňuje další problém rezonující napříč všemi e-shopy -- nevydařené úpravy. Uživatel nemůže přijít na e-shop, který je zrovna v údržbě.
+
+
+\section*{Studium uživatelů, UI a testování}
+Čím je cílová skupina specifická? Jaká omezení pro návrh UI přináší?
+Díky velmi specifické cílové skupině, pro kterou navrhujeme, jsou zde určitá omezení. Nemůžeme použít nepřesné nebo zavádějící názvy akcí. Na druhou stranu máme velmi motivovanou cílovou skupinu, která má jasné cíle.
+Jaká existují řešení podobného problému?
+Touto problematikou se zajímá několik projektů, většina z nich je ale pouhým rozšířením stávajících CMS. Např. pro Wordpress existuje rozšíření Cornerstone\footnote{\url{http://www.liveeditorcms.com/}} nebo pro OpenCart Live Theme Editor\footnote{\url{http://www.opencart.com/index.php?route=extension/extension/info&extension_id=20693}}.
+
+Nejefektivnější a nejvíce vypovídající metodologií testování je testování s reálnými uživateli. Např. A/B testování není v tuto chvíli proveditelné, protože nemáme zavedený eshop, na kterém bychom mohli testovat. Navíc se jedná o kompletně nový CMS.
+
+
+\section*{Návrh GUI}
+Jaké jsou hlavní funkce, které má aplikace uživateli nabízet?
+Nejdůležitější funkčností aplikace je živá editace obsahu. Úpravy, které administrátor provede, okamžitě uvidí a může se tak rychle rozhodnout, zda úpravy, které provedl, jsou vhodné. Tímto způsobem může administrátor upravit jakoukoliv část webu a jeho obsahu, logem počínaje, patičkou konče.
+
+Při návrhu GUI bude nutno používat interaktivní wireframe, protože v případě statických wireframe nedokážeme demonstrovat celkovou dynamičnost aplikace. Prvotní návrhy probíhají na papíře a ty přímo přetváříme do low-fidelity wireframe. Ten se následně vylepší a s dodanou funkcionalitou vytvoříme high-fidelity wireframe.
+
+Po průzkumu současných e-shop CMS jsme zhodnotili, že tento typ rozhraní v současné chvíli neexistuje, případně jako pouhé pokusy. To s sebou nese řadu nevýhod, které ale eliminujeme nástroji odzkoušenými v praxi a zkušenostmi v oboru.
+
+\Large*{Připravte mockupy rozhraní}
+
+\section*{Návrh testování}
+Co jsou klíčové prvky GUI realizující cíle aplikace?
+Jak se pozná, že jsou efektivní?
+Na jakém vzorku uživatelů proběhne testování?
+Jakým způsobem bude probíhat testování, aby mělo dostatečnou vypovídající hodnotu (s ohledem na omezený počet testovacích uživatelů)?
+Jaké úlohy budou testeři řešit? Jaký vliv má pořadí a složitost úloh na výsledky testování?
+% Připravte testovací protokol. Přiložte k TZ jako přílohu. 
+\end{document}
