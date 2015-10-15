@@ -4,6 +4,8 @@
 \usepackage[czech]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{url}
+\usepackage{graphicx}
+\graphicspath{ {img/} }
 
 \begin{document}
 
@@ -47,13 +49,31 @@ Při návrhu GUI bude nutno používat interaktivní wireframe, protože v pří
 
 Po průzkumu současných e-shop CMS jsme zhodnotili, že tento typ rozhraní v současné chvíli neexistuje, případně jako pouhé pokusy. To s sebou nese řadu nevýhod, které ale eliminujeme nástroji odzkoušenými v praxi a zkušenostmi v oboru.
 
-\Large*{Připravte mockupy rozhraní}
+%%%%%%%%%%\Large{Připravte mockupy rozhraní}
 
 \section*{Návrh testování}
-Co jsou klíčové prvky GUI realizující cíle aplikace?
-Jak se pozná, že jsou efektivní?
-Na jakém vzorku uživatelů proběhne testování?
-Jakým způsobem bude probíhat testování, aby mělo dostatečnou vypovídající hodnotu (s ohledem na omezený počet testovacích uživatelů)?
-Jaké úlohy budou testeři řešit? Jaký vliv má pořadí a složitost úloh na výsledky testování?
+Z hlediska povahy aplikace a jejího zaměření budeme provádět kvalitativní testování na několika typech uživatelů, kteří se s aplikací mohou dostat do styku. S ohledem na neveřejnost projektu by navíc bylo velmi těžké vytvořit kvantitativní testování.
+\begin{enumerate}
+	\item{Počítačově zkušení uživatelé (programátoři)}
+	\item{Správci e-shopů}
+	\item{Pokročilejší uživatelé PC}
+	\item{Běžní uživatelé PC}
+	\item{Počítačově negramotní uživatelé}
+\end{enumerate}
+
+Nejdůležitějšími skupinami uživatelů jsou číslo 2 a 3, kteří jsou nejpravděpodobnější uživatelé této aplikace. 
+
+% Co jsou klíčové prvky GUI realizující cíle aplikace?\\
+% Jak se pozná, že jsou efektivní?\\
+% Na jakém vzorku uživatelů proběhne testování?\\
+% Jakým způsobem bude probíhat testování, aby mělo dostatečnou vypovídající hodnotu (s ohledem na omezený počet testovacích uživatelů)?\\
+% Jaké úlohy budou testeři řešit? Jaký vliv má pořadí a složitost úloh na výsledky testování?\\
 % Připravte testovací protokol. Přiložte k TZ jako přílohu. 
+
+\section*{Přílohy}
+
+\subsection*{Návrh rozhraní -- běžný uživatel}
+\includegraphics[scale=0.6]{pyngshop.png}
+\subsection*{Návrh rozhraní -- administrátor}
+\includegraphics[scale=0.6]{pyngshop_edit.png}
 \end{document}
