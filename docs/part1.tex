@@ -5,12 +5,13 @@
 \usepackage[utf8]{inputenc}
 \usepackage{url}
 \usepackage{graphicx}
+\usepackage{pdfpages}
 \graphicspath{ {img/} }
 
 \begin{document}
 
 \begin{center}
-\LARGE{Administratorské rozhraní pro CMS}
+\LARGE{Administrátorské rozhraní pro CMS}
 \end{center}
 Číslo projektu: 1\\
 Číslo a název týmu: 139. Tým xstehl14\\
@@ -20,7 +21,7 @@ Termín řešení: 21. 9. - 18. 12. 2015\\
 
 
 \section*{Abstrakt}
-Administrátorská webová rozhraní trpí mnoha UX prohřešky. Majoritní většina je nepřátelská, nepomáhající a zmatečná. Je zde několik důvodů proč tomu tak je. Administrátoři jsou minoritní skupina uživatelů dané stránky, negenerují přímý zisk, ale zprostředkovaný a v neposlední řadě u administrátorů je velká motivace dosáhnout cíle (většinou je jejich prací udělat na webu X a Y a pokud tuto práci neodvedou, nadřízený nebude spokojen).
+Administrátorská webová rozhraní trpí mnoha UX prohřešky. Majoritní většina je nepřátelská, nepomáhající a zmatečná. Je zde několik důvodů proč tomu tak je. Administrátoři jsou minoritní skupina uživatelů dané stránky, negenerují přímý zisk, ale zprostředkovaný, a v neposlední řadě u administrátorů je velká motivace dosáhnout cíle (většinou je jejich prací udělat na webu X a Y a pokud tuto práci neodvedou, nadřízený nebude spokojen).
 
 Největším problém současných administrátorských rozhraní je naprostá oddělenost od uživatelské části. Administrátor se musí přihlásit na speciální stránce (každý systém má adresu této stránky jinou) a přes tu vstoupit do administrace. Na e-shopech, při editaci produktu, zde nejdříve musí vyhledat správnou část administrace, správnou kategorii, v horším případě vyhledat rovnou produkt mezi tisíci dalších a objeví se obrovský formulář pro editaci produktu.
 
@@ -33,19 +34,15 @@ Odstraněním \uv{back-endu} dosáhneme rychlejší a smysluplné editace strán
 
 
 \section*{Studium uživatelů, UI a testování}
-Čím je cílová skupina specifická? Jaká omezení pro návrh UI přináší?
-Díky velmi specifické cílové skupině, pro kterou navrhujeme, jsou zde určitá omezení. Nemůžeme použít nepřesné nebo zavádějící názvy akcí. Na druhou stranu máme velmi motivovanou cílovou skupinu, která má jasné cíle.
-Jaká existují řešení podobného problému?
-Touto problematikou se zajímá několik projektů, většina z nich je ale pouhým rozšířením stávajících CMS. Např. pro Wordpress existuje rozšíření Cornerstone\footnote{\url{http://www.liveeditorcms.com/}} nebo pro OpenCart Live Theme Editor\footnote{\url{http://www.opencart.com/index.php?route=extension/extension/info&extension_id=20693}}.
+Díky velmi specifické cílové skupině, pro kterou navrhujeme, jsou zde určitá omezení. Nemůžeme použít nepřesné nebo zavádějící názvy akcí. Na druhou stranu máme velmi motivovanou cílovou skupinu, která má jasné cíle. Touto problematikou se zajímá několik projektů, většina z nich je ale pouhým rozšířením stávajících CMS. Např. pro Wordpress existuje rozšíření Cornerstone\footnote{\url{http://www.liveeditorcms.com/}} nebo pro OpenCart Live Theme Editor\footnote{\url{http://www.opencart.com/index.php?route=extension/extension/info&extension_id=20693}}.
 
-Nejefektivnější a nejvíce vypovídající metodologií testování je testování s reálnými uživateli. Např. A/B testování není v tuto chvíli proveditelné, protože nemáme zavedený eshop, na kterém bychom mohli testovat. Navíc se jedná o kompletně nový CMS.
+Nejefektivnější a nejvíce vypovídající metodologií testování je testování s reálnými uživateli. Např. A/B testování není v tuto chvíli proveditelné, protože nemáme zavedený eshop, na kterém bychom mohli testovat, navíc se jedná o kompletně nový CMS s vlastním databázovým schématem.
 
 
 \section*{Návrh GUI}
-Jaké jsou hlavní funkce, které má aplikace uživateli nabízet?
 Nejdůležitější funkčností aplikace je živá editace obsahu. Úpravy, které administrátor provede, okamžitě uvidí a může se tak rychle rozhodnout, zda úpravy, které provedl, jsou vhodné. Tímto způsobem může administrátor upravit jakoukoliv část webu a jeho obsahu, logem počínaje, patičkou konče.
 
-Při návrhu GUI bude nutno používat interaktivní wireframe, protože v případě statických wireframe nedokážeme demonstrovat celkovou dynamičnost aplikace. Prvotní návrhy probíhají na papíře a ty přímo přetváříme do low-fidelity wireframe. Ten se následně vylepší a s dodanou funkcionalitou vytvoříme high-fidelity wireframe.
+Při návrhu GUI je vhodné používat interaktivní wireframe, protože v případě statických wireframe nedokážeme demonstrovat celkovou dynamičnost aplikace. Prvotní návrhy probíhají na papíře a ty přímo přetváříme do low-fidelity wireframe (viz Přílohy). Ten se následně vylepší a s dodanou funkcionalitou vytvoříme high-fidelity wireframe.
 
 Po průzkumu současných e-shop CMS jsme zhodnotili, že tento typ rozhraní v současné chvíli neexistuje, případně jako pouhé pokusy. To s sebou nese řadu nevýhod, které ale eliminujeme nástroji odzkoušenými v praxi a zkušenostmi v oboru.
 
@@ -76,4 +73,27 @@ Nejdůležitějšími skupinami uživatelů jsou číslo 2 a 3, kteří jsou nej
 \includegraphics[scale=0.6]{pyngshop.png}
 \subsection*{Návrh rozhraní -- administrátor}
 \includegraphics[scale=0.6]{pyngshop_edit.png}
+\newpage
+\subsection*{Testovací protokol}
+\noindent{\large\textsc{Úkol}: Vytvořte nový produkt v kategorii XYZ.}\\
+\textsc{Cíl}: Vytvoření produktu v dané kategorii.\\
+\textsc{Čas}: 5 minut s připravenými podklady.\\
+\bigskip
+
+\noindent{\large\textsc{Úkol}: Upravte produkt ABC v kategorii XYZ.}\\
+\textsc{Cíl}: Upravení produktu v dané kategorii.\\
+\textsc{Čas}: 2 minuty pro minoritní úpravu.\\
+\bigskip
+
+\noindent{\large\textsc{Úkol}: Vyřiďte příchozí objednávky (vytisknout faktury).}\\
+\textsc{Cíl}: Vytištění faktur do PDF a uložení.\\
+\textsc{Čas}: 3 minuty do finálního uložení všech faktur.\\
+\bigskip
+
+\noindent{\large\textsc{Úkol}: Upravte název kategorie A na B.}\\
+\textsc{Cíl}: Upravení názvu zanořené kategorie.\\
+\textsc{Čas}: 1 minuta.\\
+\bigskip
+
+\noindent Ke každému úkolu zaznamenáváme čas provedení, komplikace při provádění, otázky uživatele, úroveň frustrace vykonavatele, úroveň zmatení a spokojenost s výsledkem
 \end{document}
