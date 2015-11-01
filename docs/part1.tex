@@ -60,6 +60,33 @@ Z hlediska povahy aplikace a jejího zaměření budeme provádět kvalitativní
 
 Nejdůležitějšími skupinami uživatelů jsou číslo 2 a 3, kteří jsou nejpravděpodobnější uživatelé této aplikace. 
 
+\section*{Studium realizace GUI}
+Z hlediska povahy projektu je nejvhodnější webové řešení. Je zde i možnost desktopového řešení, ale tím by celý návrh ztratil smysl v podobě odděléno back-endu. Webové řešení má navíc několik výhod. Je velmi lehce přenositelné, dostupné kdekoliv (i na mobilních zařízeních) a nezávislé na platformě.
+
+Nevýhodou webového řešení je částečně různá interpretace aplikace na webových jádrech prohlížečů. Tyto rozdíly jsem ale víceméně kosmetické a neubírají aplikaci na funkcionalitě.
+
+Konkrétně pro front-end jsme vybrali velmi silnou kombinaci HTML 5 a CSS3 pro zobrazování a AngularJS pro obsluhu front-endu. AngularJS je javascriptový MVC framework pro dynamickou manipulaci s webovou stránkou. Zároveň slouží jako server pro celou stránku (z hlediska front-endu).
+
+Pro serverový back-end jsme zvolili jazyk Python a knihovnu Flask. Back-end slouží pouze pro komunikaci s databází a kontrolu uživatelů (udržování session). Knihovna Flask je použita pro tvorbu webového API, aby mohl front-end komunikovat s back-endem. 
+
+Python oproti PHP disponuje excelentní vyjadřovací schopností, je efektivnější a jednodušší k použití. Společně s různými knihovnami se tyto schopnosti ještě více umocňují.
+% Jaké technologie jsou vhodné pro řešení aplikace a UI?
+% Čím je vhodná vybraná technologie (Qt, WPF, web tech. apod.)? Co přináší a v čem je naopak takovéto řešení omezující?
+% Jaké specifické části technologie (popř. rozšiřujících nástrojů) jsou pro řešení vybrány a proč?
+% Sepište do TZ.
+
+\section*{Návrh/popis back-endu}
+% Jaké služby/funkce (server, datový model, sada funkcí, služby třetích stran apod.) je třeba připravit pro dostatečnou funkčnost a testování GUI aplikace? 
+% Funkce nemusí být funkční (dynamické apod.), ale musí vracet smysluplné hodnoty (simulované hodnoty, pevně přednastavené ...).
+% Jaká je struktura aplikace a napojení GUI na back-end?
+% Zpracujte do TZ.
+
+% Programování back-endu
+% Naprogramujte a připravte na použití. 
+% Klíčové informace o back-endu (stručný popis, struktura programového řešení, vybrané funkce, API) popište v TZ.
+% Toto nemusí dělat všichni členové týmu.
+
+
 % Co jsou klíčové prvky GUI realizující cíle aplikace?\\
 % Jak se pozná, že jsou efektivní?\\
 % Na jakém vzorku uživatelů proběhne testování?\\
