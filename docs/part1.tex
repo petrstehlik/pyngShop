@@ -61,11 +61,11 @@ Z hlediska povahy aplikace a jejího zaměření budeme provádět kvalitativní
 Nejdůležitějšími skupinami uživatelů jsou číslo 2 a 3, kteří jsou nejpravděpodobnější uživatelé této aplikace. 
 
 \section*{Studium realizace GUI}
-Z hlediska povahy projektu je nejvhodnější webové řešení. Je zde i možnost desktopového řešení, ale tím by celý návrh ztratil smysl v podobě odděléno back-endu. Webové řešení má navíc několik výhod. Je velmi lehce přenositelné, dostupné kdekoliv (i na mobilních zařízeních) a nezávislé na platformě.
+Z hlediska povahy projektu je nejvhodnější webové řešení. Je zde i možnost desktopového řešení, ale tím by celý návrh ztratil smysl v podobě oddělénoho back-endu. Webové řešení má navíc několik výhod. Je velmi lehce přenositelné, dostupné kdekoliv (i na mobilních zařízeních) a nezávislé na platformě.
 
-Nevýhodou webového řešení je částečně různá interpretace aplikace na webových jádrech prohlížečů. Tyto rozdíly jsem ale víceméně kosmetické a neubírají aplikaci na funkcionalitě.
+Nevýhodou webového řešení je částečně různá interpretace aplikace na různých webových jádrech prohlížečů. Tyto rozdíly jsou ale víceméně kosmetické a neubírají aplikaci na funkcionalitě.
 
-Konkrétně pro front-end jsme vybrali velmi silnou kombinaci HTML 5 a CSS3 pro zobrazování a AngularJS\footnote{\url{https://angularjs.org/}} pro obsluhu front-endu. AngularJS je javascriptový MVC framework pro dynamickou manipulaci s webovou stránkou (two-way data binding). Zároveň slouží jako server pro celou stránku (z hlediska front-endu).
+Konkrétně pro front-end jsme vybrali velmi silnou kombinaci HTML 5 a CSS3 pro zobrazování a AngularJS\footnote{\url{https://angularjs.org/}} pro obsluhu front-endu. AngularJS je javascriptový MVC framework pro dynamickou manipulaci s webovou stránkou (pomocí two-way data binding). Zároveň slouží jako server pro celou stránku (z hlediska front-endu).
 
 Pro serverový back-end jsme zvolili jazyk Python a knihovnu Flask\footnote{\url{http://flask.pocoo.org/}}. Back-end slouží pouze pro komunikaci s databází a kontrolu uživatelů (udržování session). Knihovna Flask je použita pro tvorbu webového API, aby mohl front-end komunikovat s back-endem. 
 
@@ -78,7 +78,7 @@ Python oproti PHP disponuje excelentní vyjadřovací schopností, je efektivně
 \section*{Návrh back-endu}
 Pro plnou funkčnost aplikace je potřeba webový server s veřejnou IP adresou, v našem případě Linuxový server s Apache, databáze MySQL a jazyk Python s knihovnou Flask. Apache je konfigurován na spouštění WSGI skriptů (Python). 
 
-Struktura celé aplikace je znázorněna na schématu, které ukazuje i použité technologie.
+Struktura celé aplikace je znázorněna na schématu, které ukazuje i použité technologie v jednotlivých částech aplikace.
 \newline
 \newline
 \centerline{\includegraphics[scale=0.5]{schema.png}}
@@ -89,7 +89,7 @@ Struktura celé aplikace je znázorněna na schématu, které ukazuje i použit�
 % Zpracujte do TZ.
 
 \section*{Programování back-endu}
-Back-end je, jak zmíněno výše, realizován v jazyku Python společně s knihovnou Flask. Ten obsluhuje veškerou práci s databází dle požadavků od front-endu.
+Back-end je, již zmíněno výše, realizován v jazyku Python společně s knihovnou Flask. Ten obsluhuje veškerou práci s databází dle požadavků od front-endu.
 
 Databázové schéma bylo převzato z dřívějšího projektu do předmětu IDS z druhého ročníku. Toto schéma jsme upravili a rozšířili. Částečné schéma je níže v přílohách.
 
