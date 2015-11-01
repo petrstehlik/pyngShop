@@ -65,9 +65,9 @@ Z hlediska povahy projektu je nejvhodnější webové řešení. Je zde i možno
 
 Nevýhodou webového řešení je částečně různá interpretace aplikace na webových jádrech prohlížečů. Tyto rozdíly jsem ale víceméně kosmetické a neubírají aplikaci na funkcionalitě.
 
-Konkrétně pro front-end jsme vybrali velmi silnou kombinaci HTML 5 a CSS3 pro zobrazování a AngularJS pro obsluhu front-endu. AngularJS je javascriptový MVC framework pro dynamickou manipulaci s webovou stránkou. Zároveň slouží jako server pro celou stránku (z hlediska front-endu).
+Konkrétně pro front-end jsme vybrali velmi silnou kombinaci HTML 5 a CSS3 pro zobrazování a AngularJS\footnote{\url{https://angularjs.org/}} pro obsluhu front-endu. AngularJS je javascriptový MVC framework pro dynamickou manipulaci s webovou stránkou (two-way data binding). Zároveň slouží jako server pro celou stránku (z hlediska front-endu).
 
-Pro serverový back-end jsme zvolili jazyk Python a knihovnu Flask. Back-end slouží pouze pro komunikaci s databází a kontrolu uživatelů (udržování session). Knihovna Flask je použita pro tvorbu webového API, aby mohl front-end komunikovat s back-endem. 
+Pro serverový back-end jsme zvolili jazyk Python a knihovnu Flask\footnote{\url{http://flask.pocoo.org/}}. Back-end slouží pouze pro komunikaci s databází a kontrolu uživatelů (udržování session). Knihovna Flask je použita pro tvorbu webového API, aby mohl front-end komunikovat s back-endem. 
 
 Python oproti PHP disponuje excelentní vyjadřovací schopností, je efektivnější a jednodušší k použití. Společně s různými knihovnami se tyto schopnosti ještě více umocňují.
 % Jaké technologie jsou vhodné pro řešení aplikace a UI?
@@ -75,11 +75,23 @@ Python oproti PHP disponuje excelentní vyjadřovací schopností, je efektivně
 % Jaké specifické části technologie (popř. rozšiřujících nástrojů) jsou pro řešení vybrány a proč?
 % Sepište do TZ.
 
-\section*{Návrh/popis back-endu}
+\section*{Návrh back-endu}
+Pro plnou funkčnost aplikace je potřeba webový server s veřejnou IP adresou, v našem případě Linuxový server s Apache, databáze MySQL a jazyk Python s knihovnou Flask. Apache je konfigurován na spouštění WSGI skriptů (Python). 
+
+Struktura celé aplikace je znázorněna na schématu, které ukazuje i použité technologie.
+\newline
+\newline
+\centerline{\includegraphics[scale=0.5]{schema.png}}
+
 % Jaké služby/funkce (server, datový model, sada funkcí, služby třetích stran apod.) je třeba připravit pro dostatečnou funkčnost a testování GUI aplikace? 
 % Funkce nemusí být funkční (dynamické apod.), ale musí vracet smysluplné hodnoty (simulované hodnoty, pevně přednastavené ...).
 % Jaká je struktura aplikace a napojení GUI na back-end?
 % Zpracujte do TZ.
+
+\section*{Programování back-endu}
+Back-end je, jak zmíněno výše, realizován v jazyku Python společně s knihovnou Flask. Ten obsluhuje veškerou práci s databází dle požadavků od front-endu.
+
+Databázové schéma bylo převzato z dřívějšího projektu do předmětu IDS z druhého ročníku. Toto schéma jsme upravili a rozšířili. Částečné schéma je níže v přílohách.
 
 % Programování back-endu
 % Naprogramujte a připravte na použití. 
@@ -101,6 +113,11 @@ Python oproti PHP disponuje excelentní vyjadřovací schopností, je efektivně
 \subsection*{Návrh rozhraní -- administrátor}
 \includegraphics[scale=0.6]{pyngshop_edit.png}
 \newpage
+
+\subsection*{Databázové schéma}
+\centerline{\includegraphics[scale=0.55]{eshop_erd.png}}
+\newpage
+
 \subsection*{Testovací protokol}
 \noindent{\large\textsc{Úkol}: Vytvořte nový produkt v kategorii XYZ.}\\
 \textsc{Cíl}: Vytvoření produktu v dané kategorii.\\
