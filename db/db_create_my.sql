@@ -11,6 +11,7 @@ drop table if exists review;
 drop table if exists ordered_products;
 drop table if exists shipping;
 drop table if exists customer_order;
+drop table if exists settings;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE product 
@@ -138,3 +139,12 @@ CREATE TABLE customer_order
    PRIMARY KEY (order_id, customer_id, shipping_id)
 );
 
+CREATE TABLE settings
+(
+	url 		varchar(255) not null,
+	title 		varchar(255) not null,
+	description	varchar(255) not null,
+	keywords	varchar(255) not null,
+	currency	varchar(10) not null,
+	vat			integer not null
+);
