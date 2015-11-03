@@ -148,3 +148,14 @@ CREATE TABLE settings
 	currency	varchar(10) not null,
 	vat			integer not null
 );
+
+CREATE TABLE menu 
+(
+   menu_id    integer not null auto_increment,
+   name          varchar(255)  not null,
+   link         varchar(255) not null,
+   icon          varchar(255) not null,
+   parent       integer default null,
+   PRIMARY KEY (menu_id),
+   FOREIGN KEY (parent) REFERENCES menu(menu_id)
+);
