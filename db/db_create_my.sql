@@ -141,13 +141,11 @@ CREATE TABLE customer_order
 
 CREATE TABLE settings
 (
-	url 		varchar(255) not null,
-	title 		varchar(255) not null,
-	description	varchar(255) not null,
-	keywords	varchar(255) not null,
-	currency	varchar(10) not null,
-	vat			integer not null
+	name 		varchar(255) not null,
+	value 	varchar(255) not null
 );
+
+INSERT INTO `settings` (`name`, `value`) VALUES ('title', 'pyngShop Demo'), ('url', 'http://localhost/~petrstehlik/pyngShop'), ('vat', '21'), ('keywords', 'python, angular, eshop'), ('description', 'Just another pyngShop website'), ('currency', 'CZK');
 
 CREATE TABLE menu 
 (
