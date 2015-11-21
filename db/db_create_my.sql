@@ -12,6 +12,7 @@ drop table if exists ordered_products;
 drop table if exists shipping;
 drop table if exists customer_order;
 drop table if exists settings;
+drop table if exists menu;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE product 
@@ -57,6 +58,7 @@ CREATE TABLE type_properties
 (
    product_id           integer not null,
    product_property_id  integer not null,
+   value                varchar(255) not null,
    FOREIGN KEY (product_id) REFERENCES product(product_id),
    FOREIGN KEY (product_property_id) REFERENCES product_properties(product_property_id),
    PRIMARY KEY (product_id, product_property_id)
@@ -149,11 +151,69 @@ INSERT INTO `settings` (`name`, `value`) VALUES ('title', 'pyngShop Demo'), ('ur
 
 CREATE TABLE menu 
 (
-   menu_id    integer not null auto_increment,
-   name          varchar(255)  not null,
-   link         varchar(255) not null,
-   icon          varchar(255) not null,
-   parent       integer default null,
+   menu_id  integer not null auto_increment,
+   name     varchar(255)  not null,
+   link     varchar(255) not null,
+   icon     varchar(255) not null,
+   parent   integer default null,
    PRIMARY KEY (menu_id),
    FOREIGN KEY (parent) REFERENCES menu(menu_id)
 );
+
+INSERT INTO `category` (`name`, `description`, `slug`, parent) VALUES
+('Glasses', 'gl', 'glasses', NULL);
+
+INSERT INTO `category` (`name`, `description`, `slug`, `parent`) VALUES 
+('Sunglasses', 'sun gl', 'sunglasses', 1), 
+('Eyeglasses', 'eye gl', 'eyeglasses', 1);
+
+INSERT INTO `category` (`name`, `description`, `slug`, `parent`) VALUES 
+('Full frame', 'eye f', 'full_farame', 3), 
+('Half frame', 'eye h', 'half_frame', 3),
+('No frame', 'eye n', 'no_frame', 3);
+
+INSERT INTO `category` (`name`, `description`, `slug`, parent) VALUES
+('Vehicle', 'vehicles all', 'vehicle', NULL);
+
+INSERT INTO `category` (`name`, `description`, `slug`, parent) VALUES
+('Utility vehicle', 'vehicles u', 'utility_vehicles', 7),
+('personal vehicle', 'vehicles p', 'personal_vehicles', 7);
+
+INSERT INTO `product_properties` (`name`, `prefix`, `sufix`) VALUES 
+('Colour', '', ''), 
+('Weight', '', 'g'),
+('Weight', '', 'kg'),
+('Weight', '', 't'),
+('material', '', ''),
+('manufacturer', '', '');
+
+INSERT INTO `product` (`name`, `description`, `price`, in_stock) VALUES 
+('Artur_B', 'sjkd ew fwef ', 100, 31), 
+('Artur_R', 'nfjkwen', 150, 15), 
+('Nexin', 'weklmf kewfm ekf', 20, 412),
+('C130', 'kfmewfwe', 20000, 14),
+('R8', 'weklmf kewfefwm ekf', 200000, 2);
+
+INSERT INTO `type_properties` VALUES 
+(1, 1, 'Black'), 
+(1, 2, '50'), 
+(1, 5, 'Plastick'), 
+(2, 1, 'Red'), 
+(2, 2, '70'),
+(3, 1, 'Blue'), 
+(3, 2, '45'), 
+(3, 5, 'Titan'),
+(4, 1, 'Black'), 
+(4, 6, 'Mercedes'), 
+(4, 4, '2,5'),
+(5, 1, 'Gold'), 
+(5, 6, 'Skoda'), 
+(5, 4, '10,5');
+
+INSERT INTO `product_category` VALUES 
+(1,5), 
+(2,6), 
+(4,9), 
+(5,9), 
+(5,8), 
+(3,2);
