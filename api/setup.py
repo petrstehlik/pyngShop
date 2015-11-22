@@ -28,7 +28,6 @@ class DB():
 
   def query(self, query):
     self.db.query(query)
-    print(query)
 
     try:
       r = self.db.store_result()
@@ -39,9 +38,8 @@ class DB():
     result = r.fetch_row(0)
     return result
 
-db = DB()
 
-print(db.db)
+db = DB()
   
 try:
   res = db.query("""SELECT * FROM `product`""")
