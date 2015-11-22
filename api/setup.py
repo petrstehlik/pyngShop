@@ -1,65 +1,61 @@
 #/bin/env python
 
-import mysql
-from mysql.connector import errorcode
+import _mysql
+from _mysql_exceptions import *
+#from _mysql.connector import errorcode
 import json
 import itertools
+import sys
 
-CONFIG = {
-	'user' : 'pyngshop',
-	'database' : 'pyngshop',
-	'password' : 'klobaska',
-	'port' : 8889
-}
+from config import CONFIG
 
+
+
+class DB():
+  config = CONFIG
+  db = 0
+
+  def __init__(self):
+    try:
+      self.db = _mysql.connect(**self.config)
+    except OperationalError as err:
+      print("Something went wrong")
+      print(err)
+      sys.exit(0)
+
+  def __exit__(self, exc_type, exc_value, traceback):
+        self.db.close()
+
+  def query(self, query):
+    self.db.query(query)
+    print(query)
+
+    try:
+      r = self.db.store_result()
+    except ProgrammingError as err:
+      print("Blbe!")
+      sys.exit(0);
+
+    result = r.fetch_row(0)
+    return result
+
+db = DB()
+
+print(db.db)
+  
 try:
-  cnx = mysql.connector.connect(**CONFIG)
-except mysql.connector.Error as err:
-  if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-    print("Something is wrong with your user name or password")
-  elif err.errno == errorcode.ER_BAD_DB_ERROR:
-    print("Database does not exist")
-  else:
-    print(err)
-cursor = cnx.cursor()
+  res = db.query("""SELECT * FROM `product`""")
+except ProgrammingError as err:
+  print("Blbe!")
+  sys.exit(0)
 
-def dictfetchall(cursor):
-    """Returns all rows from a cursor as a list of dicts"""
-    desc = cursor.description
-    return [dict(itertools.izip([col[0] for col in desc], row)) 
-            for row in cursor.fetchall()]
 
-TABLES = (
-    "CREATE TABLE `employees` ("
-    "  `emp_no` int(11) NOT NULL AUTO_INCREMENT,"
-    "  `birth_date` date NOT NULL,"
-    "  `first_name` varchar(14) NOT NULL,"
-    "  `last_name` varchar(16) NOT NULL,"
-    "  `gender` enum('M','F') NOT NULL,"
-    "  `hire_date` date NOT NULL,"
-    "  PRIMARY KEY (`emp_no`)"
-    ") ENGINE=InnoDB")
+print(res)
 
-try:
-	#print("Creating table employees: ", end='')
-	#cursor.execute(TABLES)
-  cursor.execute("SELECT * FROM `category`")
-except mysql.connector.Error as err:
-	if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
-		print("already exists.")
-	else:
-		print(err.msg)
-else:
-	print("OK")
-
-result = dictfetchall(cursor)
-for item in result:
-  print str(item)
+#result = dictfetchall(cnx)
+"""for item in result:
+  print(str(item))
   print("================")
   for col in item:
-    print str(col)
+    print(str(col))"""
 #print(result[0])
-
-
-cursor.close()
-cnx.close()
