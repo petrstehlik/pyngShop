@@ -68,8 +68,10 @@ CREATE TABLE manufacturer
 (
    manufacturer_id   integer not null auto_increment,
    name              varchar(255)  not null,
+   first_name        varchar(255)  not null,
+   last_name        varchar(255)  not null,
    telephone         numeric(20),
-   contact_person    varchar(255)  not null,
+   email             varchar(255)  not null,
    PRIMARY KEY (manufacturer_id)
 );
 
@@ -105,7 +107,6 @@ CREATE TABLE review
    content        varchar(1000),
    rating         integer not null,
    timestamp      date    not null,
-   type           varchar(255) not null,
    FOREIGN KEY (product_id) REFERENCES product(product_id),
    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
    PRIMARY KEY (product_id, customer_id)
@@ -135,6 +136,7 @@ CREATE TABLE customer_order
    shipping_id    integer not null,
    timestamp      date    not null,
    staus          varchar(255) not null,
+   full_price     integer(11) not null,
    FOREIGN KEY (order_id) REFERENCES ordered_products(order_id),
    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
    FOREIGN KEY (shipping_id) REFERENCES shipping(shipping_id),
@@ -185,7 +187,6 @@ INSERT INTO `product_properties` (`name`, `prefix`, `sufix`) VALUES
 ('Weight', '', 'kg'),
 ('Weight', '', 't'),
 ('material', '', ''),
-('manufacturer', '', '');
 
 INSERT INTO `product` (`name`, `description`, `price`, in_stock) VALUES 
 ('Artur_B', 'sjkd ew fwef ', 100, 31), 
@@ -204,10 +205,8 @@ INSERT INTO `type_properties` VALUES
 (3, 2, '45'), 
 (3, 5, 'Titan'),
 (4, 1, 'Black'), 
-(4, 6, 'Mercedes'), 
 (4, 4, '2,5'),
 (5, 1, 'Gold'), 
-(5, 6, 'Skoda'), 
 (5, 4, '10,5');
 
 INSERT INTO `product_category` VALUES 
@@ -217,3 +216,32 @@ INSERT INTO `product_category` VALUES
 (5,9), 
 (5,8), 
 (3,2);
+
+INSERT INTO `manufacturer` VALUES 
+('', 'Cesnet', 'Janko', 'Hraško', '222222222', 'jankohrasko@mail.com'), 
+('', 'Mercedes', 'Róbert', 'Fico', '333333333', 'robetfico@mail.com'), 
+('', 'Inveatech', 'Miloš', 'Zeman', '444444444', 'miloszeman@mail.com'); 
+
+INSERT INTO `product_supplier` VALUES 
+(1,1), 
+(2,1), 
+(3,1), 
+(4,2), 
+(5,1);
+
+
+INSERT INTO `customer` VALUES 
+('', 'Mário', 'Kuka', 'mariokuka@mail.com', 'Kolejni 2', '', 123456789, 'Brno', 'Czech', 1234, 'heslo'), 
+('', 'Petr', 'Stehlík', 'petrstehlik@mail.com', 'Rečkovice 4', '', 987456321, 'Brno', 'Czech', 1235, 'heslo2'), 
+('', 'Martin', 'Veis', 'martinveis@mail.com', 'Mánesova 4', 'Božetehova 5', 9999999999, 'Praha', 'Czech', 8564, 'heslo3');
+
+INSERT INTO `review` VALUES 
+(4, 1, 'je to na prd', 1, '2015-08-05 08:15:31'), 
+(4, 2, 'je to vlovina', 2, '2015-08-05 10:15:31'), 
+(2, 2, 'je to somarina', 10, '2015-09-06 07:14:31'); 
+
+
+
+
+
+
