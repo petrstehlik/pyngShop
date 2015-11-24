@@ -1,7 +1,18 @@
+# CONFIG = {
+# 	'user' : 'pyngshop',
+# 	'db' : 'pyngshop',
+# 	'passwd' : 'klobaska',
+# 	'port' : 9999,
+# 	'unix_socket' : '/Applications/MAMP/tmp/mysql/mysql.sock'
+# }
+
 CONFIG = {
-	'user' : 'pyngshop',
-	'db' : 'pyngshop',
-	'passwd' : 'klobaska',
-	'port' : 9999,
-	'unix_socket' : '/Applications/MAMP/tmp/mysql/mysql.sock'
+	'db' : {
+		'user' : 'pyngshop',
+		'database' : 'pyngshop',
+		'password' : 'klobaska',
+		'port' : 9999,
+	},
+	#'unix_socket' : '/Applications/MAMP/tmp/mysql/mysql.sock'
+	'debug' : True
 }
