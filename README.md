@@ -5,4 +5,5 @@ E-shop CMS built on Python (py) and AngularJS (ng).
 Achieved thanks to these folks! https://github.com/angular-ui/ui-router/wiki/Frequently-Asked-Questions#how-to-configure-your-server-to-work-with-html5mode
 
 #DEPENDECIES
-pip3 install mysqlclient
+-pip3 install mysqlclient-
+pip3 install --allow-external mysql-connector-python mysql-connector-python
