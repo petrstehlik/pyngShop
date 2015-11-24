@@ -1,4 +1,4 @@
-#/bin/env python
+#/bin/env python3
 
 import _mysql
 from _mysql_exceptions import *
@@ -6,10 +6,9 @@ from _mysql_exceptions import *
 import json
 import itertools
 import sys
+from flask import Flask
 
 from config import CONFIG
-
-
 
 class DB():
   config = CONFIG
@@ -32,12 +31,13 @@ class DB():
     try:
       r = self.db.store_result()
     except ProgrammingError as err:
-      print("Blbe!")
+      print("Something went wrong")
       sys.exit(0);
 
-    result = r.fetch_row(0)
+    result = r.fetch_row(maxrows=0, how=2)
     return result
 
+app = Flask(__name__)
 
 db = DB()
   
@@ -48,7 +48,7 @@ except ProgrammingError as err:
   sys.exit(0)
 
 
-print(res)
+print(json.dumps(res))
 
 #result = dictfetchall(cnx)
 """for item in result:

@@ -4,10 +4,10 @@ import mysql
 from mysql.connector import errorcode
 import json
 from decimal import Decimal
-import sys
 
 from config import CONFIG
 
+# Takes number and returns a float number co the json encode works
 class DecimalEncoder(json.JSONEncoder):
   def default(self, o):
     if isinstance(o, Decimal):
@@ -36,8 +36,7 @@ class DB():
         self.cursor.close()
         self.db.close()
 
-  def query(self, query, json):
-    print(query)
+  def query(self, query):
     try:
       self.cursor.execute(query)
     except mysql.connector.Error as err:
@@ -46,11 +45,13 @@ class DB():
       sys.exit(0);
 
     result = self.cursor.fetchall()
-    if json:
-      if (CONFIG["debug"] == True):
-        return json.dumps(result, sort_keys=True, indent=4, cls=DecimalEncoder)
-      else:
-        return json.dumps(result, cls=DecimalEncoder)
+    if (CONFIG["debug"] == True):
+      return json.dumps(result, sort_keys=True, indent=4, cls=DecimalEncoder)
     else:
-      return result
+      return json.dumps(result, cls=DecimalEncoder)
 
+db = DB()
+
+result = db.query("SELECT * FROM `product`")
+
+print(result)

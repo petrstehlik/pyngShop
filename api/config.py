@@ -14,5 +14,6 @@ CONFIG = {
 		'port' : 9999,
 	},
 	#'unix_socket' : '/Applications/MAMP/tmp/mysql/mysql.sock'
-	'debug' : True
+	'debug' : True,
+	'version' : '/v1'
 }
