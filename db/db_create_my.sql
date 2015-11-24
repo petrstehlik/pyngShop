@@ -13,6 +13,7 @@ drop table if exists shipping;
 drop table if exists customer_order;
 drop table if exists settings;
 drop table if exists menu;
+drop table if exists sub_category;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE product 
@@ -31,10 +32,18 @@ CREATE TABLE category
    name          varchar(255)  not null,
    description   varchar(1000) not null,
    slug          varchar(255)  not null,
-   parent        integer,
-   PRIMARY KEY (category_id),
-   FOREIGN KEY (parent) REFERENCES category(category_id)
+   PRIMARY KEY (category_id)
 );
+
+CREATE TABLE sub_category
+(
+   parent   integer not null,
+   child    integer not null,
+   PRIMARY KEY (parent, child),
+   FOREIGN KEY (parent) REFERENCES category(category_id),
+   FOREIGN KEY (child) REFERENCES category(category_id)
+);
+
 
 CREATE TABLE product_category
 (
@@ -162,24 +171,33 @@ CREATE TABLE menu
    FOREIGN KEY (parent) REFERENCES menu(menu_id)
 );
 
-INSERT INTO `category` (`name`, `description`, `slug`, parent) VALUES
-('Glasses', 'gl', 'glasses', NULL);
+INSERT INTO `category` (`name`, `description`, `slug`) VALUES
+('Glasses', 'gl', 'glasses');
 
-INSERT INTO `category` (`name`, `description`, `slug`, `parent`) VALUES 
-('Sunglasses', 'sun gl', 'sunglasses', 1), 
-('Eyeglasses', 'eye gl', 'eyeglasses', 1);
+INSERT INTO `category` (`name`, `description`, `slug`) VALUES 
+('Sunglasses', 'sun gl', 'sunglasses'), 
+('Eyeglasses', 'eye gl', 'eyeglasses');
 
-INSERT INTO `category` (`name`, `description`, `slug`, `parent`) VALUES 
-('Full frame', 'eye f', 'full_farame', 3), 
-('Half frame', 'eye h', 'half_frame', 3),
-('No frame', 'eye n', 'no_frame', 3);
+INSERT INTO `category` (`name`, `description`, `slug`) VALUES 
+('Full frame', 'eye f', 'full_farame'), 
+('Half frame', 'eye h', 'half_frame'),
+('No frame', 'eye n', 'no_frame');
 
-INSERT INTO `category` (`name`, `description`, `slug`, parent) VALUES
-('Vehicle', 'vehicles all', 'vehicle', NULL);
+INSERT INTO `category` (`name`, `description`, `slug`) VALUES
+('Vehicle', 'vehicles all', 'vehicle');
 
-INSERT INTO `category` (`name`, `description`, `slug`, parent) VALUES
-('Utility vehicle', 'vehicles u', 'utility_vehicles', 7),
-('personal vehicle', 'vehicles p', 'personal_vehicles', 7);
+INSERT INTO `category` (`name`, `description`, `slug`) VALUES
+('Utility vehicle', 'vehicles u', 'utility_vehicles'),
+('personal vehicle', 'vehicles p', 'personal_vehicles');
+
+INSERT INTO `sub_category` VALUES
+(1,2),
+(1,3),
+(3,4),
+(3,5),
+(3,6),
+(7,8),
+(7,9);
 
 INSERT INTO `product_properties` (`name`, `prefix`, `sufix`) VALUES 
 ('Colour', '', ''), 
