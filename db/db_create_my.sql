@@ -186,7 +186,7 @@ INSERT INTO `product_properties` (`name`, `prefix`, `sufix`) VALUES
 ('Weight', '', 'g'),
 ('Weight', '', 'kg'),
 ('Weight', '', 't'),
-('material', '', ''),
+('material', '', '');
 
 INSERT INTO `product` (`name`, `description`, `price`, in_stock) VALUES 
 ('Artur_B', 'sjkd ew fwef ', 100, 31), 
