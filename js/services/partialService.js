@@ -7,19 +7,12 @@ app.directive("mainMenu", function() {
 	};
 });
 
-app.controller('mainMenuController', function($scope){
-	$scope.menu = [
-		{
-			"title" : "Item #1",
-			"href"	: "/login",
-		},
-		{
-			"title" : "Item #2",
-			"href"	: "/login",
-		},
-		{
-			"title" : "Item #3",
-			"href"	: "/login",
-		}
-	]
+app.controller('mainMenuController', function($scope, $http){
+	$http({
+		method : 'GET',
+		url : "http://localhost:5000/v1/categories"
+	}).then(function successCallback(response) {
+		$scope.categories = response["data"];
+		console.log(response["data"])
+	});
 })
