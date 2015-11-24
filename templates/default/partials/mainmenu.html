@@ -7,9 +7,14 @@
 		</md-toolbar>
 
 		<md-content>
-			<ul ng-repeat="menu_item in menu">
-
-				<li><a ng-href="{{ menu_item.href}} ">{{menu_item.title}}</a></li>
+			<ul ng-repeat="menu_item in categories">
+				<li>
+					<a ng-href="{{ menu_item.slug}} ">{{menu_item.name}}</a>
+					<ul>
+						<li ng-repeat="submenu_item in menu_item.sub">
+							<a ng-href="{{ menu_item.slug }}/{{ submenu_item.slug }}">{{ submenu_item.name }}</a>
+						</li>
+				</li>
 				
 			</ul>
 		</md-content>
