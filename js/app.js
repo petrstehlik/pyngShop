@@ -1,5 +1,5 @@
 app.config(function($routeProvider, $locationProvider){
-	$locationProvider.html5Mode(true);
+	$locationProvider.html5Mode(false);
 
 	$routeProvider
 		.when('/login', {
@@ -16,7 +16,15 @@ app.config(function($routeProvider, $locationProvider){
 				isLoggedIn: checkLogin
 			}
 		})
-		.when('/:page', {
+		.when('/:category', {
+			controller: 'categoryController',
+			templateUrl: SETTINGS.views() + 'category.html',
+			resolve: {
+				isLoggedIn: checkLogin,
+				exists : checkPage
+			}
+		})
+		.when('/:page/:subpage', {
 			controller: 'pageController',
 			templateUrl: SETTINGS.views() + 'page.html',
 			resolve: {
@@ -46,7 +54,8 @@ checkLogin = function() {
 }
 
 checkPage = function($location, $routeParams) {
-	if ($routeParams.page != "login" || $routeParams.page != "404") {
-		$location.path("/404");
-	}
+	console.log($location.path())
+	// if ($routeParams.page != "login" || $routeParams.page != "404") {
+	// 	$location.path("/404");
+	// }
 }

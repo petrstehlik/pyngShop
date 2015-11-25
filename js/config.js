@@ -1,4 +1,4 @@
-var app = angular.module('pyngShop', ['ngAnimate', 'ngMaterial', 'ngRoute' ]);
+var app = angular.module('pyngShop', ['ngRoute' ]);
 
 var SETTINGS = {
 	template : 'default',
