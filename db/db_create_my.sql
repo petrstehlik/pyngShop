@@ -21,6 +21,7 @@ CREATE TABLE product
    name          varchar(255)  not null,
    description   varchar(1000) not null,
    price         numeric(19,4) not null,
+   image         varchar(255)  not null,
    in_stock      integer default 0,
    PRIMARY KEY (product_id)
 );
@@ -188,12 +189,12 @@ INSERT INTO `product_properties` (`name`, `prefix`, `sufix`) VALUES
 ('Weight', '', 't'),
 ('material', '', '');
 
-INSERT INTO `product` (`name`, `description`, `price`, in_stock) VALUES 
-('Artur_B', 'sjkd ew fwef ', 100, 31), 
-('Artur_R', 'nfjkwen', 150, 15), 
-('Nexin', 'weklmf kewfm ekf', 20, 412),
-('C130', 'kfmewfwe', 20000, 14),
-('R8', 'weklmf kewfefwm ekf', 200000, 2);
+INSERT INTO `product` (`name`, `description`, `image`, `price`, in_stock) VALUES 
+('Artur_B', 'sjkd ew fwef ', 'data/images/artur_b.jpg', 100, 31), 
+('Artur_R', 'nfjkwen', 'data/images/artur_r.jpg', 150, 15), 
+('Nexin', 'weklmf kewfm ekf', 'data/images/nexin.jpg', 20, 412),
+('C130', 'kfmewfwe', 'data/images/c130.jpg', 20000, 14),
+('R8', 'weklmf kewfefwm ekf', 'data/images/r8.jpg', 200000, 2);
 
 INSERT INTO `type_properties` VALUES 
 (1, 1, 'Black'), 
@@ -210,11 +211,11 @@ INSERT INTO `type_properties` VALUES
 (5, 4, '10,5');
 
 INSERT INTO `product_category` VALUES 
-(1,5), 
-(2,6), 
-(4,9), 
-(5,9), 
+(1,1), 
+(2,1), 
+(4,2), 
 (5,8), 
+(5,7), 
 (3,2);
 
 INSERT INTO `manufacturer` VALUES 
