@@ -7,6 +7,16 @@ app.directive("mainMenu", function() {
 	};
 });
 
+app.directive("userMenu", function() {
+	return {
+		scope: {
+			section: '=',
+		},
+		templateUrl: SETTINGS.partials() + 'usermenu.html'
+	};
+});
+
+
 app.controller('mainMenuController', function($scope, $http){
 	$http({
 		method : 'GET',
