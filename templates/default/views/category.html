@@ -1,0 +1,21 @@
+<section class="category">
+	<div class="top-bar">
+		<h1 class="logo col-md-6">{{ logo }}</h1>
+		<user-menu></user-menu>
+	</div>
+
+
+	<main-menu></main-menu>
+
+	{{ response }}
+
+	<div class="product" ng-repeat="item in products">
+		<img ng-src="{{ item.image }}" />
+		{{ item.name }}
+		{{ item.description }}
+		{{ item.price }} CZK
+	</div>
+
+	<span ng-if="!products.length"> No products to show!</span>
+
+</section>

@@ -1,21 +1,13 @@
 <div class="main-menu column" layout="vertical" ng-controller="mainMenuController">
-	<md-sidenav class="md-sidenav-top md-whiteframe-z2" md-component-id="top" md-is-locked-open="$mdMedia('gt-md')">
-		<md-toolbar class="sidebar-logo">
-			<md-button ng-click="closeLeft()" id="menu-toggle" hide-gt-md>
-		        <md-icon md-svg-src="img/icons/close.svg" aria-label="Enable Menu"></md-icon>
-			</md-button>
-		</md-toolbar>
 
-		<md-content>
-			<ul ng-repeat="menu_item in categories">
-				<li>
-					<a ng-href="{{ menu_item.slug}} ">{{menu_item.name}}</a>
-					<ul>
-						<li ng-repeat="submenu_item in menu_item.sub">
-							<a ng-href="{{ menu_item.slug }}/{{ submenu_item.slug }}">{{ submenu_item.name }}</a>
-						</li>
+	<ul class="container">
+		<li ng-repeat="menu_item in categories">
+			<a ng-href="#/{{ menu_item.slug}} ">{{menu_item.name}}</a>
+			<ul>
+				<li ng-repeat="submenu_item in menu_item.sub">
+					<a ng-href="{{ menu_item.slug }}/{{ submenu_item.slug }}">{{ submenu_item.name }}</a>
 				</li>
-				
-			</ul>
-		</md-content>
+		</li>
+		
+	</ul>
 </div>
