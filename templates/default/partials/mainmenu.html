@@ -1,6 +1,9 @@
 <div class="main-menu" ng-controller="mainMenuController">
 
 	<ul class="container">
+		<li>
+			<a ng-href="#/">Home</a>
+		</li>
 		<li ng-repeat="menu_item in categories">
 			<a ng-href="#/{{ menu_item.slug}} ">{{menu_item.name}}</a>
 			<ul>
