@@ -1,4 +1,4 @@
-<section class="category">
+<section class="category container-fluid">
 	<div class="top-bar">
 		<h1 class="logo col-md-6">{{ logo }}</h1>
 		<user-menu></user-menu>
@@ -7,15 +7,22 @@
 
 	<main-menu></main-menu>
 
-	{{ response }}
+		<div class="row">
 
-	<div class="product" ng-repeat="item in products">
-		<img ng-src="{{ item.image }}" />
-		{{ item.name }}
-		{{ item.description }}
-		{{ item.price }} CZK
+		<div class="row" ng-repeat="product in products | groupBy:4">
+			<div class="product col-md-3" ng-repeat="item in product">
+				<img ng-src="{{ item.image }}" class="img-responsive"/>
+				{{ item.name }}
+				{{ item.description }}
+				{{ item.price }} CZK
+				<span class="btn btn-default" ng-click="addToCart(item)">Add to cart</span>
+			</div>
+		</div>
+
+		<div class="add-product col-md-3" ng-if="user.admin">Add new product to {{ cat }}'s category</div>
+
+		<span ng-if="!products.length"> No products to show!</span>
+
 	</div>
-
-	<span ng-if="!products.length"> No products to show!</span>
 
 </section>
