@@ -1,4 +1,5 @@
 app.config(function($routeProvider, $locationProvider){
+
 	$locationProvider.html5Mode(false);
 
 	$routeProvider
@@ -16,9 +17,25 @@ app.config(function($routeProvider, $locationProvider){
 				isLoggedIn: checkLogin
 			}
 		})
+		.when('/cart', {
+			controller: 'cartController',
+			templateUrl: SETTINGS.views() + 'cart.html',
+			resolve: {
+				isLoggedIn: checkLogin,
+				exists : checkPage
+			}
+		})
 		.when('/:category', {
 			controller: 'categoryController',
 			templateUrl: SETTINGS.views() + 'category.html',
+			resolve: {
+				isLoggedIn: checkLogin,
+				exists : checkPage
+			}
+		})
+		.when('/:category*/p/:product', {
+			controller: 'productController',
+			templateUrl: SETTINGS.views() + 'product.html',
 			resolve: {
 				isLoggedIn: checkLogin,
 				exists : checkPage

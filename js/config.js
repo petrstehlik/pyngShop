@@ -1,4 +1,4 @@
-var app = angular.module('pyngShop', ['ngRoute', 'angular.filter']);
+var app = angular.module('pyngShop', ['ngRoute', 'angular.filter', 'ngStorage']);
 
 var SETTINGS = {
 	template : 'default',
