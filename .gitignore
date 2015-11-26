@@ -64,3 +64,4 @@ bower_components/
 
 #DATA
 data/
+.DS_Store
