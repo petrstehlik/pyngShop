@@ -19,28 +19,18 @@ app.controller('pageController', function($scope, $route, $routeParams, $locatio
 
 });
 
-app.controller('categoryController', function($scope, $route, $routeParams, $location, $http) {
+app.controller('categoryController', function($scope, $routeParams, $http, $log, api) {
 
 	// if ($routeParams.page != NOTINDB) {
 	// 	$location.path("/404");
 	// }
-	$scope.test = $location.page;
+	$scope.user = USER;
+	$scope.cat = $routeParams.category;
 
-	console.log($routeParams)
+	var queryData = { category : $routeParams.category };
 
-	$http({
-		method : 'POST',
-		//headers: { 'Content-Type': 'application/json' },
-		headers: { 'Content-Type': 'application/json' },
-		url : "//localhost:5000/v1/products",
-		data : JSON.stringify({ category : $routeParams.category})
-	}).then(function successCallback(response) {
-		$scope.products = response["data"];
-		console.log(response)
-	}, function errorCallback(response) {
-		// $scope.categories = response["data"];
-		console.log(response)
+	api.post("products", queryData).then(function(response) {
+		$scope.products = response;
 	});
-	//$http.get('http://localhost:5000/v1/products?category=' + $routeParams.category)
 
 });

@@ -17,12 +17,39 @@ app.directive("userMenu", function() {
 });
 
 
-app.controller('mainMenuController', function($scope, $http){
-	$http({
-		method : 'GET',
-		url : "http://localhost:5000/v1/categories"
-	}).then(function successCallback(response) {
-		$scope.categories = response["data"];
-		console.log(response["data"])
-	});
-})
+app.controller('mainMenuController', function($scope, $http, api){
+	api.get("categories").then(function(r) {
+		$scope.categories = r;
+	})
+});
+
+app.service('api', function($http, $log) {
+	var url = "//" + API.host + ":" + API.port + "/" + API.version + "/";
+	this.post = function(query, data) {
+		var promise = $http({
+			method : 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			url : url + query,
+			data : JSON.stringify(data)
+		}).then(function successCallback(response) {
+			return response["data"];
+		}, function errorCallback(response) {
+			$log.error(response);
+			return response;
+		});
+		return promise;
+	}
+
+	this.get = function(query) {
+		var promise = $http({
+			method : 'GET',
+			url : url + query,
+		}).then(function successCallback(response) {
+			return response["data"];
+		}, function errorCallback(response) {
+			$log.error(response);
+			return response;
+		});
+		return promise;
+	}
+});
