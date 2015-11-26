@@ -15,11 +15,12 @@
 				{{ item.name }}
 				{{ item.description }}
 				{{ item.price }} CZK
+				{{ item.quantity }}
 				<span class="btn btn-default" ng-click="addToCart(item)">Add to cart</span>
 			</div>
 		</div>
 
-		<div class="add-product col-md-3" ng-if="user.admin">Add new product to {{ cat }}'s category</div>
+		<div class="add-product col-md-3" ng-if="user.admin" ng-click="addItem()">Add new product to {{ cat }}'s category
 
 		<span ng-if="!products.length"> No products to show!</span>
 

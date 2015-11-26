@@ -1,4 +1,4 @@
 <div class="user-menu col-md-6">
-<a ng-href="login">Login</a>
-<a ng-href="cart"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a>
+	<a ng-href="#/login">Login</a>
+	<a ng-href="#/cart"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span ng-if="cart.count">({{cart.count}})</span></a>
 </div>
