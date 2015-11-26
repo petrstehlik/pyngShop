@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="pyngShop" ng-animate-children>
+<html lang="en" ng-app="pyngShop" ng-controller="mainController">
 
 <head>
 
@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>pyngShop</title>
+    <title>pyngShop | {{ page.title() }}</title>
 
     <script>
         document.write('<base href="' + document.location + '#/" />');
@@ -23,7 +23,9 @@
     <script src="bower_components/angular/angular.min.js"></script>
     <!-- Include the AngularJS routing library -->
     <script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
+     <script type="text/javascript" src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-filter/0.4.7/angular-filter.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
     <!-- Angular.js Material ->  
     <script src="bower_components/angular-material/angular-material.min.js"></script>
     <!-- Angular.js Animate ->
@@ -40,7 +42,10 @@
     <!-- Controllers -->
     <script src="js/controllers/loginController.js"></script>
     <script src="js/controllers/homeController.js"></script>
+    <script src="js/controllers/cartController.js"></script>
+    <script src="js/controllers/productController.js"></script>
     <script src="js/services/partialService.js"></script>
+
     <!-- Services -->
     <!--script src="js/services/menu.js"></script-->
 
