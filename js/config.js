@@ -1,4 +1,4 @@
-var app = angular.module('pyngShop', ['ngRoute' ]);
+var app = angular.module('pyngShop', ['ngRoute', 'angular.filter']);
 
 var SETTINGS = {
 	template : 'default',
@@ -11,4 +11,10 @@ var USER = {
 	user : false,
 	editor : false,
 	admin : true
+}
+
+var API = {
+	host : "localhost",
+	port : "5000",
+	version : "v1"
 }
