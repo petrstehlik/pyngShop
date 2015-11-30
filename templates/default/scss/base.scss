@@ -12,14 +12,16 @@ $white : #FFF;
 		list-style-type: none;
 		text-decoration: none;
 		li {
-
+			position: relative;
+			margin-bottom: 2em;
 			a {
 				color: $black;
 				float: left;
+				clear: both;
 			}
 
 			ul {
-					display: none;
+
 			}
 		}
 	}
@@ -54,6 +56,44 @@ $white : #FFF;
 		background-size: contain;
 	}
 }
+
+.table > tbody > tr > td,  .table > tfoot > tr > td{
+     vertical-align: middle;
+}
+
+.ng-invalid-required.ng-dirty {
+	border-color: red;
+}
+
+.product {
+	border: 1px solid lighten($black, 95%);
+	padding: 1em;
+	&:hover {
+		border-color: lighten($black, 80%);
+	}
+}
+
+select {
+    padding:1em;
+    margin: 0;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    -webkit-box-shadow: 0 3px 5px #ccc, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    box-shadow: 0 3px 5px #ccc, 0 -1px #fff inset;
+    background: #f8f8f8;
+    color:#888;
+    border: 1px solid lighten($black, 70%);
+    outline:none;
+    display: inline-block;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    cursor:pointer;
+}
+
+
 
 .btn {
 	padding: 1em 0.75em;
