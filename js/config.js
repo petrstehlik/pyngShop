@@ -14,7 +14,7 @@ var USER = {
 }
 
 var API = {
-	host : "localhost",
+	host : "pcstehlik.fit.vutbr.cz",
 	port : "5000",
 	version : "v1"
 }
