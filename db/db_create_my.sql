@@ -215,8 +215,7 @@ INSERT INTO `product_category` VALUES
 (1,1), 
 (2,1), 
 (4,2), 
-(5,8), 
-(5,7), 
+(5,8),  
 (3,2);
 
 INSERT INTO `manufacturer` VALUES 
