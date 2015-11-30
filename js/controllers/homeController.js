@@ -21,21 +21,24 @@ app.controller('pageController', function($scope, $route, $routeParams, $locatio
 
 });
 
-app.controller('categoryController', function($rootScope, $scope, $routeParams, $http, $log, api, cart, page) {
+app.controller('categoryController', function($rootScope, $scope, $routeParams, $http, $log, $location, api, cart, page) {
 
 	$rootScope.$broadcast("restorecart");
 	$scope.user = USER;
-	$scope.cat = $routeParams.category;
+	var categories = $routeParams.category.split("/");
+	$scope.cat = categories[categories.length - 1]
 	page.setTitle($routeParams.category);
 
-	var queryData = { category : $routeParams.category };
+	$scope.url = $location.absUrl();
+
+	console.log($scope.categories)
+
+	var queryData = { category : $scope.cat, menu : $scope.categories };
+	//var tmp = queryData.category.search(/\/./);
+
+	//console.log(tmp);
 
 	api.post("products", queryData).then(function(response) {
-		
-		angular.forEach(response, function(value, key) {
-			value.quantity = 1;
-		})
-
 		$scope.products = response;
 	});
 
@@ -52,7 +55,7 @@ app.controller('categoryController', function($rootScope, $scope, $routeParams, 
 		angular.forEach(cart.model.items, function(value, key) {
 			if (!added) {
 				if (value.product_id == item.product_id) {
-					value.quantity++;
+					value.quantity += 1;
 					added = true;
 					console.log("found")
 				}
@@ -63,6 +66,7 @@ app.controller('categoryController', function($rootScope, $scope, $routeParams, 
 		});
 		if (!added) {
 			console.log(cart.model);
+			item.quantity = 1;
 			cart.model.items.push(item)
 		}
 		cart.model.count++;
