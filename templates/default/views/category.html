@@ -10,12 +10,13 @@
 		<div class="row">
 
 		<div class="row" ng-repeat="product in products | groupBy:4">
-			<div class="product col-md-3" ng-repeat="item in product">
+			<div ng-if="item.product_id != null" class="product col-md-3" ng-repeat="item in product">
 				<img ng-src="{{ item.image }}" class="img-responsive"/>
 				{{ item.name }}
 				{{ item.description }}
 				{{ item.price }} CZK
 				{{ item.quantity }}
+				<a class="btn btn-success" ng-href="{{url}}/p/{{item.slug}}">View</a>
 				<span class="btn btn-default" ng-click="addToCart(item)">Add to cart</span>
 			</div>
 		</div>

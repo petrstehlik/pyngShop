@@ -1,4 +1,4 @@
-<section class="cart container-fluid">
+<section class="success container-fluid">
 <div class="top-bar">
 	<h1 class="logo col-md-6">{{ logo }}</h1>
 	<user-menu></user-menu>
@@ -7,9 +7,10 @@
 
 {{page.title()}}
 
-Cart bitches!
+Successful order!
 
-<div class="cart-content container-fluid">
+<a ng-href="#/">Return to homepage</a>
+<!-- <div class="cart-content container-fluid">
 	<table class="table" ng-init="total = 0">
 		<thead>
 			<td>Name</td>
@@ -23,7 +24,6 @@ Cart bitches!
 				<td>{{ item.price }}</td>
 				<td>{{ item.quantity }}</td>
 				<td>{{ item.quantity*item.price }}</td>
-				<!-- {{total += item.quantity*item.price}} -->
 			</tr>
 		</tbody>
 		<tfoot>
@@ -40,6 +40,6 @@ Cart bitches!
 		<a class="btn btn-danger" ng-click="removeItems()">Remove all items</a>
 		<a class="btn btn-primary" ng-href="#/checkout">Proceed to checkout</a>
 	</div>
-</div>
+</div> -->
 
 </section>

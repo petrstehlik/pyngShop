@@ -8,8 +8,20 @@
 	<main-menu></main-menu>
 
 	<div class="row">
-	Product!
 
+	
+	<img ng-src="{{ product.image }}" class="img-responsive col-md-6"/>
+	<div class="col-md-6">
+		{{ product.name }}
+	{{ product.description }}
+	{{ product.price }} CZK
+	{{product.product_id}}
+	<div class="btn btn-success" ng-click="addToCart(product)">Buy</div>
 	</div>
-
+	<div class="row">
+		<div class="review" ng-repeat="review in reviews">
+			{{review.content}}
+			{{review.timestamp}}
+		</div>
+	</div>
 </section>
