@@ -19,6 +19,7 @@ CREATE TABLE product
 (
    product_id    integer not null auto_increment,
    name          varchar(255)  not null,
+   slug          varchar(255)  not null,
    description   varchar(1000) not null,
    price         numeric(19,4) not null,
    image         varchar(255)  not null,
@@ -93,7 +94,7 @@ CREATE TABLE customer
    email          varchar(255)  not null,
    address_1      varchar(255)  not null,
    address_2      varchar(255)  not null,
-   telephone      numeric(20),
+   telephone      varchar(20)   not null,
    city           varchar(255)  not null,
    state          varchar(255)  not null,
    postal_code    numeric(20)   not null,
@@ -113,15 +114,6 @@ CREATE TABLE review
    PRIMARY KEY (product_id, customer_id)
 );
 
-CREATE TABLE ordered_products
-(
-   product_id     integer not null,
-   order_id       integer not null,
-   quantity       integer not null,
-   FOREIGN KEY (product_id) REFERENCES product(product_id),
-   PRIMARY KEY (order_id)
-);
-
 CREATE TABLE shipping
 (
    shipping_id    integer not null,
@@ -132,16 +124,25 @@ CREATE TABLE shipping
 
 CREATE TABLE customer_order
 (
-   order_id       integer not null,
+   order_id       integer not null auto_increment,
    customer_id    integer not null,
    shipping_id    integer not null,
    timestamp      date    not null,
-   staus          varchar(255) not null,
+   status          varchar(255) not null,
    full_price     integer(11) not null,
-   FOREIGN KEY (order_id) REFERENCES ordered_products(order_id),
    FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
    FOREIGN KEY (shipping_id) REFERENCES shipping(shipping_id),
-   PRIMARY KEY (order_id, customer_id, shipping_id)
+   PRIMARY KEY (order_id)
+);
+
+CREATE TABLE ordered_products
+(
+   product_id     integer not null,
+   order_id       integer not null,
+   quantity       integer not null,
+   FOREIGN KEY (product_id) REFERENCES product(product_id),
+   FOREIGN KEY (order_id) REFERENCES customer_order(order_id),
+   PRIMARY KEY (order_id, product_id)
 );
 
 CREATE TABLE settings
@@ -189,12 +190,12 @@ INSERT INTO `product_properties` (`name`, `prefix`, `sufix`) VALUES
 ('Weight', '', 't'),
 ('material', '', '');
 
-INSERT INTO `product` (`name`, `description`, `image`, `price`, in_stock) VALUES 
-('Artur_B', 'sjkd ew fwef ', 'data/images/artur_b.jpg', 100, 31), 
-('Artur_R', 'nfjkwen', 'data/images/artur_r.jpg', 150, 15), 
-('Nexin', 'weklmf kewfm ekf', 'data/images/nexin.jpg', 20, 412),
-('C130', 'kfmewfwe', 'data/images/c130.jpg', 20000, 14),
-('R8', 'weklmf kewfefwm ekf', 'data/images/r8.jpg', 200000, 2);
+INSERT INTO `product` (`name`, `slug`, `description`, `image`, `price`, in_stock) VALUES 
+('Artur_B', 'artur_b', 'sjkd ew fwef ', 'data/images/artur_b.jpg', 100, 31), 
+('Artur_R', 'artur_r', 'nfjkwen', 'data/images/artur_r.jpg', 150, 15), 
+('Nexin', 'nexin', 'weklmf kewfm ekf', 'data/images/nexin.jpg', 20, 412),
+('C130', 'c130', 'kfmewfwe', 'data/images/c130.jpg', 20000, 14),
+('R8', 'r8', 'weklmf kewfefwm ekf', 'data/images/r8.jpg', 200000, 2);
 
 INSERT INTO `type_properties` VALUES 
 (1, 1, 'Black'), 
@@ -242,7 +243,9 @@ INSERT INTO `review` VALUES
 (2, 2, 'je to somarina', 10, '2015-09-06 07:14:31'); 
 
 
-
+INSERT INTO `pyngshop`.`shipping` (`shipping_id`, `name`, `price`) VALUES 
+('1', 'PPL', '129'), 
+('2', 'Czech Post', '99');
 
 
 
