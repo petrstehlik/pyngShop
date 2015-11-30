@@ -2,10 +2,11 @@
 
 import mysql
 from mysql.connector import errorcode
-import simplejson as json
+import json as json
 from decimal import Decimal
 import sys
 import pdb
+from datetime import date
 
 from config import CONFIG
 
@@ -49,6 +50,7 @@ class DB():
     except mysql.connector.Error as err:
       print("Something went wrong")
       print(err.msg)
+      return(str(0))
 
     result = self.cursor.fetchall()
 
@@ -56,12 +58,26 @@ class DB():
       for key in item.keys():
         if isinstance(item[key], Decimal):
           item[key] = float(item[key])
+        if isinstance(item[key], date):
+          item[key] = str(item[key])
 
     if json:
       if (CONFIG["debug"] == True):
-        return json.dumps(str(result), sort_keys=True, indent=4, cls=DecimalEncoder)
+        return json.dumps(result, sort_keys=True, indent=4)
       else:
         return json.dumps(result, cls=DecimalEncoder)
     else:
       return result
+      
+  def insert(self, query):
+    self.db.cursor(dictionary=True)
+    try:
+      self.cursor.execute(query)
+      self.db.commit()
+    except mysql.connector.Error as err:
+      print("Something went wrong")
+      print(err.msg)
+      return(str(0))
+
+    return(self.cursor.lastrowid)
 
