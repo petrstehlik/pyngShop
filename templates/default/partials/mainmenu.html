@@ -1,4 +1,4 @@
-<div class="main-menu" ng-controller="mainMenuController">
+<div class="main-menu hidden-print" ng-controller="mainMenuController">
 
 	<ul class="container">
 		<li>
@@ -8,7 +8,7 @@
 			<a ng-href="#/{{ menu_item.slug}} ">{{menu_item.name}}</a>
 			<ul>
 				<li ng-repeat="submenu_item in menu_item.sub">
-					<a ng-href="{{ menu_item.slug }}/{{ submenu_item.slug }}">{{ submenu_item.name }}</a>
+					<a ng-href="#/{{ menu_item.slug }}/{{ submenu_item.slug }}">{{ submenu_item.name }}</a>
 				</li>
 		</li>
 		
