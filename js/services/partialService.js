@@ -38,11 +38,16 @@ app.controller('userMenu', function($rootScope, $scope, cart) {
 		//}
 
 	})
+
+	$rootScope.$on('applycart', function(event, args) {
+		$scope.cart = cart.model;
+	});
 });
 
 app.service('api', function($http, $log) {
 	var url = "//" + API.host + ":" + API.port + "/" + API.version + "/";
 	this.post = function(query, data) {
+		console.log(JSON.stringify(data));
 		var promise = $http({
 			method : 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -119,9 +124,11 @@ app.factory('page', function(){
 app.filter("total", function() {
 	return function(items) {
 	  	var total = 0, i = 0;
-	  	console.log(items.length)
-	  	for (i = 0; i < items.length; i++)
+	  	for (i = 0; i < items.length; i++) {
 	  		total += items[i]['price'] * items[i]['quantity'];
+	  		console.log(total);
+	  	}
+
 	  	return total;
 	}
 });
