@@ -18,17 +18,25 @@ app.directive("userMenu", function() {
 });
 
 
-app.controller('mainMenuController', function($scope, $http, api){
+app.controller('mainMenuController', function($scope, $http, api, auth){
 	api.get("categories").then(function(r) {
 		$scope.categories = r;
 	})
 });
 
-app.controller('userMenu', function($rootScope, $scope, cart) {
+app.controller('userMenu', function($rootScope, $scope, cart, auth) {
 	
 	//$rootScope.$broadcast('restorecart');
 
 	$scope.cart = cart.model;
+	auth.get({admin : true})
+	$scope.role = auth.user;
+	console.log(auth.user)
+
+	$scope.logout = function() {
+		auth.clear();
+		$scope.role = auth.user;
+	}
 
 	$scope.$on('addToCart', function(event, args) {
 		//if($scope.cart.items.indexOf(args) == -1) {
@@ -47,10 +55,24 @@ app.controller('userMenu', function($rootScope, $scope, cart) {
 app.service('api', function($http, $log) {
 	var url = "//" + API.host + ":" + API.port + "/" + API.version + "/";
 	this.post = function(query, data) {
-		console.log(JSON.stringify(data));
 		var promise = $http({
 			method : 'POST',
-			headers: { 'Content-Type': 'application/json' },
+			headers: { 'Content-Type': 'application/json;charset=utf-8' },
+			url : url + query,
+			data : JSON.stringify(data)
+		}).then(function successCallback(response) {
+			return response["data"];
+		}, function errorCallback(response) {
+			$log.error(response);
+			return response;
+		});
+		return promise;
+	}
+
+	this.delete = function(query, data) {
+		var promise = $http({
+			method : 'DELETE',
+			headers: { 'Content-Type': 'application/json;charset=utf-8' },
 			url : url + query,
 			data : JSON.stringify(data)
 		}).then(function successCallback(response) {
@@ -110,6 +132,54 @@ app.factory('cart', function ($rootScope, $localStorage) {
     $rootScope.$on("restorecart", service.RestoreState);
 
     return service;
+});
+
+app.service('auth', function($localStorage){
+	var auth = {
+		user : {
+			admin : false,
+			customer : false,
+			cred : {
+				details : {
+					customer_id : null
+				}
+			}
+		},
+		store : function(cred, date) {
+			auth.user = {"cred" : cred}
+
+			if (cred.admin) {
+				auth.user.admin = true;
+				auth.user.expiry = date;
+				$localStorage.user = angular.toJson(auth.user)
+			} else {
+				auth.user.customer = true;
+				$localStorage.user = angular.toJson(auth.user)
+			}
+		},
+		get : function() {
+			auth.user = angular.fromJson($localStorage.user)
+			console.log(auth.user)
+			if (auth.user == undefined) {
+				console.log("cleaning")
+				auth.clear();
+				auth.get();
+			}
+		},
+		verify : function(cred, role) {
+			return angular.fromJson($localStorage.user)
+		},
+		clear : function() {
+			$localStorage.user = angular.toJson({user : {admin : false,customer : false, cred : {
+				details : {
+					customer_id : null
+				}
+			}}})
+			auth.get();
+		}
+	}
+
+	return auth;
 });
 
 app.factory('page', function(){
