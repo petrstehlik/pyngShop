@@ -35,8 +35,8 @@ class DB():
         print("Database does not exist")
       else:
         print(err.msg)
-
     self.cursor = self.db.cursor(dictionary=True)
+    self.cursor.execute("SET NAMES utf8")
 
   def __exit__(self, exc_type, exc_value, traceback):
         self.cursor.close()
@@ -68,7 +68,7 @@ class DB():
         return json.dumps(result, cls=DecimalEncoder)
     else:
       return result
-      
+
   def insert(self, query):
     self.db.cursor(dictionary=True)
     try:
