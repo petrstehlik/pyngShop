@@ -1,10 +1,11 @@
-var app = angular.module('pyngShop', ['ngRoute', 'angular.filter', 'ngStorage']);
+var app = angular.module('pyngShop', ['ngRoute', 'angular.filter', 'ngStorage', 'ngCookies']);
 
 var SETTINGS = {
 	template : 'default',
 	templatePath : function() {return ('templates/' + this.template)},
 	views : function() { return(this.templatePath() + '/views/')},
-	partials : function() { return(this.templatePath() + '/partials/')}
+	partials : function() { return(this.templatePath() + '/partials/')},
+	name : 'pyngShop'
 };
 
 var USER = {
