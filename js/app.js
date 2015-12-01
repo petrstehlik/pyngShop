@@ -3,25 +3,22 @@ app.config(function($routeProvider, $locationProvider){
 	$locationProvider.html5Mode(false);
 
 	$routeProvider
-		.when('/login', {
-			controller: 'loginController',
-			templateUrl: SETTINGS.views() + 'login.html',
-			resolve: {
-				isLoggedIn: checkLogin
-			}
-		})
 		.when('/', {
 			controller: 'homeController',
 			templateUrl: SETTINGS.views() + 'home.html',
 			resolve: {
-				isLoggedIn: checkLogin
+			}
+		})
+		.when('/login', {
+			controller: 'loginController',
+			templateUrl: SETTINGS.views() + 'login.html',
+			resolve: {
 			}
 		})
 		.when('/cart', {
 			controller: 'cartController',
 			templateUrl: SETTINGS.views() + 'cart.html',
 			resolve: {
-				isLoggedIn: checkLogin
 				//exists : checkPage
 			}
 		})
@@ -29,7 +26,6 @@ app.config(function($routeProvider, $locationProvider){
 			controller: 'checkoutController',
 			templateUrl: SETTINGS.views() + 'checkout.html',
 			resolve: {
-				isLoggedIn: checkLogin
 				//exists : checkPage
 			}
 		})
@@ -37,7 +33,6 @@ app.config(function($routeProvider, $locationProvider){
 			controller: 'successController',
 			templateUrl: SETTINGS.views() + 'success.html',
 			resolve: {
-				isLoggedIn: checkLogin
 				//exists : checkPage
 			}
 		})
@@ -45,24 +40,42 @@ app.config(function($routeProvider, $locationProvider){
 			controller: 'invoiceController',
 			templateUrl: SETTINGS.views() + 'invoice.html',
 			resolve: {
-				isLoggedIn: checkLogin
 				//exists : checkPage
+			}
+		})
+		.when('/admin', {
+			controller: 'ordersController',
+			templateUrl: SETTINGS.views() + 'admin.html',
+			resolve: {
+				//exists : function() {return check.admin()}
+			}
+		})
+		.when('/admin/orders', {
+			controller: 'ordersController',
+			templateUrl: SETTINGS.views() + 'orders.html',
+			resolve: {
+				//exists : function() {return check.admin()}
+			}
+		})
+		.when('/admin/orders/:order_id', {
+			controller: 'orderDetailController',
+			templateUrl: SETTINGS.views() + 'orderDetail.html',
+			resolve: {
+				//exists : function() {return check.admin()}
 			}
 		})
 		.when('/:category*/p/:product', {
 			controller: 'productController',
 			templateUrl: SETTINGS.views() + 'product.html',
 			resolve: {
-				isLoggedIn: checkLogin,
-				exists : function(check) {return check.category()}
+			//	exists : function() {return check.category()}
 			}
 		})
 		.when('/:category*', {
 			controller: 'categoryController',
 			templateUrl: SETTINGS.views() + 'category.html',
 			resolve: {
-				isLoggedIn: checkLogin,
-				exists : function(check) {return check.category()}
+				//exists : function() {return check.category()}
 			}
 		})
 		
@@ -78,7 +91,7 @@ app.config(function($routeProvider, $locationProvider){
 			controller: 'homeController',
 			templateUrl: SETTINGS.views() + 'home.html',
 			resolve: {
-				isLoggedIn: checkLogin
+//				isLoggedIn: checkLogin
 			}
 		})
 		.otherwise({
@@ -86,16 +99,7 @@ app.config(function($routeProvider, $locationProvider){
 		});
 });
 
-checkLogin = function() {
-	if (USER.admin) {
-		console.log('You\'re loggen in as admin');
-	}
-	else {
-		console.log("You are nobody");
-	}
-}
-
-app.factory('check', function($location, $routeParams, api) {
+app.service('check', function($location, $routeParams, api, auth) {
 	return {
 		category : function(path) {
 			console.log($location.path())
@@ -107,6 +111,13 @@ app.factory('check', function($location, $routeParams, api) {
 			api.post("checkpage", path).then(function(response) {
 				console.log(response);
 			})
+		},
+		admin : function() {
+			if (auth.user.admin) {
+				api.post("checklogin", auth).then(function (response) {
+					console.log(response)
+				})
+			}
 		}
 	}
 	// if ($routeParams.page != "login" || $routeParams.page != "404") {
@@ -114,8 +125,21 @@ app.factory('check', function($location, $routeParams, api) {
 	// }
 })
 
-app.run(function($rootScope, $location) {
+app.run(function($rootScope, $location, auth, api) {
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+    	auth.get();
+		if (next.controller == "adminController" || next.controller == "ordersController" || next.controller == "orderDetailController") {
+			if(!auth.user.admin) {
+				$location.path("/");
+			}
+
+			api.post("checklogin", auth.user.cred.session).then(function (response) {
+				console.log(response)
+				if (response != "1")
+					$location.path("/")
+			})
+
+		}
       if (!USER.admin) {
         // no logged user, redirect to /login
         if ( next.templateUrl === "partials/login.html") {
@@ -125,3 +149,15 @@ app.run(function($rootScope, $location) {
       }
     });
   });
+
+app.directive('showtab',
+    function () {
+        return {
+            link: function (scope, element, attrs) {
+                element.click(function(e) {
+                    e.preventDefault();
+                    $(element).tab('show');
+                });
+            }
+        };
+    });
