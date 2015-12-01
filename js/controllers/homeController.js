@@ -2,8 +2,6 @@ app.controller('homeController', function($scope, $http, page){
 
 	$scope.logo = "pyngShop";
 
-	console.log("hello");
-
 	page.setTitle("Home");
 
 	
