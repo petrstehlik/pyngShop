@@ -13,6 +13,7 @@ drop table if exists shipping;
 drop table if exists customer_order;
 drop table if exists settings;
 drop table if exists menu;
+drop table if exists users;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE product 
@@ -149,6 +150,13 @@ CREATE TABLE settings
 (
 	name 		varchar(255) not null,
 	value 	varchar(255) not null
+);
+
+CREATE TABLE users
+(
+   email    varchar(255) not null,
+   password varchar(255) not null,
+   PRIMARY KEY (email)
 );
 
 INSERT INTO `settings` (`name`, `value`) VALUES ('title', 'pyngShop Demo'), ('url', 'http://localhost/~petrstehlik/pyngShop'), ('vat', '21'), ('keywords', 'python, angular, eshop'), ('description', 'Just another pyngShop website'), ('currency', 'CZK');
