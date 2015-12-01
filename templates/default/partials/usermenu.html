@@ -1,4 +1,13 @@
 <div class="user-menu col-md-6 hidden-print">
-	<a ng-href="#/login">Login</a>
-	<a ng-href="#/cart"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span ng-if="cart.count">({{cart.count}})</span></a>
+	<span ng-if="role.admin">
+		<a ng-href="#/admin">Admin</a> (<a ng-click="logout()" class="small">logout</a>)
+		<a ng-href="#/admin/orders">Orders</a>
+	</span>
+	<span ng-if="role.customer">
+		<a ng-href="#/account">Hello {{role.cred.details.first_name}}</a> (<a ng-click="logout()" class="small">logout</a>)
+	</span>
+	<span ng-if="!role.admin">
+		<a ng-href="#/login" ng-if="!(role.admin || role.customer)">Login</a>
+		<a ng-href="#/cart"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span ng-if="cart.count">({{cart.count}})</span></a>
+	</span>
 </div>

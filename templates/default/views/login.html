@@ -1,3 +1,51 @@
-{{ test }}
+<section class="success container-fluid">
+<div class="top-bar">
+	<h1 class="logo col-md-6">{{ logo }}</h1>
+	<user-menu></user-menu>
+</div>
+<main-menu></main-menu>
 
-<a href="/">Home</a>
+<a ng-href="/">Home</a>
+
+<div class="row" ng-if="!registerSwitch">
+	<form ng-model="login" class="col-md-4 col-md-offset-4">
+		<div class="input-group">
+		  <span class="input-group-addon" id="basic-addon1">@</span>
+		  <input type="email" ng-model="login.email" placeholder="john@example.com" class="form-control" required>
+		</div>
+
+		<div class="input-group">
+			<span class="input-group-addon" id="basic-addon1">Password</span>
+			<input type="password" ng-model="login.password" placeholder="password" class="form-control" required>
+		</div>
+		
+		<input type="submit" ng-click="checkLogin(login)" class="btn btn-primary"> Not a member yet? <a ng-click="registerToggle()" >Register now!</a>
+	</form>
+</div>
+
+<div class="row" ng-if="registerSwitch">
+
+<h3>Register now</h3>
+<form ng-model="register.form" class="col-md-4 col-md-offset-4">
+	<div class="input-group">
+		<span class="input-group-addon" >@</span>
+		<input type="email" ng-model="register.form.email" placeholder="john@example.com" class="form-control" required>
+	</div>
+	<div class="input-group">
+		<span class="input-group-addon">Password</span>
+		<input type="password" ng-model="register.form.password" placeholder="password" class="form-control" required>
+	</div>
+	<div class="input-group">
+		<span class="input-group-addon" >First name</span>
+		<input type="text" ng-model="register.form.first_name" placeholder="John" class="form-control" required>
+	</div>
+	<div class="input-group">
+		<span class="input-group-addon" >Last name</span>
+		<input type="text" ng-model="register.form.last_name" placeholder="Pyng" class="form-control" required>
+	</div>
+
+	<input type="submit" ng-click="register(register.form)" class="btn btn-primary">
+
+</form>
+Or you can <a ng-click="toggleLogin()">login</a>
+</div>

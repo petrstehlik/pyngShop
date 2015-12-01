@@ -18,10 +18,20 @@
 	{{product.product_id}}
 	<div class="btn btn-success" ng-click="addToCart(product)">Buy</div>
 	</div>
+	</div>
 	<div class="row">
 		<div class="review" ng-repeat="review in reviews">
 			{{review.content}}
 			{{review.timestamp}}
 		</div>
 	</div>
+
+	<div class="row addReview" ng-if="posted && role.customer">
+		<form ng-model="newReview">
+			<input type="email" ng-model="newReview.email" placeholder="email" ng-value="role.cred.details.email">
+			<input type="number" ng-model="newReview.rating" placeholder="5">
+			<textarea ng-model="newReview.content" placeholder="Your review"></textarea>
+			<input type="hidden" ng-model="newReview.customer_id" ng-value="role.cred.details.customer_id">
+			<input type="submit" ng-click="addReview(newReview)" value="Submit" class="btn btn-primary">
+		</form>
 </section>

@@ -50,7 +50,7 @@
 	</div>
 
 	<div class="customer-info row" ng-model="customer">
-	<div class="col-md-6">
+	<form class="col-md-6">
 		<div class="input-group">
 		  	<span class="input-group-addon">Name*</span>
 		  	<input ng-model="customer.name" type="text" class="form-control" required placeholder="John">
@@ -75,7 +75,7 @@
 		  	<span class="input-group-addon">City*</span>
 		  	<input ng-model="customer.town" type="text" class="form-control" placeholder="PyngTown">
 		</div>
-	</div>
+	</form>
 
 	<div class="col-md-6">
 		{{customer.name}} {{customer.surname}}<br>
