@@ -7,6 +7,7 @@ from flask.ext.cors import CORS
 import pdb
 from datetime import datetime
 import hashlib
+from slugify import slugify
 
 from connector import *
 from mail import *
@@ -26,22 +27,73 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     return response
 
-@app.route(CONFIG['version'] + '/categories')
+@app.route(CONFIG['version'] + '/categories', methods=['GET', 'DELETE', 'POST'])
 def get_categories():
-	db = DB()
-	main = "SELECT * FROM category WHERE category.parent IS NULL"
-	main_categories = db.query(main, False)
+	if request.method == 'GET': 
+		db = DB()
+		main = "SELECT * FROM category WHERE category.parent IS NULL"
+		main_categories = db.query(main, False)
 
-	#sub = "SELECT * FROM category WHERE category.parent = (SELECT category_id FROM category WHERE category.parent IS NULL)"
+		#sub = "SELECT * FROM category WHERE category.parent = (SELECT category_id FROM category WHERE category.parent IS NULL)"
 
-	#sub_cat = db.query(sub, False)
-	s = dict()
-	for item in main_categories:
-		cat_id = str(item["category_id"])
-		s[cat_id] = item
-		s[cat_id]["sub"] = db.query("SELECT * FROM category WHERE category.parent = " + cat_id, False)
-	del db
-	return json.dumps(s)
+		#sub_cat = db.query(sub, False)
+		s = dict()
+		for item in main_categories:
+			cat_id = str(item["category_id"])
+			s[cat_id] = item
+			s[cat_id]["sub"] = db.query("SELECT * FROM category WHERE category.parent = " + cat_id, False)
+		del db
+		return json.dumps(s)
+
+	if request.method == 'DELETE':
+		r = request.get_json()
+		db = DB()
+
+		query = "UPDATE `category` SET `hidden` = '1' WHERE `category`.`category_id` = \'" + str(r["category_id"]) + "\'"
+		db.cursor.execute(query)
+		db.db.commit()
+		del db
+		return("OK")
+
+	if request.method == 'POST':
+		db = DB()
+		r = request.get_json()
+		print(r)
+		data = {
+			'name' : r["name"],
+			'description' : r["description"],
+			'slug' : slugify(r["name"]),
+			'parent' : r["parent"],
+			'category_id' : r["category_id"]
+		}
+		query = "UPDATE `category` SET name = %(name)s, description = %(description)s, slug = %(slug)s, parent = %(parent)s WHERE category_id = %(category_id)s"
+
+		db.cursor.execute(query, data)
+		db.db.commit()
+		del db
+		return("OK")
+
+
+@app.route(CONFIG['version'] + '/addcategory', methods=['POST'])
+def add_cat():
+	if request.method == 'POST':
+		db = DB()
+		cat = request.get_json()
+		data = {
+			'slug' : slugify(cat["name"]),
+			'name' : cat["name"],
+			'parent' : cat["parent"]
+		}
+		query = """INSERT INTO category (`name`, `slug`, `parent`) VALUES (%(name)s, %(slug)s, %(parent)s)"""
+		res = db.cursor.execute(query, data)
+		db.db.commit()
+
+		#print(json.dumps(newcat))
+		#print(cat)
+		row = db.cursor.lastrowid
+		del db
+		return(str(row))
+
 
 @app.route(CONFIG['version'] + '/products', methods=['POST'])
 def get_products():
@@ -65,18 +117,89 @@ LEFT JOIN product ON product_category.product_id = product.product_id
 WHERE category.parent = \'""" + str(res[0]["category_id"]) + "\'"
 		subres = db.query(query, False)
 		res += subres
+		cat = db.query("SELECT * FROM category WHERE category.slug = \"" + categories + "\"", False)
+
+		final = {
+			'category' : cat,
+			'products' : res
+		}
 
 		del db
-		return(json.dumps(res))
+		return(json.dumps(final))
 
-@app.route(CONFIG['version'] + '/product', methods=['POST'])
+@app.route(CONFIG['version'] + '/product', methods=['POST', 'DELETE'])
 def product():
 	if request.method == 'POST':
 		p = request.get_json()
 		db = DB()
-		query = """SELECT * FROM product WHERE product.slug = \'""" + p + "\';"
+		query = """SELECT product.name, product.product_id, product.slug, product.description, product.price, product.image, product.in_stock, manufacturer.manufacturer_id, manufacturer.name as man_name FROM product LEFT JOIN product_supplier on product.product_id = product_supplier.product_id LEFT JOIN manufacturer ON product_supplier.manufacturer_id = product_supplier.manufacturer_id WHERE product.slug = \'""" + p + "\';"
 		res = db.query(query, False)
 		return(json.dumps(res))
+	if request.method == 'DELETE':
+		p = request.get_json()
+		db = DB()
+
+		query = "UPDATE `product` SET `hidden` = '1' WHERE `product`.`product_id` = \'" + str(p["product_id"]) + "\'"
+		db.cursor.execute(query)
+		db.db.commit()
+		del db
+		return("OK")
+
+@app.route(CONFIG['version'] + '/addproduct', methods=['POST'])
+def addproduct():
+	if request.method == 'POST':
+		db = DB()
+		p = request.get_json()
+		print(p)
+		query = "INSERT INTO product (`name`, `slug`, `description`, `price`, `image`, `in_stock`) VALUES (%(name)s, %(slug)s, %(description)s, %(price)s, %(image)s, %(in_stock)s)"
+		data = p["product"]
+		data["slug"] = slugify(p["product"]["name"])
+		db.cursor.execute(query, data)
+		prod_id = db.cursor.lastrowid
+
+		query = "INSERT INTO product_category VALUES (%(product_id)s, %(category_id)s)"
+		data = {
+			'product_id' : prod_id,
+			'category_id' : p["category"]["category_id"]
+		}
+		db.cursor.execute(query, data)
+
+		query = "INSERT INTO product_supplier VALUES (%(product_id)s, %(manufacturer_id)s)"
+		data = {
+			'product_id' : prod_id,
+			'manufacturer_id' : p["supplier"]["manufacturer_id"]
+		}
+		db.cursor.execute(query, data)
+		db.db.commit()
+		del db
+		return("OK")
+
+@app.route(CONFIG['version'] + '/updateproduct', methods=['POST'])
+def updateproduct():
+	if request.method == 'POST':
+		db = DB()
+		r = request.get_json()
+		print(json.dumps(r))
+		query = "UPDATE product SET price = %(price)s, image = %(image)s, name = %(name)s, description = %(description)s, in_stock = %(in_stock)s, slug = %(slug)s WHERE product_id = %(product_id)s"
+		data = {
+			'price' :r["product"]["price"],
+			'image' : r["product"]["image"],
+			'name' : r["product"]["name"],
+			'description' : r["product"]["description"],
+			'in_stock' : r["product"]["in_stock"],
+			'slug' : slugify(r["product"]["name"]),
+			'product_id' : r["product"]["product_id"]
+		}
+
+		db.cursor.execute(query, data)
+
+		if r["supplier"] != None:
+			print("we should do the manufacturer")
+
+		db.db.commit()
+		del db
+		return("OK")
+
 
 @app.route(CONFIG['version'] + '/checkpage', methods=['POST'])
 def checkpage():
@@ -101,7 +224,7 @@ def reviews():
 	if request.method == 'POST':
 		db = DB()
 		r_id = request.get_json()
-		query = """SELECT * FROM  `review` WHERE review.product_id = \'""" + str(r_id) + "\'"
+		query = """SELECT * FROM  `review` LEFT JOIN customer ON review.customer_id = customer.customer_id WHERE review.product_id = \'""" + str(r_id) + "\'"
 		res = db.query(query, False)
 		del db
 		return(json.dumps(res))
@@ -130,19 +253,25 @@ def order():
 		shipping = data["shipping"]
 		cart = data["cart"]
 
-		query = """INSERT INTO `customer` (`first_name`, `last_name`, `email`, `address_1`, `telephone`, `city`) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(address_1)s, %(telephone)s, %(city)s); """
 		print(data)
-		customer_data = {
-			'first_name'	: customer["name"],
-			'last_name'		: customer["surname"],
-			'email'			: customer["email"],
-			'address_1'		: customer["address"],
-			'telephone'		: customer["tel"],
-			'city'			: customer["town"]
-		}
-		res = db.cursor.execute(query, customer_data)
-		db.db.commit()
-		cust_id = db.cursor.lastrowid
+
+		if "customer_id" not in customer:
+			query = """INSERT INTO `customer` (`first_name`, `last_name`, `email`, `address_1`, `telephone`, `city`, `postal_code`) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(address_1)s, %(telephone)s, %(city)s, %(postal_code)s); """
+			print(data)
+			customer_data = {
+				'first_name'	: customer["first_name"],
+				'last_name'		: customer["last_name"],
+				'email'			: customer["email"],
+				'address_1'		: customer["address_1"],
+				'telephone'		: customer["telephone"],
+				'city'			: customer["city"],
+				'postal_code'	: customer["postal_code"]
+			}
+			res = db.cursor.execute(query, customer_data)
+			db.db.commit()
+			cust_id = db.cursor.lastrowid
+		else:
+			cust_id = customer["customer_id"]
 
 		# Get total price of the order
 		total_price = 0
@@ -176,7 +305,8 @@ def order():
 		db.cursor.executemany(query, ordered_products)
 		db.db.commit()
 
-		sendmail(customer["email"], "Hello " + customer["name"])
+
+		#sendmail(customer["email"], "Hello " + customer["first_name"])
 
 		del db
 		return(str(1))
@@ -259,7 +389,8 @@ def register():
 	if request.method == 'POST':
 		db = DB()
 		req = request.get_json()
-		query = "INSERT INTO `customer` (email, password, first_name, last_name) VALUES (%(email)s, %(password)s, %(first_name)s, %(last_name)s)"
+		#res = db.query()
+		query = "INSERT INTO `customer` (email, password, first_name, last_name, city, address_1, postal_code, telephone) VALUES (%(email)s, %(password)s, %(first_name)s, %(last_name)s, %(city)s, %(address_1)s, %(postal_code)s, %(telephone)s)"
 		tmphash = hashlib.sha256(req['password'].encode('utf-8'))
 		req['password'] = str(tmphash.hexdigest())
 		db.cursor.execute(query, req)
@@ -394,7 +525,29 @@ def admins():
 		del db
 		return(str(1))
 
+@app.route(CONFIG['version'] + '/updateorder', methods=['POST'])
+def updateorder():
+	if request.method == 'POST':
+		db = DB()
+		r = request.get_json()
 
+		query = "UPDATE `customer_order` SET `status` = %(status)s WHERE `order_id` = %(order_id)s"
+		db.cursor.execute(query, r)
+		db.db.commit()
+		del db
+		return("OK")
+
+@app.route(CONFIG['version'] + '/customerorders', methods=['POST'])
+def custord():
+	if request.method == 'POST':
+		db = DB()
+		r = request.get_json()
+		print(r)
+		query = "SELECT DISTINCT * FROM customer_order LEFT JOIN ordered_products ON customer_order.order_id = ordered_products.order_id LEFT JOIN product ON ordered_products.product_id = product.product_id WHERE customer_id = \'" + str(r) + "\' GROUP BY customer_order.order_id ORDER BY customer_order.order_id"
+
+		res = db.query(query, False)
+		del db
+		return(json.dumps(res))
 
 
 
