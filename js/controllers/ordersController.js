@@ -52,9 +52,22 @@ app.controller('ordersController', function($scope, auth, api) {
 	}
 })
 
-app.controller('orderDetailController', function($scope, $routeParams, auth, api){
+app.controller('orderDetailController', function($scope, $route, $routeParams, auth, api){
 	console.log($routeParams)
 	api.get("orders/" + $routeParams.order_id).then(function (r) {
 		$scope.invoice = r;
 	})
+
+	$scope.changeStatus = function(status) {
+		var data = {
+			status : status,
+			order_id : $scope.invoice.products[0].order_id 
+		}
+
+		api.post("updateorder", data).then(function(r) {
+			$route.reload()
+		})
+
+		console.log(data)
+	}
 });

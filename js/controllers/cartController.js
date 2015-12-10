@@ -1,4 +1,4 @@
-app.controller('cartController', function($scope, $rootScope, cart, page) {
+app.controller('cartController', function($scope, $route, $rootScope, cart, page) {
 	console.log(cart.model);
 
 	page.setTitle("Cart");
@@ -10,14 +10,21 @@ app.controller('cartController', function($scope, $rootScope, cart, page) {
 		$rootScope.$broadcast('restorecart');
 		$rootScope.$broadcast('applycart');
 		$scope.cart = cart.model;
+		$route.reload();
 		
 	}
 });
 
 var ordered = {}
 
-app.controller('checkoutController', function($scope, $rootScope, $location, cart, page, api) {
-	console.log(cart.model);
+app.controller('checkoutController', function($scope, $route, $rootScope, $location, cart, page, api, auth) {
+	// console.log(cart.model);
+
+	$scope.user = auth.get();
+	if ($scope.user.customer == true)
+		$scope.customer = $scope.user.cred.details
+
+	console.log($scope.customer);
 
 	page.setTitle("Cart");
 
@@ -32,17 +39,21 @@ app.controller('checkoutController', function($scope, $rootScope, $location, car
 		$rootScope.$broadcast('restorecart');
 		$rootScope.$broadcast('applycart');
 		$scope.cart = cart.model;
+		$route.reload();
 	}
 
 	$scope.order = function(customer, shipping, cart) {
 
-		customer["tel"] = customer["tel"].replace(/[+]/g, '00');
+		customer["telephone"] = customer["telephone"].replace(/[+]/g, '00');
 
 		api.post("order", {customer : customer, shipping: shipping, cart: cart}).then(function(response) {
 			if (response = "1") {
 				ordered = {customer : customer, shipping: shipping, cart: cart};
-				$location.path("checkout/success");
+				
 			}
+			console.log(response)
+			console.log("redirecting")
+			$location.path("checkout/success");
 		});
 		
 	}

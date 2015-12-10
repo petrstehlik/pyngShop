@@ -18,24 +18,79 @@ app.directive("userMenu", function() {
 });
 
 
-app.controller('mainMenuController', function($scope, $http, api, auth){
+app.controller('mainMenuController', function($scope, $http, $q, api, auth){
 	api.get("categories").then(function(r) {
 		$scope.categories = r;
 	})
+
+	$scope.user = USER;
+
+	$scope.addCategory = function(data, menu_item) {
+		var d = $q.defer();
+		console.log(data);
+		var newCat = {}
+
+		//data = data.toLowerCase().replace(/ /g, '_').replace(/[^\w-]+/g,'');
+
+		if (menu_item == undefined) {
+			newCat = {
+				name : data,
+				parent : null
+			}
+		} else {
+			newCat = {
+				name : data,
+				parent : menu_item.category_id
+			}
+		}
+
+		api.post('addcategory', newCat).then(function(r) {
+			console.log(r);
+			api.get("categories").then(function(r) {
+				$scope.categories = r;
+			})
+		})
+	}
+
+	$scope.deleteCategory = function(cat) {
+		console.log(cat);
+		api.delete('categories', cat).then(function(res) {
+			console.log(res);
+			api.get("categories").then(function(r) {
+				$scope.categories = r;
+			})
+		})
+	}
+	$scope.editCategory = function(data, menu_item) {
+		var d = $q.defer();
+		console.log(data);
+		console.log(menu_item);
+		menu_item["name"] = data;
+
+		api.post('categories', menu_item).then(function(res) {
+			console.log(res);
+			api.get("categories").then(function(r) {
+				$scope.categories = r;
+			})
+		})
+	};
 });
 
-app.controller('userMenu', function($rootScope, $scope, cart, auth) {
+app.controller('userMenu', function($rootScope, $scope, $location, $route, cart, auth) {
 	
 	//$rootScope.$broadcast('restorecart');
 
 	$scope.cart = cart.model;
 	auth.get({admin : true})
 	$scope.role = auth.user;
-	console.log(auth.user)
+	USER.admin = auth.user.admin;
 
 	$scope.logout = function() {
 		auth.clear();
 		$scope.role = auth.user;
+		USER = {user: false, admin: false, editor: false};
+		$location.path("/");
+		$route.reload();
 	}
 
 	$scope.$on('addToCart', function(event, args) {
@@ -159,12 +214,14 @@ app.service('auth', function($localStorage){
 		},
 		get : function() {
 			auth.user = angular.fromJson($localStorage.user)
-			console.log(auth.user)
+			//console.log(auth.user)
 			if (auth.user == undefined) {
 				console.log("cleaning")
 				auth.clear();
 				auth.get();
 			}
+
+			return auth.user;
 		},
 		verify : function(cred, role) {
 			return angular.fromJson($localStorage.user)
@@ -182,6 +239,30 @@ app.service('auth', function($localStorage){
 	return auth;
 });
 
+app.service('newProd', function(){
+
+	var product = {};
+
+	var storeProduct = function (cat) {
+		product = cat;
+		console.log(product);
+	}
+
+	var getProduct = function() {
+		return product;
+	}
+
+	var removeProduct = function() {
+		product = {};
+	}
+
+	return {
+		storeProduct : storeProduct,
+		getProduct : getProduct,
+		removeProduct : removeProduct
+	};
+});
+
 app.factory('page', function(){
   var title = "Default";
   return {
@@ -196,7 +277,6 @@ app.filter("total", function() {
 	  	var total = 0, i = 0;
 	  	for (i = 0; i < items.length; i++) {
 	  		total += items[i]['price'] * items[i]['quantity'];
-	  		console.log(total);
 	  	}
 
 	  	return total;

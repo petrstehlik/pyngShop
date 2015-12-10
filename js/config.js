@@ -1,4 +1,4 @@
-var app = angular.module('pyngShop', ['ngRoute', 'angular.filter', 'ngStorage', 'ngCookies']);
+var app = angular.module('pyngShop', ['ngRoute', 'angular.filter', 'ngStorage', 'xeditable']);
 
 var SETTINGS = {
 	template : 'default',
@@ -11,7 +11,7 @@ var SETTINGS = {
 var USER = {
 	user : false,
 	editor : false,
-	admin : true
+	admin : false
 }
 
 var API = {

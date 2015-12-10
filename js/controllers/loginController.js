@@ -1,21 +1,31 @@
-app.controller('loginController', function($scope, $cookieStore, $location, api, auth){
+app.controller('loginController', function($scope, $location, api, auth, page){
 	$scope.registerSwitch = 0;
+	$scope.loginbtn = "Log In";
+	$scope.login = {};
 
-	$cookieStore.put('yourCookie', 'hellp')
-	var tmp =  $cookieStore.get('yourCookie')
-	console.log(tmp)
+	page.setTitle("Login");
 
 	$scope.checkLogin = function(login) {
-		console.log(login);
+		//console.log(login);
+		$scope.loginbtn = "Logging in...";
 
 		//check if admin
 		api.post("login", login).then(function(r) {
-			console.log(r)
+			//console.log(r)
 			var expireDate = new Date();
 			expireDate.setDate(expireDate.getDate() + 30);
+			if (r.admin) {
+				USER.admin = true;
+				//console.log(USER)
+			}
 			if (r.admin || r.customer) {
 				auth.store(r, expireDate);
-				$location.path('/')
+				// $location.path('/');
+				history.back();
+			} else {
+				$scope.error = "Wrong password!";
+				$scope.loginbtn = "Log In";
+				$scope.login["password"] = "";
 			}
 		});
 	}
@@ -25,6 +35,10 @@ app.controller('loginController', function($scope, $cookieStore, $location, api,
 		api.post("register", form).then(function(r) {
 			console.log(r)
 			$scope.register.form = {}
+			var expireDate = new Date();
+			expireDate.setDate(expireDate.getDate() + 30);
+			//auth.store({form}, expireDate);
+			$location.path("/");
 		})
 	}
 
@@ -37,4 +51,18 @@ app.controller('loginController', function($scope, $cookieStore, $location, api,
 		$scope.registerSwitch= 0;
 	}
 	
+})
+
+app.controller('accountController', function($scope, $location, auth, api){
+	if (!auth.user.customer) {
+		$location.path("/")
+	}
+
+	$scope.user = auth.user;
+
+	// console.log(auth.user, auth.)
+
+	api.post("customerorders", auth.user.cred.details.customer_id).then(function(r) {
+		$scope.orders = r;
+	})
 })

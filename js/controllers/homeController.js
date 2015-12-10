@@ -19,17 +19,19 @@ app.controller('pageController', function($scope, $route, $routeParams, $locatio
 
 });
 
-app.controller('categoryController', function($rootScope, $scope, $routeParams, $http, $log, $location, api, cart, page) {
+app.controller('categoryController', function($rootScope, $scope, $routeParams, $http, $log, $location, $sce, api, cart, page, newProd) {
 
 	$rootScope.$broadcast("restorecart");
 	$scope.user = USER;
 	var categories = $routeParams.category.split("/");
 	$scope.cat = categories[categories.length - 1]
-	page.setTitle($routeParams.category);
 
 	$scope.url = $location.absUrl();
 
-	console.log($scope.categories)
+	$scope.goback = function () {
+		history.back()
+		console.log("goind back")
+	}
 
 	var queryData = { category : $scope.cat, menu : $scope.categories };
 	//var tmp = queryData.category.search(/\/./);
@@ -37,11 +39,15 @@ app.controller('categoryController', function($rootScope, $scope, $routeParams, 
 	//console.log(tmp);
 
 	api.post("products", queryData).then(function(response) {
-		$scope.products = response;
+		$scope.products = response["products"];
+		$scope.category = response["category"][0];
+		page.setTitle($scope.category.name);
 	});
 
 	$scope.addItem = function() {
-		console.log("Adding item")
+		newProd.storeProduct($scope.category);
+		console.log(newProd.getProduct())
+		$location.path("/p/addproduct");
 	}
 
 	$scope.addToCart = function (item) {
@@ -71,6 +77,11 @@ app.controller('categoryController', function($rootScope, $scope, $routeParams, 
 		$rootScope.$broadcast("savecart"); 
 	}
 
+	$scope.renderHtml = function(html_code)
+	{
+	    return $sce.trustAsHtml(html_code);
+	};
+
 });
 
 app.controller('mainController', function($rootScope, $scope, cart, page){
@@ -79,3 +90,7 @@ app.controller('mainController', function($rootScope, $scope, cart, page){
 
 	$scope.page = page;
 })
+
+app.controller('notFoundController', function($scope){
+	
+});

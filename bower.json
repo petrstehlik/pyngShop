@@ -21,10 +21,10 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "angularjs#~1.4.7",
-    "angular-material": "~0.11.1",
-    "jquery": "~2.1.4",
-    "angular-route": "~1.4.7",
-    "angular-local-storage": "~0.2.3"
-  }
+    "angular-xeditable": "~0.1.9",
+    "ngstorage": "~0.3.10",
+    "bootstrap-sass": "~3.3.5"
+  },
+  "moduleType": [],
+  "private": true
 }

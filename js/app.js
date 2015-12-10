@@ -9,6 +9,13 @@ app.config(function($routeProvider, $locationProvider){
 			resolve: {
 			}
 		})
+		.when('/404', {
+			controller: 'notFoundController',
+			templateUrl: SETTINGS.views() + '404.html',
+			resolve: {
+//				isLoggedIn: checkLogin
+			}
+		})
 		.when('/login', {
 			controller: 'loginController',
 			templateUrl: SETTINGS.views() + 'login.html',
@@ -64,6 +71,17 @@ app.config(function($routeProvider, $locationProvider){
 				//exists : function() {return check.admin()}
 			}
 		})
+		.when('/account', {
+			controller: 'accountController',
+			templateUrl: SETTINGS.views() + 'account.html',
+			resolve: {
+				//exists : function() {return check.admin()}
+			}
+		})
+		.when('/p/addproduct', {
+			controller: 'newProductController',
+			templateUrl : SETTINGS.views() + 'newproduct.html'
+		})
 		.when('/:category*/p/:product', {
 			controller: 'productController',
 			templateUrl: SETTINGS.views() + 'product.html',
@@ -87,13 +105,6 @@ app.config(function($routeProvider, $locationProvider){
 		// 		exists : function(check) {return check.category()}
 		// 	}
 		// })
-		.when('/404', {
-			controller: 'homeController',
-			templateUrl: SETTINGS.views() + 'home.html',
-			resolve: {
-//				isLoggedIn: checkLogin
-			}
-		})
 		.otherwise({
 			redirectTo: '/404'
 		});
@@ -125,7 +136,10 @@ app.service('check', function($location, $routeParams, api, auth) {
 	// }
 })
 
-app.run(function($rootScope, $location, auth, api) {
+app.run(function($rootScope, $location, auth, api, editableOptions) {
+	editableOptions.theme = 'default';
+	USER.admin = auth.user.admin;
+	USER.customer = auth.user.customer;
     $rootScope.$on( "$routeChangeStart", function(event, next, current) {
     	auth.get();
 		if (next.controller == "adminController" || next.controller == "ordersController" || next.controller == "orderDetailController") {
@@ -144,7 +158,7 @@ app.run(function($rootScope, $location, auth, api) {
         // no logged user, redirect to /login
         if ( next.templateUrl === "partials/login.html") {
         } else {
-          $location.path("/login");
+          //$location.path("/login");
         }
       }
     });
@@ -161,3 +175,44 @@ app.directive('showtab',
             }
         };
     });
+
+app.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+            
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                    console.log(attrs);
+                });
+            });
+        }
+    };
+}]);
+
+app.service('fileUpload', ['$http', function ($http) {
+    this.uploadFileToUrl = function(file, uploadUrl){
+        var fd = new FormData();
+        fd.append('file', file);
+        $http.post(uploadUrl, fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+        .success(function(){
+        })
+        .error(function(){
+        });
+    }
+}]);
+
+app.filter('capitalize', function() {
+    return function(input) {
+    	input = input.replace('_', ' ').replace('-', ' ');
+      	return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
+    }
+});
+
+
