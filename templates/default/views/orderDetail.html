@@ -5,22 +5,20 @@
 </div>
 <main-menu></main-menu>
 
-{{page.title()}}
 
-Order details
 
-<a ng-href="#/admin/orders">Return to orders</a>
+
 
 <div class="container">
+<h2>Order details <a ng-href="#/admin">Return to orders</a></h2>
 
-STATUS: {{ invoice.customer.status }}
+<h3>STATUS: {{ invoice.customer.status }}</h3>
 
 <div class="row">
 	<div class="col-md-6">
 		<h2>Customer info:</h2>
-		{{ invoice.number }} <br>
-		{{ invoice.customer.first_name }} <br>
-		{{ invoice.customer.last_name }} <br>
+		Order No.: {{ invoice.products[0].order_id }} <br>
+		{{ invoice.customer.first_name }} {{ invoice.customer.last_name }} <br>
 		{{ invoice.customer.telephone }} <br>
 		{{ invoice.customer.email }} <br>
 		{{ invoice.customer.address_1 }} <br>
@@ -29,7 +27,12 @@ STATUS: {{ invoice.customer.status }}
 	</div>
 	<div class="col-md-6">
 		<h2>Billing info:</h2>
-		Just some financial shit
+		pyngShop incorporated<br>
+		Fake Street 1<br>
+		Plumptown<br>
+		254 6655<br>
+		BANK: 6541153431/3541
+		CODE: {{ invoice.products[0].order_id }} 
 	</div>
 </div>
 <div class="row">
@@ -66,7 +69,17 @@ STATUS: {{ invoice.customer.status }}
 	</table>
 </div>
 
-<a href="javascript:window.print()" class="btn btn-info">Print this page</a>
+<a href="javascript:window.print()" class="btn btn-default" style="	margin-bottom: 2em;
+">Print this page</a>
+
+
+
+<div class="btn-group" role="group">
+	<button ng-click="changeStatus('waiting')" class="btn btn-warning" ng-if="!(invoice.customer.status == 'waiting')">STATUS: Waiting</button>
+	<button ng-click="changeStatus('processing')" class="btn btn-info" ng-if="!(invoice.customer.status == 'processing')">STATUS: Processing</button>
+	<button ng-click="changeStatus('dispatching')" class="btn btn-primary" ng-if="!(invoice.customer.status == 'dispatching')">STATUS: Dispatching</button>
+	<button ng-click="changeStatus('completed')" class="btn btn-success" ng-if="!(invoice.customer.status == 'completed')">STATUS: Completed</button>
+</div>
 
 </div>
 

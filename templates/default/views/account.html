@@ -1,0 +1,32 @@
+<section class="success container-fluid">
+<div class="top-bar">
+	<h1 class="logo col-md-6">{{ logo }}</h1>
+	<user-menu></user-menu>
+</div>
+<main-menu></main-menu>
+
+<a ng-href="/">Home</a>
+
+
+
+<div class="container">
+<h2>Hello {{user.cred.details.first_name}}</h2>
+<h3>Your orders so far</h3>
+	<table class="table">
+	<thead>
+		<td>Order ID</td>
+		<td>Total price</td>
+		<td>Date</td>
+		<td>Status</td>
+		<td>Detail</td>
+	</thead>
+		<tr ng-repeat="order in orders">
+			<td>{{ order.order_id }}</td>
+			<td>{{ order.full_price }}</td>
+			<td>{{ order.timestamp | date : YYYY }}</td>
+			<td>{{order.status}}</td>
+			<td><a ng-href="#/invoice">Detail</a></td>
+		</tr>
+	</table>
+</div>
+</section>

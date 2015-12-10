@@ -7,24 +7,30 @@
 
 	<main-menu></main-menu>
 
+	<!-- <div ng-click="goback()">back</div> -->
+
 		<div class="row">
+		<!-- onbeforesave="addCategory($data, menu_item)" -->
+		<h2 ng-if="user.admin" editable-text="category.name" >{{ category.name }}</h2>
+		<h2 ng-if="!user.admin" >{{category.name}}</h2>
+		<div class="description">{{ category.description }}</div>
 
 		<div class="row" ng-repeat="product in products | groupBy:4">
-			<div ng-if="item.product_id != null" class="product col-md-3" ng-repeat="item in product">
-				<img ng-src="{{ item.image }}" class="img-responsive"/>
+			<div ng-if="item.product_id != null && item.hidden == 0" class="product col-md-3" ng-repeat="item in product">
+				<a ng-href="{{url}}/p/{{item.slug}}"><img ng-src="{{ item.image }}" class="img-responsive"/></a>
 				{{ item.name }}
-				{{ item.description }}
+				<div ng-bind-html="renderHtml(item.description)">
+				</div>
 				{{ item.price }} CZK
 				{{ item.quantity }}
 				<a class="btn btn-success" ng-href="{{url}}/p/{{item.slug}}">View</a>
-				<span class="btn btn-default" ng-click="addToCart(item)">Add to cart</span>
+				<span class="btn btn-default" ng-click="addToCart(item)" ng-class="user.admin ? 'disabled' : 'ok' ">Add to cart</span>
 			</div>
 		</div>
 
-		<div class="add-product col-md-3" ng-if="user.admin" ng-click="addItem()">Add new product to {{ cat }}'s category
-
-		<span ng-if="!products.length"> No products to show!</span>
+		<div class="add-product col-md-3" ng-if="!products.length"><span > No products to show!</span></div>
 
 	</div>
+	<div class="add-product" ng-if="user.admin" ng-click="addItem()"><span class="btn btn-primary">Add new product to {{ cat }}'s category</span></div>
 
 </section>

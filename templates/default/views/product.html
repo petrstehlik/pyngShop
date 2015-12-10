@@ -8,21 +8,52 @@
 	<main-menu></main-menu>
 
 	<div class="row">
+		<div class="col-md-6">
+			<img ng-if="!user.admin" ng-src="{{ product.image }}" class="img-responsive"/>
+			<img ng-if="user.admin" ng-src="{{ product.image }}" class="img-responsive " ng-click="uploadImage()" editable-text="product.image"/>
+		</div>
+		<div class="col-md-6">
+			<h2 ng-if="!user.admin">{{ product.name }}</h2>
+			<h2 ng-if="user.admin" editable-text="product.name">{{ product.name }}</h2>
+			<p ng-if="user.admin" ng-bind-html="renderHtml(product.description)" editable-textarea="product.description"></p>
+			<p ng-if="!user.admin" ng-bind-html="renderHtml(product.description)"></p>
+			<span ng-if="!user.admin">{{ product.price }}</span>
+			<span editable-textarea="product.price" ng-if="user.admin">{{ product.price }}</span> CZK
+			<div class="btn btn-success" ng-click="addToCart(product)" ng-class="user.admin ? 'disabled' : 'ok' ">Buy</div>
 
-	
-	<img ng-src="{{ product.image }}" class="img-responsive col-md-6"/>
-	<div class="col-md-6">
-		{{ product.name }}
-	{{ product.description }}
-	{{ product.price }} CZK
-	{{product.product_id}}
-	<div class="btn btn-success" ng-click="addToCart(product)">Buy</div>
+			<div ng-if="user.admin">
+				<!-- <h4>Suppliers</h4>
+				<select multiple ng-model="man" ng-options="option.name for option in supply track by option.manufacturer_id">
+				</select> -->
+
+				<!-- <h4>Category</h4>
+				<select ng-if="!category.category" ng-model="category" ng-options="option.name for option in categories track by option.category_id">
+					<option value="">--- Please select category --- </option>
+				</select>
+				<p ng-if="category.category">{{ category.category.name }}</p> -->
+
+				<h4>Stock supplies</h4>
+				<span editable-text="product.in_stock">{{ product.in_stock }}</span>
+			</div>
+			<div ng-if="product.in_stock">Available!</div>
+			<div ng-if="!(product.in_stock)">Not Available. Estimated availability in {{ product.delivery_time }} days</div> 
+		</div>
 	</div>
-	</div>
+
+	<h3>Description</h3>
 	<div class="row">
-		<div class="review" ng-repeat="review in reviews">
-			{{review.content}}
-			{{review.timestamp}}
+		<div ng-if="user.admin" class="description col-md-12" ng-bind-html="renderHtml(product.description)" editable-textarea="product.description"></div>
+		<div ng-if="!user.admin" class="description col-md-12" ng-bind-html="renderHtml(product.description)">
+		</div>
+	</div>
+
+	<h3>Reviews</h3>
+	<div class="row" ng-repeat="review in reviews">
+		<div class="review col-md-12 well" >
+			<a href="" ng-click="deleteReview(review.product_id, review.customer_id)">Delete</a> 
+			<span class="name">{{ review.first_name }} {{review.last_name}}</span> 
+			on <span class="date">{{review.timestamp | date: dd-MM}}</span>
+			<div ng-bind-html="renderHtml(review.content)"></div>
 		</div>
 	</div>
 
@@ -34,4 +65,10 @@
 			<input type="hidden" ng-model="newReview.customer_id" ng-value="role.cred.details.customer_id">
 			<input type="submit" ng-click="addReview(newReview)" value="Submit" class="btn btn-primary">
 		</form>
+	</div>
+
+	<div class="row" ng-if="user.admin">
+		<div class="btn btn-danger" ng-click="deleteProduct()">Delete product</div>
+		<div class="btn btn-success" ng-click="updateProduct()">Update product</div>
+	</div>
 </section>
