@@ -1,102 +1,112 @@
-<section class="checkout container-fluid">
-<div class="top-bar">
-	<h1 class="logo col-md-6">{{ logo }}</h1>
+<section class="product">
+	
 	<user-menu></user-menu>
-</div>
-<main-menu></main-menu>
+	<main-menu></main-menu>
+	
+	<div class="container-fluid">
 
-{{page.title()}}
+		<h2>Checkout</h2>
 
-<h2>Checkout</h2>
+		<div class="cart-content container-fluid">
+			<table class="table" ng-init="total = 0">
+				<thead>
+					<td colspan="2">Name</td>
+					<td>Price</td>
+					<td>Quantity</td>
+					<td>Total price</td>
+				</thead>
+				<tbody>
+					<tr class="cart-item" ng-repeat="item in cart.items">
+						<td style="width: 25px"><img ng-src="{{item.image}}" alt="item.name" class="image-responsive" width="25"></td>
+						<td>{{ item.name }}</td>
+						<td>{{ item.price }}</td>
+						<td>{{ item.quantity }}</td>
+						<td>{{ item.quantity*item.price }}</td>
+						<!-- {{total += item.quantity*item.price}} -->
+					</tr>
+					<tr ng-if="shipping_method">
+						<td colspan="4">{{shipping_method.name}}</td>
+						<td>{{ shipping_method.price}}</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<td colspan="4">
+						<h3>Total</h3>
+					</td>
+					<td>
+						<h4>{{ (cart.items | total) + shipping_method.price }}</h4>
+					</td>
+				</tfoot>
+			</table>
 
-<div class="cart-content container-fluid">
-	<table class="table" ng-init="total = 0">
-		<thead>
-			<td>Name</td>
-			<td>Price</td>
-			<td>Quantity</td>
-			<td>Total price</td>
-		</thead>
-		<tbody>
-			<tr class="cart-item" ng-repeat="item in cart.items">
-				<td>{{ item.name }}</td>
-				<td>{{ item.price }}</td>
-				<td>{{ item.quantity }}</td>
-				<td>{{ item.quantity*item.price }}</td>
-				<!-- {{total += item.quantity*item.price}} -->
-			</tr>
-			<tr ng-if="shipping_method">
-				<td colspan="3">{{shipping_method.name}}</td>
-				<td>{{ shipping_method.price}}</td>
-			</tr>
-		</tbody>
-		<tfoot>
-			<td colspan="3">
-				<h3>Total</h3>
-			</td>
-			<td>
-				{{ (cart.items | total) + shipping_method.price }}
-			</td>
-		</tfoot>
-	</table>
+			<div class="btn btn-danger btn-sm" ng-click="removeItems()">Remove all items</div>
 
-	<div class="shipping">
-	<select ng-model="shipping_method" ng-options="option.name for option in shipping track by option.shipping_id">
-		<option value="">-- Select a shipping option--</option>
-	</select>
+			<!-- {{user.cred.details}} -->
 
-	<span ng-if="shipping_method == undefined">Choose shipping please
-	</span>
+			<div class="customer-info row" ng-model="customer">
+				<form class="col-md-6">
+					<h3>Billing info</h3>
+					<div class="input-group">
+					  	<span class="input-group-addon">Name*</span>
+					  	<input ng-model="customer.first_name" type="text" class="form-control" required placeholder="John" ng-value="user.cred.details.first_name">
+					</div>
+					<div class="input-group">
+					  	<span class="input-group-addon">Surname*</span>
+					  	<input ng-model="customer.last_name" type="text" class="form-control" required placeholder="Pyng" ng-value="user.cred.details.last_name">
+					</div>
+					<div class="input-group">
+					  	<span class="input-group-addon">Email*</span>
+					  	<input ng-model="customer.email" type="email" class="form-control" placeholder="your@email.com" ng-value="user.cred.details.email">
+					</div>
+					<div class="input-group">
+					  	<span class="input-group-addon">Telephone*</span>
+					  	<input ng-model="customer.telephone" type="tel" class="form-control" placeholder="+25 000 111 000" ng-value="user.cred.details.telephone">
+					</div>
+					<div class="input-group">
+					  	<span class="input-group-addon">Address*</span>
+					  	<input ng-model="customer.address_1" type="text" class="form-control" placeholder="Boulevard 1" ng-value="user.cred.details.address_1">
+					</div>
+					<div class="input-group">
+					  	<span class="input-group-addon">City*</span>
+					  	<input ng-model="customer.city" type="text" class="form-control" placeholder="PyngTown" ng-value="user.cred.details.city">
+					</div>
+					<div class="input-group">
+					  	<span class="input-group-addon">Postal Code*</span>
+					  	<input ng-model="customer.postal_code" type="text" class="form-control" placeholder="PyngTown" ng-value="user.cred.details.postal_code">
+					</div>
+					<input type="hidden" ng-model="customer.customer_id" ng-value="user.cred.details.customer_id">
+				</form>
+
+				<div class="col-md-6">
+					<div class="shipping">
+						<h3>Shipping</h3>
+						<select ng-model="shipping_method" ng-options="option.name for option in shipping track by option.shipping_id">
+							<option value="">-- Select a shipping option--</option>
+						</select>
+
+						<span ng-if="shipping_method == undefined">
+							Choose shipping please
+						</span>
+					</div>
+
+					<div class="receipt">
+					<h3>Receipt</h3>
+						{{customer.first_name}} {{customer.last_name}}<br>
+						{{customer.email}}<br>		
+						{{customer.telephone}}<br>
+						{{customer.address_1}}<br>
+						{{customer.city}}
+						{{customer.postal_code}}
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row">
+				<div class="col-md-2 col-md-offset-5">
+					<input type="submit" class="btn btn-success" ng-click="order(customer, shipping_method, cart)" value="CONFIRM & ORDER" style="width: 100%;"> <!-- ng-class="(shipping_method && (customer || user.cred.details.customer_id)) == 1 ? 'activate' : 'disabled'"  -->
+				</div>
+			</div>
+		</div>
 	</div>
-
-	<!-- {{user.cred.details}} -->
-
-	<div class="customer-info row" ng-model="customer">
-	<form class="col-md-6">
-		<div class="input-group">
-		  	<span class="input-group-addon">Name*</span>
-		  	<input ng-model="customer.first_name" type="text" class="form-control" required placeholder="John" ng-value="user.cred.details.first_name">
-		</div>
-		<div class="input-group">
-		  	<span class="input-group-addon">Surname*</span>
-		  	<input ng-model="customer.last_name" type="text" class="form-control" required placeholder="Pyng" ng-value="user.cred.details.last_name">
-		</div>
-		<div class="input-group">
-		  	<span class="input-group-addon">Email*</span>
-		  	<input ng-model="customer.email" type="email" class="form-control" placeholder="your@email.com" ng-value="user.cred.details.email">
-		</div>
-		<div class="input-group">
-		  	<span class="input-group-addon">Telephone*</span>
-		  	<input ng-model="customer.telephone" type="tel" class="form-control" placeholder="+25 000 111 000" ng-value="user.cred.details.telephone">
-		</div>
-		<div class="input-group">
-		  	<span class="input-group-addon">Address*</span>
-		  	<input ng-model="customer.address_1" type="text" class="form-control" placeholder="Boulevard 1" ng-value="user.cred.details.address_1">
-		</div>
-		<div class="input-group">
-		  	<span class="input-group-addon">City*</span>
-		  	<input ng-model="customer.city" type="text" class="form-control" placeholder="PyngTown" ng-value="user.cred.details.city">
-		</div>
-		<div class="input-group">
-		  	<span class="input-group-addon">Postal Code*</span>
-		  	<input ng-model="customer.postal_code" type="text" class="form-control" placeholder="PyngTown" ng-value="user.cred.details.postal_code">
-		</div>
-		<input type="hidden" ng-model="customer.customer_id" ng-value="user.cred.details.customer_id">
-	</form>
-
-	<div class="col-md-6">
-		{{customer.first_name}} {{customer.last_name}}<br>
-		{{customer.email}}<br>		
-		{{customer.telephone}}<br>
-		{{customer.address_1}}<br>
-		{{customer.city}}
-		{{customer.postal_code}}
-	</div>
-
-	</div>
-
-	<div class="btn btn-danger" ng-click="removeItems()">Remove all items</div>
-	<input type="submit" ng-if="shipping_method && (customer || user.cred.details.customer_id)" class="btn btn-success" ng-click="order(customer, shipping_method, cart)" value="BUY!">
-</div>
-
 </section>

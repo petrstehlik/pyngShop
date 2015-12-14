@@ -1,14 +1,13 @@
-<section class="success container-fluid">
-<div class="top-bar">
-	<h1 class="logo col-md-6">{{ logo }}</h1>
+<section class="product">
+	
 	<user-menu></user-menu>
-</div>
-<main-menu></main-menu>
+	<main-menu></main-menu>
+	
+	<div class="container-fluid">
 
-{{page.title()}}
 <div class="container">
 
-<h2>Order details <a ng-href="#/">Return to homepage</a></h2>
+<h2>Order details <a ng-href="#/" class="small">Return to homepage</a></h2>
 </div>
 
 <div ng-if="!authorized" class="col-md-4 col-md-offset-4">
@@ -22,6 +21,7 @@
 		  	<input ng-model="user.invoicenum" type="number" class="form-control" required placeholder="0000">
 		</div>
 		<input type="submit" class="btn btn-success" ng-click="check(user)" value="Check Invoice">
+		{{ error_message }}
 	</form>
 
 </div>
@@ -83,6 +83,7 @@
 
 <a href="javascript:window.print()" class="btn btn-info">Print this page</a>
 
+</div>
 </div>
 
 </section>

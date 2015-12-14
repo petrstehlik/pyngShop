@@ -469,6 +469,7 @@ def warehouse():
 					product.slug as slug, 
 					product.price as pprice, 
 					product.in_stock as pin_stock,
+					product.hidden,
 					m.manufacturer_id,
 					m.name,
 					m.first_name,

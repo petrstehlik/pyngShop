@@ -9,6 +9,16 @@ app.controller('ordersController', function($scope, auth, api) {
 		$scope.products = r;
 	})
 
+	$scope.deleteProduct = function(product_id) {
+		console.log("Deleting product with id: " + product_id)
+		// api.delete("product", {"product_id" : product_id}).then(function(r) {
+		// 	console.log(r)
+		// 	api.get("warehouse").then(function(r) {
+		// 		$scope.products = r;
+		// 	})
+		// })
+	}
+
 	$scope.toggleMan = 0;
 
 	$scope.submitMan = function(man) {

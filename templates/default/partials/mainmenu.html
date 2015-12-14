@@ -1,5 +1,4 @@
 <div class="main-menu hidden-print" ng-controller="mainMenuController">
-
 	<ul class="container">
 		<li>
 			<a ng-href="#/">Home</a>
@@ -8,8 +7,7 @@
 			<span ng-if="user.admin" class="glyphicon glyphicon-remove" ng-click="deleteCategory(menu_item)"></span>
 			<a ng-href="#/{{ menu_item.slug}}" editable-text="menu_item.name" e-form="textBtnForm" onbeforesave="editCategory($data, menu_item)">{{menu_item.name}}</a>
 			<span ng-click="textBtnForm.$show()" ng-hide="textBtnForm.$visible" ng-if="user.admin" class="glyphicon glyphicon-edit"></span>
-			
-			<ul>
+			<ul ng-if="menu_item.sub.length > 0 || user.admin">
 				<li ng-repeat="submenu_item in menu_item.sub" ng-if="!submenu_item.hidden">
 					<span ng-if="user.admin" class="glyphicon glyphicon-remove" ng-click="deleteCategory(submenu_item)"></span>
 					<a ng-href="#/{{ menu_item.slug }}/{{ submenu_item.slug }}" editable-text="submenu_item.name" e-form="textBtnForm2" onbeforesave="editCategory($data, submenu_item)">{{ submenu_item.name }}</a>
@@ -26,3 +24,4 @@
 		
 	</ul>
 </div>
+

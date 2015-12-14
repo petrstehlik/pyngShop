@@ -1,13 +1,10 @@
-<section class="success container-fluid">
-<div class="top-bar">
-	<h1 class="logo col-md-6">{{ logo }}</h1>
-	<user-menu></user-menu>
-</div>
-<main-menu></main-menu>
+<section class="admin">
+    
+    <user-menu></user-menu>
+    <main-menu></main-menu>
+    
+    <div class="container-fluid">
 
-<a ng-href="/">Home</a>
-
-<div>
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
@@ -23,11 +20,20 @@
     	<div class="container">
 			<div class="row">
 				<table class="table">
+                    <thead>
+                        <td>Order #</td>
+                        <td>Customer name</td>
+                        <td>Date</td>
+                        <td>E-mail</td>
+                        <td>Telephone</td>
+                        <td>Status</td>
+                        <td>Action</td>
+                    </thead>
 					<tr ng-repeat="order in orders">
 						<td>{{ order.order_id }}</td>
 						<td>{{ order.first_name }} {{ order.last_name }}</td>
 						<td>{{ order.timestamp }}</td>
-						<td>{{ order.email }}</td>
+						<td><a ng-href="mailto:{{ order.email }}">{{ order.email }}</a></td>
 						<td>{{ order.telephone }}
 						<td>{{ order.status }}</td>
 						<td><a ng-href="#/admin/orders/{{ order.order_id }}">Detail</a></td>
@@ -46,7 +52,7 @@
     			<td colspan="3">Contact Person</td>
     			<td>Action</td>
     		</thead>
-    		<tr ng-repeat="item in products.products">
+    		<tr ng-repeat="item in products.products" ng-class="item.hidden ? 'deleted' : 'visible' ">
     			<td>{{ item.pname }}</td>
     			<td>{{ item.pin_stock }}</td>
     			<td>{{ item.pprice }}</td>
@@ -54,7 +60,7 @@
     			<td>{{ item.first_name}} {{item.last_name}}</td>
     			<td>{{ item.telephone }}</td>
     			<td><a ng-href="mailto:{{item.email}}">{{ item.email }}</a></td>
-    			<td>Order</td>
+    			<td>Order | <a ng-if="item.hidden" >SHOW</a><a ng-if="!item.hidden" ng-click="deleteProduct(item.pproduct_id)">HIDE</a> </td>
     		</tr>
     	</table>
     </div>
@@ -62,15 +68,21 @@
     <div role="tabpanel" class="tab-pane" id="mans">
     <div class="container">
     	<table class="table">
+            <thead>
+                <td>Name</td>
+                <td>ID #</td>
+                <td>Contact person</td>
+                <td>Telephone</td>
+                <td>E-mail</td>
+                <td>Action</td>
+            </thead>
     		<tr ng-repeat="item in products.man">
-    			
-    		<td>{{item.name}}</td>
-    		<td>{{ item.id_num }}</td>
-    		<td>{{item.first_name}} {{item.last_name}}</td>
-    		<td>{{item.telephone}}</td>
-    		<td>{{item.email}}</td>
-    		<td><a ng-click="removeMan(item.manufacturer_id)">DELETE</a>
-
+        		<td>{{item.name}}</td>
+        		<td>{{ item.id_num }}</td>
+        		<td>{{item.first_name}} {{item.last_name}}</td>
+        		<td>{{item.telephone}}</td>
+        		<td>{{item.email}}</td>
+        		<td><a ng-click="removeMan(item.manufacturer_id)">DELETE</a>
     		</tr>
     	</table>
 
@@ -113,7 +125,11 @@
     <div class="row">
 	    <div class="col-md-6">
 		    <table class="table">
-		    	<tr ng-repeat="admin in admins">
+		    	<thead>
+                    <td>E-mail</td>
+                    <td>Action</td>         
+                </thead>
+                <tr ng-repeat="admin in admins">
 		    		<td>{{admin.email}}</td>
 		    		<td><a ng-click="deleteAdmin(admin)">DELETE</a></td>
 	    		</tr>

@@ -72,11 +72,15 @@ app.controller('invoiceController', function($scope, $rootScope, $routeParams, a
 	$scope.authorized = 0;
 
 	$scope.check = function(user) {
+		$scope.error_message = undefined;
 		api.post('invoice', user).then(function(response) {
 			console.log(response);
 			if (response.valid == "true") {
 				$scope.authorized = 1;
 				$scope.invoice = response;
+			}
+			else {
+				$scope.error_message = "Bad credentials, please try again"
 			}
 		})
 	}

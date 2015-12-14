@@ -1,16 +1,36 @@
-<div class="user-menu col-md-6 hidden-print">
-	<span ng-if="role.admin">
-		<a ng-href="#/admin">Admin</a> (<a ng-click="logout()" class="small">logout</a>)
-		<a ng-href="#/admin/orders">Orders</a>
-	</span>
-	<span ng-if="role.customer">
-		<a ng-href="#/account">Hello {{role.cred.details.first_name}}</a> (<a ng-click="logout()" class="small">logout</a>)
-	</span>
-	<span ng-if="!role.admin">
-		<a ng-href="#/login" ng-if="!(role.admin || role.customer)">Login</a>
-		<a ng-href="#/cart"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span ng-if="cart.count">({{cart.count}})</span></a>
-	</span>
-	<span>
-		<a ng-href="#/invoice">Check Invoice</a>
-	</span>
+<div class="top-bar">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<a ng-href="#/" class="logo">{{ logo }}</a>
+			</div>
+
+			<div class="user-menu col-md-6 hidden-print">
+			<ul>
+				<li ng-if="!(role.admin || role.customer)">
+					<a ng-href="#/login" ><span class="glyphicon glyphicon-log-in white"></span> Login</a>
+				</li>
+				<li ng-if="!role.admin">
+					<a ng-href="#/invoice">Check Invoice</a>
+				</li>
+				<li ng-if="role.customer">
+					<a ng-href="#/account">Hello {{role.cred.details.first_name}}</a> ()
+				</li>
+				<li ng-if="role.admin">
+					<a ng-href="#/admin">Administration</a>
+				</li>
+				<li ng-if="!role.admin">
+					<a ng-href="#/cart" ><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span ng-if="cart.count">({{cart.count}})</span></a>
+				</li>
+				<li ng-if="role.admin || role.customer">
+					<a ng-click="logout()">
+						Log Out <span class="glyphicon glyphicon-log-out white"></span>
+					</a>
+				</li>
+			</ul>
+
+				 
+			</div>
+		</div>
+	</div>
 </div>

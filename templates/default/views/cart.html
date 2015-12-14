@@ -1,23 +1,23 @@
-
-<section class="cart container-fluid">
-<div class="top-bar">
-	<h1 class="logo col-md-6">{{ logo }}</h1>
+<section class="product">
+	
 	<user-menu></user-menu>
-</div>
-<main-menu></main-menu>
+	<main-menu></main-menu>
+	
+	<div class="container-fluid">
 
 <h2>{{page.title()}}</h2>
 
 <div class="cart-content container-fluid">
 	<table class="table" ng-init="total = 0">
 		<thead>
-			<td>Name</td>
+			<td colspan="2">Name</td>
 			<td>Price</td>
 			<td>Quantity</td>
 			<td>Total price</td>
 		</thead>
 		<tbody>
 			<tr class="cart-item" ng-repeat="item in cart.items">
+				<td style="width: 25px"><img ng-src="{{item.image}}" alt="item.name" class="image-responsive" width="25"></td>
 				<td>{{ item.name }}</td>
 				<td>{{ item.price }}</td>
 				<td>{{ item.quantity }}</td>
@@ -26,11 +26,11 @@
 			</tr>
 		</tbody>
 		<tfoot>
-			<td colspan="3">
-				Total
+			<td colspan="4">
+				<h3>Total</h3>
 			</td>
 			<td>
-				{{ cart.items | total }}
+				<h4>{{ cart.items | total }}</h4>
 			</td>
 		</tfoot>
 	</table>
@@ -40,5 +40,5 @@
 		<a class="btn btn-primary" ng-href="#/checkout">Proceed to checkout</a>
 	</div>
 </div>
-
+</div>
 </section>
