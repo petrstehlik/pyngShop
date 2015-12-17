@@ -51,14 +51,12 @@ Po průzkumu současných e-shop CMS jsme zhodnotili, že tento typ rozhraní v 
 \section*{Návrh testování}
 Z hlediska povahy aplikace a jejího zaměření budeme provádět kvalitativní testování na několika typech uživatelů, kteří se s aplikací mohou dostat do styku. S ohledem na neveřejnost projektu by navíc bylo velmi těžké vytvořit kvantitativní testování.
 \begin{enumerate}
-	\item{Počítačově zkušení uživatelé (programátoři)}
-	\item{Správci e-shopů}
 	\item{Pokročilejší uživatelé PC}
 	\item{Běžní uživatelé PC}
 	\item{Počítačově negramotní uživatelé}
 \end{enumerate}
 
-Nejdůležitějšími skupinami uživatelů jsou číslo 2 a 3, kteří jsou nejpravděpodobnější uživatelé této aplikace. 
+Nejdůležitějšími skupinami uživatelů jsou číslo 1 a 2, kteří jsou nejpravděpodobnější uživatelé této aplikace. 
 
 \section*{Studium realizace GUI}
 Z hlediska povahy projektu je nejvhodnější webové řešení. Je zde i možnost desktopového řešení, ale tím by celý návrh ztratil smysl v podobě oddělénoho back-endu. Webové řešení má navíc několik výhod. Je velmi lehce přenositelné, dostupné kdekoliv (i na mobilních zařízeních) a nezávislé na platformě.
@@ -81,7 +79,11 @@ Pro plnou funkčnost aplikace je potřeba webový server s veřejnou IP adresou,
 Struktura celé aplikace je znázorněna na schématu, které ukazuje i použité technologie v jednotlivých částech aplikace.
 \newline
 \newline
-\centerline{\includegraphics[scale=0.5]{schema.png}}
+\begin{figure}[ht]
+\center
+\includegraphics[scale=0.5]{schema.png}
+\caption{Schéma aplikace}
+\end{figure}
 
 % Jaké služby/funkce (server, datový model, sada funkcí, služby třetích stran apod.) je třeba připravit pro dostatečnou funkčnost a testování GUI aplikace? 
 % Funkce nemusí být funkční (dynamické apod.), ale musí vracet smysluplné hodnoty (simulované hodnoty, pevně přednastavené ...).
@@ -149,7 +151,47 @@ Administrátoři dalších e-shopů neměli s úkony téměř žádný problém,
 % Jaké postupy/prvky zafungovaly? Jaké naopak nefungují dle očekávání?
 % Výsledky diskutujte.
 % Tato kapitola může být částečně společná s dalšími členy týmu.
-Můžeme konstatovat, že prostředí je uživatelsky přívětivé a snadné k použití. Občas se vyskytly drobné chyby, které ale nikterak dramaticky nesnižují uživatelský zážitek. Při pohledu na výsledky vidíme, že i nezkušení uživatelé se rychle adaptovali a úkoly nebyly pro ně složité či frustrující.
+Při testu jsme měřili za jaký čas uživatelů zvládnout daný úkol. Před testováním jsme odhadli nejdelší čas, ve kterém bz uživatel dokázal úkol provést bez pocitu frustrace.
+
+\subsection*{Test č. 1 -- Vytvořte nový produkt v kategorii XYZ}
+Uživatelé měli za úkol vytvořit nový produkt v dané kategorii. Kategorii jsme zadávali jak v první úrovni, tak v kategorii vnořené. Z výsledků usuzujeme, že uživatelé neměli pocit frustrace a uživatelský zážitek byl veskrze kladný.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{t1.png}
+    \caption{Vytvoření nového produktu}
+\end{figure}
+
+\subsection*{Test č. 2 -- Upravte produkt ABC v kategorii XYZ}
+Úkolem bylo nalezení produktu v dané kategorii a jeho editace. Jelikož šlo o druhý pokus v řadě uživatelé již pochopili logiku prostředí a výsledné vnímání prostředí bylo kladné, pouze nezkušení uživatelé mírně tápali.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\textwidth]{t2.png}
+    \caption{Editace textů produktu}
+\end{figure}
+
+\subsection*{Test č. 3 -- Vyřiďte příchozí objednávky (vytisknout faktury)}
+Jediný test, který neproběhl dle našich předpokladů. Uživatelé nevěděli kde přesně nálezt objednávky a následně hledali funkci vytisknout všechny faktury. Pro jednoduchost aplikace jsme nezaváděli funkci uložit do PDF, protože současné prohlížeče umožňují danou stránku uložit jako PDF. Takto jsme koncipovali tuto funkcionalitu. Pro lepší zážitek je vhodné akce pojmenovat lépe.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{t3.png}
+    \caption{Vytisknutí faktur}
+\end{figure}
+\newpage
+
+\subsection*{Test č. 4 -- Upravte název kategorie A na B}
+Nejrychlejší a nejjednodušší úkol ze všech. Nepředpokládali jsme žádné komplikace a úsudek byl korektní. Editace proběhla bez problémů.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{t4.png}
+    \caption{Upravení názvu vnořené kategorie}
+\end{figure}
+
+
+Můžeme konstatovat, že prostředí je uživatelsky přívětivé a snadné k použití. Občas se vyskytly drobné chyby, které ale nikterak dramaticky nesnižují uživatelský zážitek. Při pohledu na výsledky vidíme, že i nezkušení uživatelé se rychle adaptovali a úkoly nebyly pro ně složité či frustrující. Z testování jsme si odnesli důležité poznatky jak prostředí vylepšit.
 
 
 \section*{Týmová spolupráce}
@@ -162,7 +204,7 @@ Práce v týmu pro nás byla bez větších komplikací, protože náš tým ji�
 % Shrnutí cílů, postupu a dosažených výsledků.
 Cílem projektu bylo vytvoření administrační části CMS. Naše řešení je rozdílné v tom, že administrační část je spojena s uživatelskou a tím pádem jsme museli vytvořit obě části. Pro naše řešení jsme zvolili exotické a moderní technologie, se kterými jsme dosáhli kvalitních výsledků. Podařilo se nám vytvořit prostředí, které je uživatelsky přívětivé, rychlé a snadné na obsluhu. Celé řešení je plně funkční a přenositelné na jakýkoliv webový server.
 
-\section*{Reference} % (fold)
+
 \begin{thebibliography}{1}
 
   \bibitem{rest} Richardson, Leonard; Sam Ruby {\em  RESTful web service} 2007, ISBN 978-0-596-52926-0.
