@@ -95,40 +95,81 @@ Databázové schéma bylo převzato z dřívějšího projektu do předmětu IDS
 
 \section*{Programování GUI}
 % Naprogramujte GUI, napojte na back-end a připravte k testování.
-% Klíčové informace o back-endu (stručný popis, struktura programového řešení, vybrané funkce, API) popište v TZ.
-% Stručně popište, jak a kde byly vybrané nástroje a technologie pro tvorbu GUI použity.
-
 Pro tvorbu GUI jsme vybrali javascriptový framework AngularJS a CSS framework Bootstrap\footnote{\url{http://getbootstrap.com}}, protože mají velmi širokou podporu mezi prohlížeči a Bootstrap je osvědčený CSS framework pocházející od tvůrců služby Twitter.
 
 Databázový systém jsme zvolili MySQL, které je jedno z nejrozšířenějších řešení na Internetu a disponuje širokou uživatelskou základnou. Ten uchovává veškerá potřebná data.
 
-%jeste neco dopsat
+\section*{Programování back-endu}
+Back-end je realizován v jazyku Python společně s knihovnou Flask. Ten obsluhuje veškerou práci s databází dle požadavků od front-endu. API je navrženo dle REST metodologie\cite{rest} s využitím CRUD\footnote{\url{http://www.infoworld.com/d/developer-world/rest-and-crud-impedance-mismatch-927}} operací.
+
+\subsection*{Flask}
+Flask je tzv. {\em microframework}, což v jednoduchosti znamená knihovnu, která je založena na několika dalších knihovnách, která dané frameworky spojuje a rozšiřuje jejich funkcionalitu. V případě knihovny Flask to jsou frameworky Werkzeug\footnote{\url{http://werkzeug.pocoo.org}} a Jinja 2\footnote{\url{http://jinja2.pocoo.org}}.
+
+\subsubsection*{Werkzeug}
+Werkzeug je WSGI knihovna pro zpracovávání HTTP požadavků a tím nahrazuje základní práce serveru (např. Apache nebo nginx). Díky této knihovně jsme schopni API provozovat na zvláštním portu, případně adrese, a kontrolovat kdo může do API přistoupit.
+
+\subsubsection*{Jinja 2}
+Jinja 2 v této aplikaci nepoužíváme, protože obstarává šablonovací systém podobně jako Latté pro PHP framework Nette. Pro šablony využíváme AngularJS a vlastní šablony napsané pomocí něj.
+
+\subsection*{Databáze}
+Databázové schéma bylo převzato z dřívějšího projektu do předmětu IDS z druhého ročníku. Toto schéma jsme upravili a rozšířili. Částečné schéma je níže v přílohách. Databázový systém jsme zvolili MySQL pro jeho rozšířenost a dobrou podporu mezi vývojáři.
+
+\subsubsection*{MySQL konektor}
+Abychom mohli provádět operaci s databází pomocí jazyka Python museli jsme vybrat knihovnu pro spojení Python a MySQL databáze. Zvolili jsme oficiální distribuci doporučenou na stránkách MySQL\footnote{\url{https://dev.mysql.com/doc/connector-python/en/}}
 
 
-
-\section*{Testování}
+% Testování
 % Proveďte testy a měření, proveďte sběr zpětných vazeb.
 % Sepište do TZ.
-% Tato kapitola může být částečně společná s dalšími členy týmu.
+% Tato kapitola může být částečně společná s dalšími členy týmu.
+
+\section*{Testování}
+Testování jsme prováděli na několika jedincích s různými znalostmi obsluhy počítače. Podle vytvořených scénářů uživatelů tvořili, editovali a spravovali systém, přičemž jsme je sledovali a poznamenávali si jejich postup. Ze získaných informací jsme usoudili následující:
+
+\subsection*{Obecné závěry}
+Pro všechny skupiny uživatelů bylo v prvních momentech práce se stránkou nezvyklá absence administrační části aplikace. To ale brzy pochopili a velice rychle adaptovali své chování jiné logice systému.
+
+Další nezvyklost byla editace textu přímo ve stránce, největší problém jsme identifikovali v potvrzení editace textu, kdy kliknutím mimo textovou oblast se text neuloží a zůstane původní. Pro uložení textu je potřeba potvrzení tlačítkem {\em SAVE}. Toto lze vyřešit automatickým ukládáním textu.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{edit.png}
+    \caption{Editace textů produktu}
+\end{figure}
+
+\subsection*{Méně zkušení uživatelé}
+Lidé se základní uživatelskou znalostí obsluhy počítače měli v prvních momentech se systém spíše logický problém, protože nejsou zvyklí na okamžité projevy úprav na stránce. Vždy čekali zda se stránka znova načte, což v našem případě není nutné.
+
+\subsection*{Zkušenější uživatelé}
+Administrátoři dalších e-shopů neměli s úkony téměř žádný problém, adaptace na jinou logiku systému editace stránek byla relativně rychlá a bez komplikací.
 
 \section*{Výsledky a závěr}
 % Zpracujte výsledky testů.
 % Jaké jsou závěry z naměřených a zpracovaných výsledků?
 % Jaké postupy/prvky zafungovaly? Jaké naopak nefungují dle očekávání?
 % Výsledky diskutujte.
-% Tato kapitola může být částečně společná s dalšími členy týmu.
+% Tato kapitola může být částečně společná s dalšími členy týmu.
+Můžeme konstatovat, že prostředí je uživatelsky přívětivé a snadné k použití. Občas se vyskytly drobné chyby, které ale nikterak dramaticky nesnižují uživatelský zážitek. Při pohledu na výsledky vidíme, že i nezkušení uživatelé se rychle adaptovali a úkoly nebyly pro ně složité či frustrující.
+
 
 \section*{Týmová spolupráce}
 % Stručně reflektujte, co Vám přinesla možnost pracovat na projektu ve více lidech a v čem byla naopak spolupráce omezující.
-% Sepište pouze pokud jste pracovali v týmu.
+% Sepište pouze pokud jste pracovali v týmu.
+Práce v týmu pro nás byla bez větších komplikací, protože náš tým již pracoval ve stejném složení na předchozích projektech. Věděli jsme co jeden od druhého očekávat a jaké množství práce je schopen odvést. Novinkou pro nás bylo zavedení systému git\cite{git} (konkrétně služby GitHub), kterou jsme částečně používali v předchozích projektech, ale tento projekt byl kompletně celý spravován přes systém git.
+
 
 \section*{Závěr}
 % Shrnutí cílů, postupu a dosažených výsledků.
+Cílem projektu bylo vytvoření administrační části CMS. Naše řešení je rozdílné v tom, že administrační část je spojena s uživatelskou a tím pádem jsme museli vytvořit obě části. Pro naše řešení jsme zvolili exotické a moderní technologie, se kterými jsme dosáhli kvalitních výsledků. Podařilo se nám vytvořit prostředí, které je uživatelsky přívětivé, rychlé a snadné na obsluhu. Celé řešení je plně funkční a přenositelné na jakýkoliv webový server.
 
-% Reference
-% Seznam použitých zdrojů (v textu citujte/odkazujte se).
-% Externí produkty (youtube, Adobe apod.), tutoriály, návody nebo nerecenzované články uvádějte v poznámce pod čarou, ne jako literaturu. Wiki lze považovat za recenzovaný zdroj - tedy můžete dávat do literatury.
+\section*{Reference} % (fold)
+\begin{thebibliography}{1}
 
+  \bibitem{rest} Richardson, Leonard; Sam Ruby {\em  RESTful web service} 2007, ISBN 978-0-596-52926-0.
+  \bibitem{git} Chacon, Scott {\em Pro Git} 2014, ISBN 978-1-484-20077-3
+
+\end{thebibliography}
+>>>>>>> 9ff189f... ADD: final docs
 
 \section*{Přílohy}
 
@@ -164,4 +205,6 @@ Databázový systém jsme zvolili MySQL, které je jedno z nejrozšířenější
 \bigskip
 
 \noindent Ke každému úkolu zaznamenáváme čas provedení, komplikace při provádění, otázky uživatele, úroveň frustrace vykonavatele, úroveň zmatení a spokojenost s výsledkem
+
+
 \end{document}
