@@ -29,7 +29,7 @@ def after_request(response):
 
 @app.route(CONFIG['version'] + '/categories', methods=['GET', 'DELETE', 'POST'])
 def get_categories():
-	if request.method == 'GET': 
+	if request.method == 'GET':
 		db = DB()
 		main = "SELECT * FROM category WHERE category.parent IS NULL"
 		main_categories = db.query(main, False)
@@ -43,7 +43,12 @@ def get_categories():
 			s[cat_id] = item
 			s[cat_id]["sub"] = db.query("SELECT * FROM category WHERE category.parent = " + cat_id, False)
 		del db
-		return json.dumps(s)
+
+		for item in s:
+			for subitem in s[str(item)]:
+				if isinstance(s[str(item)][str(subitem)],bytearray):
+					s[str(item)][str(subitem)] = s[str(item)][str(subitem)].decode('utf-8')
+		return(json.dumps(s))
 
 	if request.method == 'DELETE':
 		r = request.get_json()
