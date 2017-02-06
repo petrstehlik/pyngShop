@@ -51,14 +51,12 @@ Po průzkumu současných e-shop CMS jsme zhodnotili, že tento typ rozhraní v 
 \section*{Návrh testování}
 Z hlediska povahy aplikace a jejího zaměření budeme provádět kvalitativní testování na několika typech uživatelů, kteří se s aplikací mohou dostat do styku. S ohledem na neveřejnost projektu by navíc bylo velmi těžké vytvořit kvantitativní testování.
 \begin{enumerate}
-	\item{Počítačově zkušení uživatelé (programátoři)}
-	\item{Správci e-shopů}
 	\item{Pokročilejší uživatelé PC}
 	\item{Běžní uživatelé PC}
 	\item{Počítačově negramotní uživatelé}
 \end{enumerate}
 
-Nejdůležitějšími skupinami uživatelů jsou číslo 2 a 3, kteří jsou nejpravděpodobnější uživatelé této aplikace. 
+Nejdůležitějšími skupinami uživatelů jsou číslo 1 a 2, kteří jsou nejpravděpodobnější uživatelé této aplikace. 
 
 \section*{Studium realizace GUI}
 Z hlediska povahy projektu je nejvhodnější webové řešení. Je zde i možnost desktopového řešení, ale tím by celý návrh ztratil smysl v podobě oddělénoho back-endu. Webové řešení má navíc několik výhod. Je velmi lehce přenositelné, dostupné kdekoliv (i na mobilních zařízeních) a nezávislé na platformě.
@@ -81,7 +79,11 @@ Pro plnou funkčnost aplikace je potřeba webový server s veřejnou IP adresou,
 Struktura celé aplikace je znázorněna na schématu, které ukazuje i použité technologie v jednotlivých částech aplikace.
 \newline
 \newline
-\centerline{\includegraphics[scale=0.5]{schema.png}}
+\begin{figure}[ht]
+\center
+\includegraphics[scale=0.5]{schema.png}
+\caption{Schéma aplikace}
+\end{figure}
 
 % Jaké služby/funkce (server, datový model, sada funkcí, služby třetích stran apod.) je třeba připravit pro dostatečnou funkčnost a testování GUI aplikace? 
 % Funkce nemusí být funkční (dynamické apod.), ale musí vracet smysluplné hodnoty (simulované hodnoty, pevně přednastavené ...).
@@ -105,30 +107,113 @@ Databázový systém jsme zvolili MySQL, které je jedno z nejrozšířenější
 %jeste neco dopsat
 
 
+\section*{Programování back-endu}
+Back-end je realizován v jazyku Python společně s knihovnou Flask. Ten obsluhuje veškerou práci s databází dle požadavků od front-endu. API je navrženo dle REST metodologie\cite{rest} s využitím CRUD\footnote{\url{http://www.infoworld.com/d/developer-world/rest-and-crud-impedance-mismatch-927}} operací.
 
-\section*{Testování}
+\subsection*{Flask}
+Flask je tzv. {\em microframework}, což v jednoduchosti znamená knihovnu, která je založena na několika dalších knihovnách, která dané frameworky spojuje a rozšiřuje jejich funkcionalitu. V případě knihovny Flask to jsou frameworky Werkzeug\footnote{\url{http://werkzeug.pocoo.org}} a Jinja 2\footnote{\url{http://jinja2.pocoo.org}}.
+
+\subsubsection*{Werkzeug}
+Werkzeug je WSGI knihovna pro zpracovávání HTTP požadavků a tím nahrazuje základní práce serveru (např. Apache nebo nginx). Díky této knihovně jsme schopni API provozovat na zvláštním portu, případně adrese, a kontrolovat kdo může do API přistoupit.
+
+\subsubsection*{Jinja 2}
+Jinja 2 v této aplikaci nepoužíváme, protože obstarává šablonovací systém podobně jako Latté pro PHP framework Nette. Pro šablony využíváme AngularJS a vlastní šablony napsané pomocí něj.
+
+\subsection*{Databáze}
+Databázové schéma bylo převzato z dřívějšího projektu do předmětu IDS z druhého ročníku. Toto schéma jsme upravili a rozšířili. Částečné schéma je níže v přílohách. Databázový systém jsme zvolili MySQL pro jeho rozšířenost a dobrou podporu mezi vývojáři.
+
+\subsubsection*{MySQL konektor}
+Abychom mohli provádět operaci s databází pomocí jazyka Python museli jsme vybrat knihovnu pro spojení Python a MySQL databáze. Zvolili jsme oficiální distribuci doporučenou na stránkách MySQL\footnote{\url{https://dev.mysql.com/doc/connector-python/en/}}
+
+
+% Testování
 % Proveďte testy a měření, proveďte sběr zpětných vazeb.
 % Sepište do TZ.
-% Tato kapitola může být částečně společná s dalšími členy týmu.
+% Tato kapitola může být částečně společná s dalšími členy týmu.
 
-\section*{Výsledky a závěr}
-% Zpracujte výsledky testů.
-% Jaké jsou závěry z naměřených a zpracovaných výsledků?
-% Jaké postupy/prvky zafungovaly? Jaké naopak nefungují dle očekávání?
-% Výsledky diskutujte.
-% Tato kapitola může být částečně společná s dalšími členy týmu.
+\section*{Testování}
+Testování jsme prováděli na několika jedincích s různými znalostmi obsluhy počítače. Podle vytvořených scénářů uživatelů tvořili, editovali a spravovali systém, přičemž jsme je sledovali a poznamenávali si jejich postup. Ze získaných informací jsme usoudili následující:
+
+\subsection*{Obecné závěry}
+Pro všechny skupiny uživatelů bylo v prvních momentech práce se stránkou nezvyklá absence administrační části aplikace. To ale brzy pochopili a velice rychle adaptovali své chování jiné logice systému.
+
+Další nezvyklost byla editace textu přímo ve stránce, největší problém jsme identifikovali v potvrzení editace textu, kdy kliknutím mimo textovou oblast se text neuloží a zůstane původní. Pro uložení textu je potřeba potvrzení tlačítkem {\em SAVE}. Toto lze vyřešit automatickým ukládáním textu.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{edit.png}
+    \caption{Editace textů produktu}
+\end{figure}
+
+\subsection*{Méně zkušení uživatelé}
+Lidé se základní uživatelskou znalostí obsluhy počítače měli v prvních momentech se systém spíše logický problém, protože nejsou zvyklí na okamžité projevy úprav na stránce. Vždy čekali zda se stránka znova načte, což v našem případě není nutné.
+
+\subsection*{Zkušenější uživatelé}
+Administrátoři dalších e-shopů neměli s úkony téměř žádný problém, adaptace na jinou logiku systému editace stránek byla relativně rychlá a bez komplikací.
+
+
+% Tato kapitola může být částečně společná s dalšími členy týmu.
+Při testu jsme měřili za jaký čas uživatelů zvládnout daný úkol. Před testováním jsme odhadli nejdelší čas, ve kterém bz uživatel dokázal úkol provést bez pocitu frustrace.
+
+\subsection*{Test č. 1 -- Vytvořte nový produkt v kategorii XYZ}
+Uživatelé měli za úkol vytvořit nový produkt v dané kategorii. Kategorii jsme zadávali jak v první úrovni, tak v kategorii vnořené. Z výsledků usuzujeme, že uživatelé neměli pocit frustrace a uživatelský zážitek byl veskrze kladný.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{t1.png}
+    \caption{Vytvoření nového produktu}
+\end{figure}
+
+\subsection*{Test č. 2 -- Upravte produkt ABC v kategorii XYZ}
+Úkolem bylo nalezení produktu v dané kategorii a jeho editace. Jelikož šlo o druhý pokus v řadě uživatelé již pochopili logiku prostředí a výsledné vnímání prostředí bylo kladné, pouze nezkušení uživatelé mírně tápali.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\textwidth]{t2.png}
+    \caption{Editace textů produktu}
+\end{figure}
+
+\subsection*{Test č. 3 -- Vyřiďte příchozí objednávky (vytisknout faktury)}
+Jediný test, který neproběhl dle našich předpokladů. Uživatelé nevěděli kde přesně nálezt objednávky a následně hledali funkci vytisknout všechny faktury. Pro jednoduchost aplikace jsme nezaváděli funkci uložit do PDF, protože současné prohlížeče umožňují danou stránku uložit jako PDF. Takto jsme koncipovali tuto funkcionalitu. Pro lepší zážitek je vhodné akce pojmenovat lépe.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{t3.png}
+    \caption{Vytisknutí faktur}
+\end{figure}
+\newpage
+
+\subsection*{Test č. 4 -- Upravte název kategorie A na B}
+Nejrychlejší a nejjednodušší úkol ze všech. Nepředpokládali jsme žádné komplikace a úsudek byl korektní. Editace proběhla bez problémů.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{t4.png}
+    \caption{Upravení názvu vnořené kategorie}
+\end{figure}
+
+
+Můžeme konstatovat, že prostředí je uživatelsky přívětivé a snadné k použití. Občas se vyskytly drobné chyby, které ale nikterak dramaticky nesnižují uživatelský zážitek. Při pohledu na výsledky vidíme, že i nezkušení uživatelé se rychle adaptovali a úkoly nebyly pro ně složité či frustrující. Z testování jsme si odnesli důležité poznatky jak prostředí vylepšit.
+
 
 \section*{Týmová spolupráce}
 % Stručně reflektujte, co Vám přinesla možnost pracovat na projektu ve více lidech a v čem byla naopak spolupráce omezující.
-% Sepište pouze pokud jste pracovali v týmu.
+% Sepište pouze pokud jste pracovali v týmu.
+Práce v týmu pro nás byla bez větších komplikací, protože náš tým již pracoval ve stejném složení na předchozích projektech. Věděli jsme co jeden od druhého očekávat a jaké množství práce je schopen odvést. Novinkou pro nás bylo zavedení systému git\cite{git} (konkrétně služby GitHub), kterou jsme částečně používali v předchozích projektech, ale tento projekt byl kompletně celý spravován přes systém git.
+
 
 \section*{Závěr}
 % Shrnutí cílů, postupu a dosažených výsledků.
+Cílem projektu bylo vytvoření administrační části CMS. Naše řešení je rozdílné v tom, že administrační část je spojena s uživatelskou a tím pádem jsme museli vytvořit obě části. Pro naše řešení jsme zvolili exotické a moderní technologie, se kterými jsme dosáhli kvalitních výsledků. Podařilo se nám vytvořit prostředí, které je uživatelsky přívětivé, rychlé a snadné na obsluhu. Celé řešení je plně funkční a přenositelné na jakýkoliv webový server.
 
-% Reference
-% Seznam použitých zdrojů (v textu citujte/odkazujte se).
-% Externí produkty (youtube, Adobe apod.), tutoriály, návody nebo nerecenzované články uvádějte v poznámce pod čarou, ne jako literaturu. Wiki lze považovat za recenzovaný zdroj - tedy můžete dávat do literatury.
 
+\begin{thebibliography}{1}
+
+  \bibitem{rest} Richardson, Leonard; Sam Ruby {\em  RESTful web service} 2007, ISBN 978-0-596-52926-0.
+  \bibitem{git} Chacon, Scott {\em Pro Git} 2014, ISBN 978-1-484-20077-3
+
+\end{thebibliography}
+>>>>>>> 01fd280a18f705bea0314f37c10e6e34f7316674
 
 \section*{Přílohy}
 
@@ -164,4 +249,6 @@ Databázový systém jsme zvolili MySQL, které je jedno z nejrozšířenější
 \bigskip
 
 \noindent Ke každému úkolu zaznamenáváme čas provedení, komplikace při provádění, otázky uživatele, úroveň frustrace vykonavatele, úroveň zmatení a spokojenost s výsledkem
+
+
 \end{document}

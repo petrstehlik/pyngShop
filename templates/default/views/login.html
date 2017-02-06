@@ -1,11 +1,8 @@
-<section class="success container-fluid">
-<div class="top-bar">
-	<h1 class="logo col-md-6">{{ logo }}</h1>
+<section class="login">
 	<user-menu></user-menu>
-</div>
-<main-menu></main-menu>
-
-<a ng-href="/">Home</a>
+    <main-menu></main-menu>
+    
+    <div class="container-fluid">
 
 <div class="row" ng-if="!registerSwitch">
 	<form ng-model="login" class="col-md-4 col-md-offset-4">
@@ -71,3 +68,5 @@
 </form>
 Or you can <a ng-click="toggleLogin()">login</a>
 </div>
+</div>
+</section>
