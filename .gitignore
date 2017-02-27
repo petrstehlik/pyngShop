@@ -71,4 +71,5 @@ venv*
 # CONFIG
 config.py
 config.js
+config.ini
 
