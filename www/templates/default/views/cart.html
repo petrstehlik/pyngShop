@@ -1,0 +1,44 @@
+<section class="product">
+	
+	<user-menu></user-menu>
+	<main-menu></main-menu>
+	
+	<div class="container-fluid">
+
+<h2>{{page.title()}}</h2>
+
+<div class="cart-content container-fluid">
+	<table class="table" ng-init="total = 0">
+		<thead>
+			<td colspan="2">Name</td>
+			<td>Price</td>
+			<td>Quantity</td>
+			<td>Total price</td>
+		</thead>
+		<tbody>
+			<tr class="cart-item" ng-repeat="item in cart.items">
+				<td style="width: 25px"><img ng-src="{{item.image}}" alt="item.name" class="image-responsive" width="25"></td>
+				<td>{{ item.name }}</td>
+				<td>{{ item.price }}</td>
+				<td>{{ item.quantity }}</td>
+				<td>{{ item.quantity*item.price }}</td>
+				<!-- {{total += item.quantity*item.price}} -->
+			</tr>
+		</tbody>
+		<tfoot>
+			<td colspan="4">
+				<h3>Total</h3>
+			</td>
+			<td>
+				<h4>{{ cart.items | total }}</h4>
+			</td>
+		</tfoot>
+	</table>
+
+	<div ng-if="cart.count != 0">
+		<a class="btn btn-danger" ng-click="removeItems()">Remove all items</a>
+		<a class="btn btn-primary" ng-href="#/checkout">Proceed to checkout</a>
+	</div>
+</div>
+</div>
+</section>

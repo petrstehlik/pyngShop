@@ -1,0 +1,89 @@
+<section class="product">
+	
+	<user-menu></user-menu>
+	<main-menu></main-menu>
+	
+	<div class="container-fluid">
+
+<div class="container">
+
+<h2>Order details <a ng-href="#/" class="small">Return to homepage</a></h2>
+</div>
+
+<div ng-if="!authorized" class="col-md-4 col-md-offset-4">
+	<form ng-model="user">
+		<div class="input-group">
+		  	<span class="input-group-addon">Email*</span>
+		  	<input ng-model="user.email" type="email" class="form-control" required placeholder="john@example.com">
+		</div>
+		<div class="input-group">
+		  	<span class="input-group-addon">Invoice Number</span>
+		  	<input ng-model="user.invoicenum" type="number" class="form-control" required placeholder="0000">
+		</div>
+		<input type="submit" class="btn btn-success" ng-click="check(user)" value="Check Invoice">
+		{{ error_message }}
+	</form>
+
+</div>
+
+<div ng-if="authorized" class="container">
+<div class="row">
+	<h3>STATUS: {{ invoice.order.status }}</h3>
+	<div class="col-md-6">
+		<h2>Customer info:</h2>
+		Order No.: {{ invoice.order.order_id }} <br>
+		{{ invoice.customer.first_name }} {{ invoice.customer.last_name }} <br>
+		{{ invoice.customer.telephone }} <br>
+		{{ invoice.customer.email }} <br>
+		{{ invoice.customer.address_1 }} <br>
+		{{ invoice.customer.city }} <br>
+		{{ invoice.customer.postal_code }} <br>
+	</div>
+	<div class="col-md-6">
+		<h2>Billing info:</h2>
+		pyngShop incorporated<br>
+		Fake Street 1<br>
+		Plumptown<br>
+		254 6655<br>
+		BANK: 6541153431/3541
+		CODE: {{ invoice.products[0].order_id }} 
+	</div>
+</div>
+<div class="row">
+	<table class="table col-md-12" ng-init="total = 0">
+		<thead>
+			<td>Product Name</td>
+			<td>Price</td>
+			<td>Quantity</td>
+			<td>Total price</td>
+		</thead>
+		<tbody>
+			<tr class="cart-item" ng-repeat="item in invoice.products">
+				<td>{{ item.name }}</td>
+				<td>{{ item.price }}</td>
+				<td>{{ item.quantity }}</td>
+				<td>{{ item.quantity*item.price }}</td>
+				<!-- {{total += item.quantity*item.price}} -->
+			</tr>
+			<tr>
+				<td colspan="3">{{ invoice.shipping.name }}</td>
+				<td>{{ invoice.shipping.price }} CZK</td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<td colspan="3">
+				Total
+			</td>
+			<td>
+				{{ invoice.order.full_price }}
+			</td>
+		</tfoot>
+	</table>
+</div>
+
+<a href="javascript:window.print()" class="btn btn-info">Print this page</a>
+
+</div>
+</div>
+
+</section>

@@ -1,0 +1,33 @@
+<section class="account">
+	
+	<user-menu></user-menu>
+	<main-menu></main-menu>
+	
+	<div class="container-fluid">
+
+<a ng-href="/">Home</a>
+
+
+
+<div class="container">
+<h2>Hello {{user.cred.details.first_name}}</h2>
+<h3>Your orders so far</h3>
+	<table class="table">
+	<thead>
+		<td>Order ID</td>
+		<td>Total price</td>
+		<td>Date</td>
+		<td>Status</td>
+		<td>Detail</td>
+	</thead>
+		<tr ng-repeat="order in orders">
+			<td>{{ order.order_id }}</td>
+			<td>{{ order.full_price }}</td>
+			<td>{{ order.timestamp | date : YYYY }}</td>
+			<td>{{order.status}}</td>
+			<td><a ng-href="#/invoice">Detail</a></td>
+		</tr>
+	</table>
+</div>
+</div>
+</section>
