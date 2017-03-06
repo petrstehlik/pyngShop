@@ -7,3 +7,7 @@ Achieved thanks to these folks! https://github.com/angular-ui/ui-router/wiki/Fre
 #DEPENDECIES
 -pip3 install mysqlclient-
 pip3 install --allow-external mysql-connector-python mysql-connector-python
+
+#Useful links
+* http://flask-sqlalchemy.pocoo.org/2.1/
+* http://www.sqlalchemy.org
