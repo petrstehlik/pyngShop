@@ -14,8 +14,11 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
+<<<<<<< HEAD
 `ng build --base-href="/pyngShop/www/dist/"`
 
+=======
+>>>>>>> 10e2375... Angular 4 front-end
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).

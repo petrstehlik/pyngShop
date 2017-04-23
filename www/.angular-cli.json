@@ -19,9 +19,13 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
+<<<<<<< HEAD
         "styles/styles.scss",
         "../node_modules/font-awesome/css/font-awesome.css",
         "../node_modules/bootstrap/scss/bootstrap.scss"
+=======
+        "styles.css"
+>>>>>>> 10e2375... Angular 4 front-end
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
@@ -53,7 +57,11 @@
     }
   },
   "defaults": {
+<<<<<<< HEAD
     "styleExt": "scss",
+=======
+    "styleExt": "css",
+>>>>>>> 10e2375... Angular 4 front-end
     "component": {}
   }
 }

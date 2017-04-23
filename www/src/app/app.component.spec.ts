@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
@@ -5,13 +6,26 @@ import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(() => {
+=======
+import { TestBed, async } from '@angular/core/testing';
+
+import { AppComponent } from './app.component';
+
+describe('AppComponent', () => {
+  beforeEach(async(() => {
+>>>>>>> 10e2375... Angular 4 front-end
     TestBed.configureTestingModule({
       declarations: [
         AppComponent
       ],
+<<<<<<< HEAD
     });
     TestBed.compileComponents();
   });
+=======
+    }).compileComponents();
+  }));
+>>>>>>> 10e2375... Angular 4 front-end
 
   it('should create the app', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
