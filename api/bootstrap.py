@@ -69,7 +69,21 @@ def admin_setup(db):
 	Count users in the database.
 	If there is no user run initial admin user insertion
 	"""
-	if db.users.count() == 0:
+	create_new_user = False
+	if db.provider == "mongodb" and db.users.count() == 0:
+		create_new_user = True
+
+	if db.provider == "sqlite":
+		from .models.user import SqlUser as User
+		from sqlalchemy import create_engine
+		engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+		if db.db.engine.has_table(db.users) == False:
+			db.db.create_all()
+			create_new_user = True
+		elif len(User.query.all()) == 0:
+			create_new_user = True
+
+	if create_new_user == True:
 		print("No users found!")
 
 		user_data = {
