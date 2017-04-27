@@ -5,7 +5,7 @@ import pymongo
 
 from api import auth, db
 from api.module import Module
-from api.user import SqlUser as User, UserException
+from api.models.user import SqlUser as User, UserException
 from api.role import Role
 
 users = Module('users', __name__, url_prefix='/users', no_version=True)

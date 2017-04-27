@@ -3,7 +3,7 @@ from functools import wraps
 from flask import request
 from datetime import datetime, timedelta
 
-from .user import SqlUser as User
+from .models.user import SqlUser as User
 from .role import Role
 from .session import SessionException
 from .error import ApiException

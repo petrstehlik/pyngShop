@@ -1,5 +1,5 @@
-from .error import ApiException
-from .role import Role
+from api.error import ApiException
+from api.role import Role
 
 class UserException(ApiException):
 	status_code = 401
@@ -130,7 +130,7 @@ class User(object):
 			settings	= user.get("settings", {})
 			))
 
-from .dbConnector import dbConnector
+from api.dbConnector import dbConnector
 conn = dbConnector()
 
 db = conn.db

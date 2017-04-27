@@ -4,7 +4,7 @@ from bson import json_util
 from api import auth, db
 from api.module import Module
 from api.auth import AuthException
-from api.user import SqlUser as User
+from api.models.user import SqlUser as User
 
 au = Module('authorization', __name__, url_prefix='/authorization', no_version=True)
 
