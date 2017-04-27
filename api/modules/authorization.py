@@ -4,14 +4,12 @@ from bson import json_util
 from api import auth, db
 from api.module import Module
 from api.auth import AuthException
-from api.role import Role
 from api.models.user import SqlUser as User
-from api.models.models import Customer
 
 au = Module('authorization', __name__, url_prefix='/authorization', no_version=True)
 
-@au.route('/user', methods=['POST'])
-def login_user():
+@au.route('', methods=['POST'])
+def login():
 	"""
 	Authorize user using their username and password
 	@return user's document from the DB including config
@@ -23,32 +21,11 @@ def login_user():
 
 	user = User(user_data['username'], password=user_data['password'])
 
-	if (user.role != Role.admin and
-			user.role != Role.user and
-			user.role != Role.guest):
-		raise AuthException("Unsupported role")
-
-	user = auth.login_user(user)
+	user = auth.login(user)
 
 	session_id = auth.store_session(user)
 
 	return(json_util.dumps({"session_id" : session_id, "user" : user.to_dict()}))
-
-@au.route('/customer', methods=['POST'])
-def login_customer():
-	"""
-	Authorize customer using their username and password
-	@return customer's document from the DB including config
-	"""
-	customer_data = request.get_json()
-	if not customer_data:
-		raise AuthException("Missing customer data")
-	customer = Customer(customer_data['username'], password=customer_data['password'])
-	if customer.role != Role.customer:
-		raise AuthException("Unsupported role")
-	customer = auth.login_customer(customer)
-	session_id = auth.store_session(customer)
-	return(json_util.dumps({"session_id" : session_id, "customer" : customer.to_dict()}))
 
 @au.route('', methods=['DELETE'])
 @auth.required()

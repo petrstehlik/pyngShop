@@ -2,7 +2,7 @@ from api.error import ApiException
 from api.role import Role
 
 class UserException(ApiException):
-	status_code = 403
+	status_code = 401
 
 class User(object):
 	"""
@@ -153,7 +153,7 @@ class SqlUser(db.Model):
 			last_name	= None,
 			email		= None,
 			password	= None,
-			role		= Role.guest,
+			role		= None,
 			settings	= None,
 			):
 		self.username = username
@@ -226,7 +226,7 @@ class SqlUser(db.Model):
 			email		= user.get("email", None),
 			password	= user.get("password", None),
 			role		= User.parseRole(user.get("role", None)),
-			settings	= str(user.get("settings", {}))
+			settings	= user.get("settings", {})
 			))
 
 	def __repr__(self):
