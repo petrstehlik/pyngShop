@@ -29,6 +29,7 @@ def lookup_user(user):
 	return list(cursor)
 
 def user_exists(user):
+	""" FIXME not used, remove """
 	return False if db.users.find({"$or" : [
 		{"username" : user.get("username", None)},
 		{"email" : user.get("email", None)}
@@ -65,19 +66,12 @@ def unprotected_add_user(user_data):
 	TODO: insert only needed fields
 	"""
 	try:
-		user = User(user_data['username'], password=user_data['password'])
+		user = User.from_dict(user_data)
 	except KeyError as e:
 		raise UserException(str(e))
 
-	if 'email' in user_data:
-		user.email = user_data['email']
-
-	if 'config' in user_data:
-		user.config = str(user_data['config'])
-
-	# Default role is guest
-	if 'role' in user_data:
-		user.setRole(user_data['role'])
+	if user.password == None:
+		raise UserException("Missing password")
 
 	user.password = auth.create_hash(user.password)
 
