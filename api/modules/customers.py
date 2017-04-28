@@ -8,12 +8,19 @@ from bson import json_util
 
 from .. import auth, db
 from ..module import Module
+<<<<<<< HEAD
 from ..models.models import Customer, CustomerException, Order
 from ..role import Role
 from ..session import SessionException
 
 customers = Module('customers', __name__, url_prefix='/customers', no_version=True)
 profile = Module('profile', __name__, url_prefix='/profile', no_version=True)
+=======
+from ..models.customer import Customer, CustomerException
+from ..role import Role
+
+customers = Module('customers', __name__, url_prefix='/customers', no_version=True)
+>>>>>>> 2baa64c... api/modules: add customers endpoint
 
 @auth.required(Role.admin)
 def get_customers():
@@ -34,6 +41,7 @@ def get_customer(customer_id):
 	customer.pop('password', None)
 	return(json_util.dumps(customer))
 
+<<<<<<< HEAD
 @auth.required()
 def get_profile():
 	session_id = request.headers.get('Authorization', None)
@@ -48,6 +56,8 @@ def get_profile():
 	customer.pop("password", None)
 	return json_util.dumps(customer)
 
+=======
+>>>>>>> 2baa64c... api/modules: add customers endpoint
 def unprotected_add_customer(customer_data):
 	"""
 	Create a customer and add it to database
@@ -55,8 +65,12 @@ def unprotected_add_customer(customer_data):
 	try:
 		customer = Customer.from_dict(customer_data)
 	except Exception as e:
+<<<<<<< HEAD
 		print(e)
 		raise CustomerException("Could not convert dictionary to Customer")
+=======
+		raise CustomerException(str(e))
+>>>>>>> 2baa64c... api/modules: add customers endpoint
 
 	if customer.password == None:
 		raise CustomerException("Missing password")
@@ -70,15 +84,23 @@ def unprotected_add_customer(customer_data):
 	except Exception as e:
 		db.db.session.rollback()
 		print(e)
+<<<<<<< HEAD
 		raise CustomerException("Could not add customer to database")
+=======
+		raise CustomerException(str(e))
+>>>>>>> 2baa64c... api/modules: add customers endpoint
 
 def add_customer():
 	r = request.get_json()
 	try:
 		customer = Customer.from_dict(r)
 	except Exception as e:
+<<<<<<< HEAD
 		print(e)
 		raise CustomerException("Could not convert dictionary to Customer")
+=======
+		raise CustomerException(str(e))
+>>>>>>> 2baa64c... api/modules: add customers endpoint
 
 	#if customer_exists(customer):
 	#	raise CustomerException("Customer '" + customer.username + "' already exists", status_code = 400)
@@ -105,16 +127,31 @@ def remove_customer(customer_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
+<<<<<<< HEAD
 		print(e)
 		raise CustomerException("Could not remove customer from database")
+=======
+		raise CustomerException(str(e))
+>>>>>>> 2baa64c... api/modules: add customers endpoint
 
 	customer.password = None
 	tmp = customer.to_dict()
 
 	return(json_util.dumps(tmp))
 
+<<<<<<< HEAD
 def unprotected_edit_customer(customer_id, customer_dict):
 	customer = Customer.query.get_or_404(customer_id)
+=======
+@auth.required(Role.admin)
+def edit_customer(customer_id):
+	"""
+	TODO: differentiate between PUT and PATCH -> PATCH partial update
+	"""
+	customer_dict = request.get_json()
+	customer = Customer.query.get_or_404(customer_id)
+
+>>>>>>> 2baa64c... api/modules: add customers endpoint
 	# If the customer updates their profile check for all fields to be updated
 	if "first_name" in customer_dict and customer_dict["first_name"]!= "":
 		customer.first_name = customer_dict["first_name"]
@@ -136,8 +173,12 @@ def unprotected_edit_customer(customer_id, customer_dict):
 		try:
 			customer.password = auth.create_hash(customer_dict["password_new"])
 		except Exception as e:
+<<<<<<< HEAD
 			print(e)
 			raise CustomerException("Could not create password hash")
+=======
+			raise CustomerException(str(e))
+>>>>>>> 2baa64c... api/modules: add customers endpoint
 
 	if "address1" in customer_dict and customer_dict["address1"] != "":
 		customer.address1 = customer_dict["address1"]
@@ -149,6 +190,7 @@ def unprotected_edit_customer(customer_id, customer_dict):
 		customer.city = customer_dict["city"]
 	if "state" in customer_dict and customer_dict["state"] != "":
 		customer.state = customer_dict["state"]
+<<<<<<< HEAD
 	if "postal_code" in customer_dict and customer_dict["postal_code"] != "":
 		customer.postal_code = customer_dict["postal_code"]
 	return customer
@@ -159,14 +201,20 @@ def edit_customer(customer_id):
 	TODO: differentiate between PUT and PATCH -> PATCH partial update
 	"""
 	customer = unprotected_edit_customer(customer_id, request.get_json())
+=======
+>>>>>>> 2baa64c... api/modules: add customers endpoint
 
 	# Update the customer and return updated document
 	try:
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
+<<<<<<< HEAD
 		print(e)
 		raise CustomerException("Could not edit customer")
+=======
+		raise CustomerException(str(e))
+>>>>>>> 2baa64c... api/modules: add customers endpoint
 
 	# Remove password hash from the response
 	customer.password = None
@@ -174,6 +222,7 @@ def edit_customer(customer_id):
 
 	return(json_util.dumps(tmp))
 
+<<<<<<< HEAD
 @auth.required()
 def edit_profile():
 	session_id = request.headers.get('Authorization', None)
@@ -220,12 +269,17 @@ def get_orders():
 
 	return(json_util.dumps(orders))
 
+=======
+>>>>>>> 2baa64c... api/modules: add customers endpoint
 customers.add_url_rule('', view_func=get_customers, methods=['GET'])
 customers.add_url_rule('', view_func=add_customer, methods=['POST'])
 customers.add_url_rule('/<string:customer_id>', view_func=get_customer, methods=['GET'])
 customers.add_url_rule('/<string:customer_id>', view_func=edit_customer, methods=['PUT'])
 customers.add_url_rule('/<string:customer_id>', view_func=remove_customer, methods=['DELETE'])
+<<<<<<< HEAD
 profile.add_url_rule('', view_func=get_profile, methods=['GET'])
 profile.add_url_rule('', view_func=edit_profile, methods=['PUT'])
 profile.add_url_rule('/orders', view_func=get_orders, methods=['GET'])
 
+=======
+>>>>>>> 2baa64c... api/modules: add customers endpoint
