@@ -29,6 +29,7 @@ config = Config()
 from .dbConnector import dbConnector
 from .session import SessionManager
 from .bootstrap import routes, import_modules, admin_setup
+from .models import *
 from .auth import Auth
 from .role import Role
 
