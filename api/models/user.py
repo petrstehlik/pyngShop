@@ -153,7 +153,7 @@ class SqlUser(db.Model):
 			last_name	= None,
 			email		= None,
 			password	= None,
-			role		= None,
+			role		= Role.guest,
 			settings	= None,
 			):
 		self.username = username
