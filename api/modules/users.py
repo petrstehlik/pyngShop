@@ -11,9 +11,11 @@ from api.role import Role
 users = Module('users', __name__, url_prefix='/users', no_version=True)
 
 def count_users():
+	""" FIXME not used, remove """
 	return db.users.count()
 
 def lookup_user(user):
+	""" FIXME not used, remove """
 	user_id = user.get("user_id", None)
 
 	query = {"$or" : [
@@ -62,7 +64,10 @@ def unprotected_add_user(user_data):
 
 	TODO: insert only needed fields
 	"""
-	user = User(user_data['username'], password=user_data['password'])
+	try:
+		user = User(user_data['username'], password=user_data['password'])
+	except KeyError as e:
+		raise UserException(str(e))
 
 	if 'email' in user_data:
 		user.email = user_data['email']
@@ -88,7 +93,10 @@ def unprotected_add_user(user_data):
 @auth.required(Role.admin)
 def add_user():
 	r = request.get_json()
-	user = User.from_dict(r)
+	try:
+		user = User.from_dict(r)
+	except Exception as e:
+		raise UserException(str(e))
 
 	#if user_exists(user):
 	#	raise UserException("User '" + user.username + "' already exists", status_code = 400)
@@ -132,29 +140,36 @@ def edit_user(user_id):
 
 	# If the user updates their profile check for all fields to be updated
 	if "first_name" in user_dict and user_dict["first_name"]!= "":
-		user.first_name = user_dict.first_name
+		user.first_name = user_dict["first_name"]
 
 	if "last_name" in user_dict and user_dict["last_name"] != "":
-		user.last_name = user_dict.last_name
+		user.last_name = user_dict["last_name"]
 
 	if "email" in user_dict and user_dict["email"] != "":
-		user_dict = user.email
+		user.email = user_dict["email"]
 
-	if "role" in user_dict and user_dict["role"] >= 0:
-		user.role = User.parseRole(user_dict.role)
+	if "role" in user_dict and User.parseRole(user_dict["role"]) >= 0:
+		user.role = User.parseRole(user_dict["role"])
 
 	if "settings" in user_dict and user_dict["settings"] != {}:
-		user.settings = user_dict.settings
+		user.settings = user_dict["settings"]
 
 	# In case of password change, verify that it is really them (revalidate their password)
 	if "password" in user_dict and user_dict["password"] != "":
 		if not auth.check_password(user_dict["password"], user.password.decode('utf8')):
 			raise UserException("Password mismatch")
 
-		user.password = auth.create_hash(user_dict["password_new"])
+		try:
+			user.password = auth.create_hash(user_dict["password_new"])
+		except Exception as e:
+			raise UserException(str(e))
 
 	# Update the user and return updated document
-	db.db.session.commit()
+	try:
+		db.db.session.commit()
+	except Exception as e:
+		db.db.session.rollback()
+		raise UserException(str(e))
 
 	# Remove password hash from the response
 	user.password = None
