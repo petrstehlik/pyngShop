@@ -69,7 +69,7 @@ class SessionManager(object):
 			raise SessionException("Missing session", payload=session_id)
 
 	def __delete(self, session_id):
-		self.user_sessions[self.sessions[session_id]['user'].user_id].remove(session_id)
+		self.user_sessions[self.sessions[session_id]['user'].id].remove(session_id)
 		del self.sessions[session_id]
 
 	def __update_expire_time(self, session):
