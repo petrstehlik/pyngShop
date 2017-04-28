@@ -35,7 +35,7 @@ def user_exists(user):
 		{"email" : user.get("email", None)}
 		]}).count() == 0 else True
 
-@auth.required()
+@auth.required(Role.admin)
 def get_users():
 	res = User.query.all()
 	users = []
@@ -47,7 +47,7 @@ def get_users():
 
 	return(json_util.dumps(users))
 
-@auth.required()
+@auth.required(Role.admin)
 def get_user(user_id):
 	user = User.query.get_or_404(user_id)
 	user = user.to_dict()
