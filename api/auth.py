@@ -82,7 +82,7 @@ class Auth(object):
 		@auth.required() -	Don't look for user's role.
 							Only check if they have valid session.
 
-		@auth.required(Role.[admin|user|guest]) - check session validity and their role
+		@auth.required(Role.[admin|user|customer|guest]) - check session validity and their role
 		"""
 		def auth_decorator(f):
 			@wraps(f)
