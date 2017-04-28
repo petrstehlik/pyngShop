@@ -62,12 +62,10 @@ def unprotected_add_user(user_data):
 		* password
 		* email
 		* username
-
-	TODO: insert only needed fields
 	"""
 	try:
 		user = User.from_dict(user_data)
-	except KeyError as e:
+	except Exception as e:
 		raise UserException(str(e))
 
 	if user.password == None:
