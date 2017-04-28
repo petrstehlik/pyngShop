@@ -4,6 +4,7 @@ from flask import request
 from datetime import datetime, timedelta
 
 from .models.user import SqlUser as User
+from .models.customer import Customer
 from .role import Role
 from .session import SessionException
 from .error import ApiException
@@ -38,9 +39,9 @@ class Auth(object):
 		res = json_util.dumps(msg)
 		return msg
 
-	def login(self, user):
+	def login_user(self, user):
 		try:
-			res = User.query.filter_by(username=user.username).first()
+			res = User.query.filter_by(username=user.username).first_or_404()
 		except Exception as e:
 			raise AuthException(str(e))
 
@@ -54,6 +55,17 @@ class Auth(object):
 		res.password = None
 
 		return(res)
+
+	def login_customer(self, customer):
+		try:
+			res = Customer.query.filter_by(username=customer.username).first_or_404()
+		except Exception as e:
+			raise AuthException(str(e))
+		if not self.check_password(customer.password, res.password.decode('utf8')):
+			raise AuthException("Password mismatch")
+		# Remove password field
+		res.password = None
+		return (res)
 
 	def store_session(self, user):
 		session_id = self.session_manager.create(user)
