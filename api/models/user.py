@@ -226,7 +226,7 @@ class SqlUser(db.Model):
 			email		= user.get("email", None),
 			password	= user.get("password", None),
 			role		= User.parseRole(user.get("role", None)),
-			settings	= user.get("settings", {})
+			settings	= str(user.get("settings", {}))
 			))
 
 	def __repr__(self):
