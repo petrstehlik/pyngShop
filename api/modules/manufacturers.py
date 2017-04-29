@@ -10,15 +10,15 @@ import pymongo
 
 from api import auth, db
 from api.module import Module
-from api.models.models import Manufacturer, ManufacturerException, Product
+from api.models.models import Manufacturer, ManufacturerException
 from api.role import Role
 
 manufacturer = Module('manufacturers', __name__, url_prefix='/manufacturers', no_version=True)
 
 @auth.required(Role.admin)
-def count_manufacturers():
+def count_products_property():
 	""" FIXME not used, remove """
-	return db.manufacturers.count()
+	return db.manufacturer.count()
 
 @auth.required(Role.admin)
 def get_manufacturers():
@@ -37,8 +37,7 @@ def add_manufacturer():
 	try:
 		manufacturer = Manufacturer.from_dict(r)
 	except Exception as e:
-		print(e)
-		raise ManufacturerException("Could not convert dictionary to Manufacturer")
+		raise ManufacturerException(str(e))
 
 	try:
 		db.db.session.add(manufacturer)
@@ -46,7 +45,7 @@ def add_manufacturer():
 	except Exception as e:
 		db.db.session.rollback()
 		print(e)
-		raise ManufacturerException("Could not add manufacturer to database")
+		raise ManufacturerException(str(e))
 
 	inserted = Manufacturer.query.get_or_404(manufacturer.id)
 
@@ -67,8 +66,7 @@ def remove_manufacturer(manufacturer_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		print(e)
-		raise ManufacturerException("Could not remove manufacturer from database")
+		raise ManufacturerException(str(e))
 
 	tmp = manufacturer.to_dict()
 
@@ -107,8 +105,7 @@ def edit_manufacturer(manufacturer_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		print(e)
-		raise ManufacturerException("Could not edit manufacturer")
+		raise ManufacturerException(str(e))
 
 	tmp = manufacturer.to_dict()
 
@@ -120,70 +117,8 @@ def get_manufacturer(manufacturer_id):
 	manufacturer = manufacturer.to_dict()
 	return(json_util.dumps(manufacturer))
 
-@auth.required(Role.admin)
-def add_product(manufacturer_id, product_id):
-	product = Product.query.get_or_404(product_id)
-	manufacturer = Manufacturer.query.get_or_404(manufacturer_id)
-
-	manufacturer.products.append(product)
-
-	try:
-		res = db.db.session.commit()
-	except Exception as e:
-		db.db.session.rollback()
-		print(e)
-		raise ManufacturerException("Could not add product to manufacturer")
-
-	product = Product.query.get_or_404(product_id)
-	manufacturer = Manufacturer.query.get_or_404(manufacturer_id)
-
-	if product in manufacturer.products:
-		return(json_util.dumps(product.to_dict()))
-
-	raise ManufacturerException("Not found", status_code=404)
-
-@auth.required(Role.admin)
-def get_products(manufacturer_id):
-	manufacturer = Manufacturer.query.get_or_404(manufacturer_id)
-	products = []
-
-	for product in manufacturer.products:
-		products.append(product.to_dict())
-
-	return(json_util.dumps(products))
-
-@auth.required(Role.admin)
-def remove_product(manufacturer_id, product_id):
-	manufacturer = Manufacturer.query.get_or_404(manufacturer_id)
-	product = Product.query.get_or_404(product_id)
-
-	if product in manufacturer.products:
-		manufacturer.products.remove(product)
-	else:
-		raise ManufacturerException("There is not such a product", status_code=404)
-
-	try:
-		db.db.session.commit()
-	except Exception as e:
-		db.db.session.rollback()
-		print(e)
-		raise ManufacturerException("Could not remove product from manufacturer")
-
-	manufacturer = Manufacturer.query.get_or_404(manufacturer_id)
-
-	if product in manufacturer.products:
-		raise ManufacturerException("Failed to delete", status_code=404)
-
-	tmp = product.to_dict()
-
-	return(json_util.dumps(tmp))
-
 manufacturer.add_url_rule('', view_func=get_manufacturers, methods=['GET'])
 manufacturer.add_url_rule('', view_func=add_manufacturer, methods=['POST'])
 manufacturer.add_url_rule('/<string:manufacturer_id>', view_func=get_manufacturer, methods=['GET'])
 manufacturer.add_url_rule('/<string:manufacturer_id>', view_func=edit_manufacturer, methods=['PUT'])
 manufacturer.add_url_rule('/<string:manufacturer_id>', view_func=remove_manufacturer, methods=['DELETE'])
-manufacturer.add_url_rule('/<string:manufacturer_id>/products/<string:product_id>', view_func=add_product, methods=['POST'])
-manufacturer.add_url_rule('/<string:manufacturer_id>/products', view_func=get_products, methods=['GET'])
-manufacturer.add_url_rule('/<string:manufacturer_id>/products/<string:product_id>', view_func=remove_product, methods=['DELETE'])
-
