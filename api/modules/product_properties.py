@@ -10,7 +10,7 @@ import pymongo
 
 from api import auth, db
 from api.module import Module
-from api.models.product_property import ProductProperty, ProductPropertyException
+from api.models.models import ProductProperty, ProductPropertyException
 from api.role import Role
 
 product_property = Module('product_property', __name__, url_prefix='/product_property', no_version=True)
