@@ -16,7 +16,7 @@ from api.role import Role
 manufacturer = Module('manufacturers', __name__, url_prefix='/manufacturers', no_version=True)
 
 @auth.required(Role.admin)
-def count_products_property():
+def count_manufacturers():
 	""" FIXME not used, remove """
 	return db.manufacturer.count()
 
