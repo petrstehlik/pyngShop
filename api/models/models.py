@@ -187,7 +187,7 @@ class ProductPropertyException(ApiException):
     status_code = 401
 
 class ProductProperty(db.Model):
-    __tablename__ = "product_property"
+    __tablename__ = "product_properties"
     id = db.Column(db.Integer,
             db.Sequence("product_property_cid_seq", start=1, increment=1),
             primary_key=True)
@@ -197,6 +197,7 @@ class ProductProperty(db.Model):
 
     def __init__(self,
             name,
+            id = None,
             prefix = None,
             sufix = None,
             ):
@@ -224,9 +225,9 @@ class ProductProperty(db.Model):
         Create new product_property from dictionary
         """
         return(self(
-            name = product.get("name", None),
-            prefix = product.get("prefix", None),
-            sufix = product.get("sufix", None),
+            name = product_property.get("name", None),
+            prefix = product_property.get("prefix", None),
+            sufix = product_property.get("sufix", None),
             ))
 
     def __repr__(self):
@@ -236,7 +237,7 @@ class ManufacturerException(ApiException):
     status_code = 401
 
 class Manufacturer(db.Model):
-    __tablename__ = "manufacturer"
+    __tablename__ = "manufacturers"
     id = db.Column(db.Integer,
             db.Sequence("manufacturer_cid_seq", start=1, increment=1),
             primary_key=True)
@@ -251,6 +252,7 @@ class Manufacturer(db.Model):
 
     def __init__(self,
             name,
+            id = None,
             first_name = None,
             last_name = None,
             telephone = None,
@@ -290,13 +292,13 @@ class Manufacturer(db.Model):
         Create new manufacturer from dictionary
         """
         return(self(
-            name = product.get("name", None),
-            first_name = product.get("first_name", None),
-            last_name = product.get("last_name", None),
-            telephone = product.get("telephone", None),
-            email = product.get("email", None),
-            id_num = product.get("id_num", None),
-            delivery_time = product.get("delivery_time", None),
+            name = manufacturer.get("name", None),
+            first_name = manufacturer.get("first_name", None),
+            last_name = manufacturer.get("last_name", None),
+            telephone = manufacturer.get("telephone", None),
+            email = manufacturer.get("email", None),
+            id_num = manufacturer.get("id_num", None),
+            delivery_time = manufacturer.get("delivery_time", None),
             ))
 
     def __repr__(self):
