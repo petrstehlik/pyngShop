@@ -2,6 +2,7 @@ from uuid import uuid1 as uuid
 from datetime import datetime, timedelta
 
 from .error import ApiException
+from .role import Role
 
 class SessionException(ApiException):
 	status_code = 401
@@ -12,6 +13,7 @@ class SessionManager(object):
 		self.max_user_sessions = max_user_sessions
 		self.sessions = {}
 		self.user_sessions = {}
+		self.customer_sessions = {}
 
 	@classmethod
 	def from_object(self, config):
@@ -34,7 +36,7 @@ class SessionManager(object):
 		except KeyError:
 			raise SessionException("Missing session", payload=session_id)
 
-	def create(self, user):
+	def create(self, user, is_user=True):
 		"""
 		Create user session with given user information
 
@@ -46,13 +48,24 @@ class SessionManager(object):
 			raise SessionException("Session \"" + session_id +
 					"\" already exists")
 
-		if user.id in self.user_sessions:
-			if len(self.user_sessions[user.id]) > self.max_user_sessions:
-				raise SessionException("Reached maximum of allowed sessions "
-						"per user")
-			self.user_sessions[user.id].append(session_id)
+		if user.role == Role.customer or is_user == False:
+			""" This is customer, store as customer session """
+			if user.id in self.customer_sessions:
+				if len(self.customer_sessions[user.id]) > self.max_user_sessions:
+					raise SessionException("Reached maximum of allowed sessions "
+							"per user")
+				self.customer_sessions[user.id].append(session_id)
+			else:
+				self.customer_sessions[user.id] = [session_id]
 		else:
-			self.user_sessions[user.id] = [session_id]
+			""" This is user, store as user session """
+			if user.id in self.user_sessions:
+				if len(self.user_sessions[user.id]) > self.max_user_sessions:
+					raise SessionException("Reached maximum of allowed sessions "
+							"per user")
+				self.user_sessions[user.id].append(session_id)
+			else:
+				self.user_sessions[user.id] = [session_id]
 
 		self.sessions[session_id] = {
 			"user" : user,
@@ -69,7 +82,10 @@ class SessionManager(object):
 			raise SessionException("Missing session", payload=session_id)
 
 	def __delete(self, session_id):
-		self.user_sessions[self.sessions[session_id]['user'].id].remove(session_id)
+		if self.sessions[session_id]['user'].id in self.user_sessions:
+			self.user_sessions[self.sessions[session_id]['user'].id].remove(session_id)
+		else:
+			self.customer_sessions[self.sessions[session_id]['user'].id].remove(session_id)
 		del self.sessions[session_id]
 
 	def __update_expire_time(self, session):
