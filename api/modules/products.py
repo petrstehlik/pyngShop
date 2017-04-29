@@ -109,8 +109,17 @@ def edit_product(product_id):
 
 	return(json_util.dumps(tmp))
 
+def get_product(product_id):
+	product = Product.query.get_or_404(product_id)
+	product = product.to_dict()
+
+	## MISSING
+	## get all its details such us reviews...
+
+	return(json_util.dumps(product))
+
 products.add_url_rule('', view_func=get_products, methods=['GET'])
 products.add_url_rule('', view_func=add_product, methods=['POST'])
-# products.add_url_rule('/<string:product_id>', view_func=get_product, methods=['GET'])
+products.add_url_rule('/<string:product_id>', view_func=get_product, methods=['GET'])
 products.add_url_rule('/<string:product_id>', view_func=edit_product, methods=['PUT'])
 products.add_url_rule('/<string:product_id>', view_func=remove_product, methods=['DELETE'])

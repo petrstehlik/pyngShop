@@ -303,3 +303,58 @@ class Manufacturer(db.Model):
 
     def __repr__(self):
         return '<Manufacturer %r>' % self.name
+
+class CategoryException(ApiException):
+    status_code = 401
+
+class Category(db.Model):
+    __tablename__ = "categories"
+    id = db.Column(db.Integer,
+            db.Sequence("category_cid_seq", start=1, increment=1),
+            primary_key=True)
+    name = db.Column(db.String(255), unique=False)
+    description = db.Column(db.String(10000), unique=False)
+    slug = db.Column(db.String(255), unique=False)
+    hidden = db.Column(db.Boolean, unique=False, default=True)
+
+    def __init__(self,
+            name,
+            id = None,
+            description = None,
+            slug = None,
+            hidden = None,
+            ):
+        self.name = name
+        self.id = id
+        self.description = description
+        self.slug = slug
+        self.hidden = hidden
+
+    def to_dict(self):
+        """
+        Return the internal data in dictionary
+        """
+        tmp = {
+            'name' : self.name,
+            'id' : self.id,
+            'description' : self.description,
+            'slug' : self.slug,
+            'hidden' : self.hidden,
+        }
+
+        return tmp
+
+    @classmethod
+    def from_dict(self, category):
+        """
+        Create new category from dictionary
+        """
+        return(self(
+            name = category.get("name", None),
+            description = category.get("description", None),
+            slug = category.get("slug", None),
+            hidden = category.get("hidden", None),
+            ))
+
+    def __repr__(self):
+        return '<Category %r>' % self.name
