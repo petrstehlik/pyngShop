@@ -110,14 +110,8 @@ def remove_customer(customer_id):
 
 	return(json_util.dumps(tmp))
 
-@auth.required(Role.admin)
-def edit_customer(customer_id):
-	"""
-	TODO: differentiate between PUT and PATCH -> PATCH partial update
-	"""
-	customer_dict = request.get_json()
+def unprotected_edit_customer(customer_id, customer_dict):
 	customer = Customer.query.get_or_404(customer_id)
-
 	# If the customer updates their profile check for all fields to be updated
 	if "first_name" in customer_dict and customer_dict["first_name"]!= "":
 		customer.first_name = customer_dict["first_name"]
@@ -153,6 +147,14 @@ def edit_customer(customer_id):
 		customer.state = customer_dict["state"]
 	if "postal_code" in customer_dict and customer_dict["postal_code"] != "":
 		customer.postal_code = customer_dict["postal_code"]
+	return customer
+
+@auth.required(Role.admin)
+def edit_customer(customer_id):
+	"""
+	TODO: differentiate between PUT and PATCH -> PATCH partial update
+	"""
+	customer = unprotected_edit_customer(customer_id, request.get_json())
 
 	# Update the customer and return updated document
 	try:
@@ -167,9 +169,31 @@ def edit_customer(customer_id):
 
 	return(json_util.dumps(tmp))
 
+@auth.required()
+def edit_profile():
+	session_id = request.headers.get('Authorization', None)
+	if not session_id:
+		raise SessionException("Header field 'Authorization' not found.")
+	try:
+		session = auth.lookup(session_id)
+	except SessionException:
+		raise SessionException("Session not found")
+	customer = unprotected_edit_customer(session["user"].id, request.get_json())
+	# Update the customer and return updated document
+	try:
+		db.db.session.commit()
+	except Exception as e:
+		db.db.session.rollback()
+		raise CustomerException(str(e))
+	# Remove password hash from the response
+	customer.password = None
+	tmp = customer.to_dict()
+	return(json_util.dumps(tmp))
+
 customers.add_url_rule('', view_func=get_customers, methods=['GET'])
 customers.add_url_rule('', view_func=add_customer, methods=['POST'])
 customers.add_url_rule('/<string:customer_id>', view_func=get_customer, methods=['GET'])
 customers.add_url_rule('/<string:customer_id>', view_func=edit_customer, methods=['PUT'])
 customers.add_url_rule('/<string:customer_id>', view_func=remove_customer, methods=['DELETE'])
 profile.add_url_rule('', view_func=get_profile, methods=['GET'])
+profile.add_url_rule('', view_func=edit_profile, methods=['PUT'])
