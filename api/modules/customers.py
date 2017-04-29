@@ -8,7 +8,7 @@ from bson import json_util
 
 from .. import auth, db
 from ..module import Module
-from ..models.customer import Customer, CustomerException
+from ..models.models import Customer, CustomerException
 from ..role import Role
 from ..session import SessionException
 
