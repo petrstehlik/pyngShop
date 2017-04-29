@@ -135,6 +135,8 @@ def edit_customer(customer_id):
 		customer.city = customer_dict["city"]
 	if "state" in customer_dict and customer_dict["state"] != "":
 		customer.state = customer_dict["state"]
+	if "postal_code" in customer_dict and customer_dict["postal_code"] != "":
+		customer.postal_code = customer_dict["postal_code"]
 
 	# Update the customer and return updated document
 	try:

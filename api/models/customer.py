@@ -30,6 +30,7 @@ class Customer(db.Model):
 	phone = db.Column(db.String(20), unique=False)
 	city = db.Column(db.String(200), unique=False)
 	state = db.Column(db.String(200), unique=False)
+	postal_code = db.Column(db.String(20), unique=False)
 
 	def __init__(self,
 			username,
@@ -44,6 +45,7 @@ class Customer(db.Model):
 			phone      = None,
 			city       = None,
 			state      = None,
+			postal_code= None,
 			):
 		self.username = username
 		self.id = id
@@ -58,6 +60,7 @@ class Customer(db.Model):
 		self.phone = phone
 		self.city = city
 		self.state = state
+		self.postal_code = postal_code
 
 	def to_dict(self):
 		"""
@@ -76,6 +79,7 @@ class Customer(db.Model):
 			'phone' : self.phone,
 			'city' : self.city,
 			'state' : self.state,
+			'postal_code' : self.postal_code,
 		}
 
 		if self.password:
@@ -101,6 +105,7 @@ class Customer(db.Model):
 			phone       = user.get("phone", None),
 			city        = user.get("city", None),
 			state       = user.get("state", None),
+			postal_code = user.get("postal_code", None),
 			))
 
 	def __repr__(self):
