@@ -10,8 +10,10 @@ from .. import auth, db
 from ..module import Module
 from ..models.customer import Customer, CustomerException
 from ..role import Role
+from ..session import SessionException
 
 customers = Module('customers', __name__, url_prefix='/customers', no_version=True)
+profile = Module('profile', __name__, url_prefix='/profile', no_version=True)
 
 @auth.required(Role.admin)
 def get_customers():
@@ -31,6 +33,20 @@ def get_customer(customer_id):
 	customer = customer.to_dict()
 	customer.pop('password', None)
 	return(json_util.dumps(customer))
+
+@auth.required()
+def get_profile():
+	session_id = request.headers.get('Authorization', None)
+	if not session_id:
+		raise SessionException("Header field 'Authorization' not found.")
+	try:
+		session = auth.lookup(session_id)
+	except SessionException:
+		raise SessionException("Session not found")
+	customer = Customer.query.get_or_404(session["user"].id)
+	customer = customer.to_dict()
+	customer.pop("password", None)
+	return json_util.dumps(customer)
 
 def unprotected_add_customer(customer_data):
 	"""
@@ -135,6 +151,8 @@ def edit_customer(customer_id):
 		customer.city = customer_dict["city"]
 	if "state" in customer_dict and customer_dict["state"] != "":
 		customer.state = customer_dict["state"]
+	if "postal_code" in customer_dict and customer_dict["postal_code"] != "":
+		customer.postal_code = customer_dict["postal_code"]
 
 	# Update the customer and return updated document
 	try:
@@ -154,3 +172,4 @@ customers.add_url_rule('', view_func=add_customer, methods=['POST'])
 customers.add_url_rule('/<string:customer_id>', view_func=get_customer, methods=['GET'])
 customers.add_url_rule('/<string:customer_id>', view_func=edit_customer, methods=['PUT'])
 customers.add_url_rule('/<string:customer_id>', view_func=remove_customer, methods=['DELETE'])
+profile.add_url_rule('', view_func=get_profile, methods=['GET'])
