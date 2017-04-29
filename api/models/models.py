@@ -32,6 +32,7 @@ class Customer(db.Model):
 	city = db.Column(db.String(200), unique=False)
 	state = db.Column(db.String(200), unique=False)
 	postal_code = db.Column(db.String(20), unique=False)
+	orders = db.relationship("Order", backref="customer", lazy="dynamic")
 
 	def __init__(self,
 			username,
@@ -47,6 +48,7 @@ class Customer(db.Model):
 			city       = None,
 			state      = None,
 			postal_code= None,
+			orders     = [],
 			):
 		self.username = username
 		self.id = id
@@ -62,6 +64,7 @@ class Customer(db.Model):
 		self.city = city
 		self.state = state
 		self.postal_code = postal_code
+		self.orders = orders
 
 	def to_dict(self):
 		"""
@@ -82,11 +85,15 @@ class Customer(db.Model):
 			'state' : self.state,
 			'postal_code' : self.postal_code,
 		}
-
 		if self.password:
 			tmp['password'] = self.password
-
 		return tmp
+
+	def orders_dict(self):
+		olist = []
+		for order in self.orders:
+			olist.append(order.to_dict())
+		return olist
 
 	@classmethod
 	def from_dict(self, user):
@@ -107,10 +114,99 @@ class Customer(db.Model):
 			city        = user.get("city", None),
 			state       = user.get("state", None),
 			postal_code = user.get("postal_code", None),
+			orders      = user.get("orders", []),
 			))
 
 	def __repr__(self):
 		return '<Customer %r>' % self.username
+
+class ShippingException(ApiException):
+	status_code = 401
+
+class Shipping(db.Model):
+	__tablename__ = "shipping"
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(200), unique=False)
+	price = db.Column(db.Integer, unique=False)
+	orders = db.relationship("Order", backref="shipping", lazy="dynamic")
+
+	def __init__(self, name, price, orders=[], id=None):
+		self.id = id
+		self.name = name
+		self.price = price
+		self.orders = orders
+
+	def to_dict(self):
+		tmp = {
+			'id' : self.id,
+			'name' : self.name,
+			'price' : self.price,
+			}
+		return tmp
+
+	def orders_dict(self):
+		olist = []
+		for order in self.orders:
+			olist.append(order.to_dict())
+		return olist
+
+	@classmethod
+	def from_dict(self, shipping):
+		return self(
+			id     =shipping.get('id', None),
+			name   =shipping.get('name', None),
+			price  =shipping.get('price', None),
+			orders =shipping.get('orders', []),
+			)
+
+	def __repr__(self):
+		return '<Shipping %r>' % self.id
+
+class OrderException(ApiException):
+	status_code = 401
+
+class Order(db.Model):
+	__tablename__ = "orders"
+	id = db.Column(db.Integer, primary_key=True)
+	timestamp = db.Column(db.Date, unique=False)
+	status = db.Column(db.String(200), unique=False)
+	full_price = db.Column(db.Integer, unique=False)
+	shipping_id = db.Column(db.Integer, db.ForeignKey("shipping.id"))
+	customer_id = db.Column(db.Integer, db.ForeignKey("customers.id"))
+
+	def __init__(self, timestamp, status, full_price, id=None, shipping=None, customer=None):
+		self.id = id
+		self.timestamp = timestamp
+		self.status = status
+		self.full_price = full_price
+		self.shipping = shipping
+		self.customer = customer
+
+	def to_dict(self):
+		tmp = {
+			'id' : self.id,
+			'timestamp' : self.timestamp,
+			'status' : self.status,
+			'full_price' : self.full_price,
+			}
+		return tmp
+
+	def shipping_dict(self):
+		return self.shipping.to_dict()
+
+	def customer_dict(self):
+		return self.customer.to_dict()
+
+	@classmethod
+	def from_dict(self, order):
+		return self(
+			id         = order.id,
+			timestamp  = order.timestamp,
+			status     = order.status,
+			full_price = order.full_price,
+			shipping   = order.shipping,
+			customer   = order.customer,
+			)
 
 class ProductException(ApiException):
     status_code = 401
