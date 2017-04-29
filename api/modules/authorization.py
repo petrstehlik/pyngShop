@@ -24,7 +24,7 @@ def login_user():
 
 	user = auth.login_user(user)
 
-	session_id = auth.store_session(user)
+	session_id = auth.store_session(user, is_user=True)
 
 	return(json_util.dumps({"session_id" : session_id, "user" : user.to_dict()}))
 
@@ -39,7 +39,7 @@ def login_customer():
 		raise AuthException("Missing customer data")
 	customer = Customer(customer_data['username'], password=customer_data['password'])
 	customer = auth.login_customer(customer)
-	session_id = auth.store_session(customer)
+	session_id = auth.store_session(customer, is_user=False)
 	return(json_util.dumps({"session_id" : session_id, "customer" : customer.to_dict()}))
 
 @au.route('', methods=['DELETE'])
