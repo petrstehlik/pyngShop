@@ -7,11 +7,18 @@ import bcrypt
 from flask import request
 from bson import json_util, ObjectId
 import pymongo
+<<<<<<< HEAD
 from slugify import slugify
 
 from api import auth, db
 from api.module import Module
 from api.models.models import Product, ProductException, Review, ReviewException, Customer, ProductProperty, TypeProperty, TypePropertyException, Category, CategoryException
+=======
+
+from api import auth, db
+from api.module import Module
+from api.models.product import Product, ProductException
+>>>>>>> ed2ec4d... created products
 from api.role import Role
 
 products = Module('products', __name__, url_prefix='/products', no_version=True)
@@ -26,7 +33,10 @@ def get_products():
 
 	for product in res:
 		tmp = product.to_dict()
+<<<<<<< HEAD
 		tmp["categories"] = product.categories_dict()
+=======
+>>>>>>> ed2ec4d... created products
 		products.append(tmp)
 
 	return(json_util.dumps(products))
@@ -35,6 +45,7 @@ def get_products():
 def add_product():
 	r = request.get_json()
 	try:
+<<<<<<< HEAD
 		categories_dict = r.pop("categories", [])
 		product = Product.from_dict(r)
 		for cat in categories_dict:
@@ -50,17 +61,31 @@ def add_product():
 
 	try:
 		product.slug = slugify(product.name, to_lower=True)
+=======
+		product = Product.from_dict(r)
+	except Exception as e:
+		raise ProductException(str(e))
+
+	try:
+>>>>>>> ed2ec4d... created products
 		db.db.session.add(product)
 		res = db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
 		print(e)
+<<<<<<< HEAD
 		raise ProductException("Could not add product to database")
+=======
+		raise ProductException(str(e))
+>>>>>>> ed2ec4d... created products
 
 	inserted = Product.query.get_or_404(product.id)
 
 	product = inserted.to_dict()
+<<<<<<< HEAD
 	product["categories"] = inserted.categories_dict()
+=======
+>>>>>>> ed2ec4d... created products
 
 	return(json_util.dumps(product))
 
@@ -77,8 +102,12 @@ def remove_product(product_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
+<<<<<<< HEAD
 		print(e)
 		raise ProductException("Could not remove product")
+=======
+		raise ProductException(str(e))
+>>>>>>> ed2ec4d... created products
 
 	tmp = product.to_dict()
 
@@ -91,9 +120,14 @@ def edit_product(product_id):
 	product = Product.query.get_or_404(product_id)
 
 	# check for all fields to be updated
+<<<<<<< HEAD
 	if "name" in product_dict and product_dict["name"] != "":
 		product.name = product_dict["name"]
 		product.slug = slugify(product.name, to_lower=True)
+=======
+	if "name" in product_dict and product_dict["name"]!= "":
+		product.name = product_dict["name"]
+>>>>>>> ed2ec4d... created products
 
 	if "price" in product_dict and product_dict["price"] != "":
 		product.price = product_dict["price"]
@@ -113,6 +147,7 @@ def edit_product(product_id):
 	if "hidden" in product_dict and product_dict["hidden"] != "":
 		product.hidden = product_dict["hidden"]
 
+<<<<<<< HEAD
 	# Clear product categories
 	product.categories = []
 	# Add all categories again
@@ -129,11 +164,14 @@ def edit_product(product_id):
 		print(e)
 		raise ProductException("Could not edit product's categories")
 
+=======
+>>>>>>> ed2ec4d... created products
 	# Update the product and return updated document
 	try:
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
+<<<<<<< HEAD
 		print(e)
 		raise ProductException("Could not edit product")
 
@@ -336,11 +374,17 @@ def remove_category(product_id, category_id):
 		raise CategoryException("Failed to delete", status_code=404)
 
 	tmp = category.to_dict()
+=======
+		raise ProductException(str(e))
+
+	tmp = product.to_dict()
+>>>>>>> ed2ec4d... created products
 
 	return(json_util.dumps(tmp))
 
 products.add_url_rule('', view_func=get_products, methods=['GET'])
 products.add_url_rule('', view_func=add_product, methods=['POST'])
+<<<<<<< HEAD
 products.add_url_rule('/<string:product_id>', view_func=get_product, methods=['GET'])
 products.add_url_rule('/<string:product_id>', view_func=edit_product, methods=['PUT'])
 products.add_url_rule('/<string:product_id>', view_func=remove_product, methods=['DELETE'])
@@ -354,3 +398,8 @@ products.add_url_rule('/<string:product_id>/categories/<string:category_id>', vi
 products.add_url_rule('/<string:product_id>/categories', view_func=get_categories, methods=['GET'])
 products.add_url_rule('/<string:product_id>/categories/<string:category_id>', view_func=remove_category, methods=['DELETE'])
 
+=======
+# products.add_url_rule('/<string:product_id>', view_func=get_product, methods=['GET'])
+products.add_url_rule('/<string:product_id>', view_func=edit_product, methods=['PUT'])
+products.add_url_rule('/<string:product_id>', view_func=remove_product, methods=['DELETE'])
+>>>>>>> ed2ec4d... created products
