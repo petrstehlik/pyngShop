@@ -13,7 +13,7 @@ from api.module import Module
 from api.models.models import ProductProperty, ProductPropertyException
 from api.role import Role
 
-product_property = Module('product_property', __name__, url_prefix='/product_property', no_version=True)
+product_property = Module('product_properties', __name__, url_prefix='/product_properties', no_version=True)
 
 @auth.required(Role.admin)
 def count_products_property():
@@ -37,7 +37,7 @@ def add_product_property():
 	try:
 		product_property = ProductProperty.from_dict(r)
 	except Exception as e:
-		raise ProductException(str(e))
+		raise ProductPropertyException(str(e))
 
 	try:
 		db.db.session.add(product_property)
@@ -45,9 +45,9 @@ def add_product_property():
 	except Exception as e:
 		db.db.session.rollback()
 		print(e)
-		raise ProductException(str(e))
+		raise ProductPropertyException(str(e))
 
-	inserted = Product.query.get_or_404(product_property.id)
+	inserted = ProductProperty.query.get_or_404(product_property.id)
 
 	product_property = inserted.to_dict()
 
@@ -66,7 +66,7 @@ def remove_product_property(product_property_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise ProductException(str(e))
+		raise ProductPropertyException(str(e))
 
 	tmp = product_property.to_dict()
 
@@ -93,7 +93,7 @@ def edit_product_property(product_property_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise ProductException(str(e))
+		raise ProductPropertyException(str(e))
 
 	tmp = product_property.to_dict()
 
