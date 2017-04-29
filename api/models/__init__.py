@@ -1,4 +1,2 @@
-from .customer import Customer
 from .user import User
-from .product import Product
-
+from .models import Customer, Product, ProductProperty, Manufacturer

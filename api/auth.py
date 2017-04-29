@@ -4,7 +4,7 @@ from flask import request
 from datetime import datetime, timedelta
 
 from .models.user import SqlUser as User
-from .models.customer import Customer
+from .models.models import Customer
 from .role import Role
 from .session import SessionException
 from .error import ApiException
