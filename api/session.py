@@ -53,7 +53,7 @@ class SessionManager(object):
 			if user.id in self.customer_sessions:
 				if len(self.customer_sessions[user.id]) > self.max_user_sessions:
 					raise SessionException("Reached maximum of allowed sessions "
-							"per user")
+							"per customer")
 				self.customer_sessions[user.id].append(session_id)
 			else:
 				self.customer_sessions[user.id] = [session_id]
