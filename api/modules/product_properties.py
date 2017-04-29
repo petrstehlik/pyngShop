@@ -10,15 +10,15 @@ import pymongo
 
 from api import auth, db
 from api.module import Module
-from api.models.models import ProductProperty, ProductPropertyException
+from api.models.product_property import ProductProperty, ProductPropertyException
 from api.role import Role
 
-product_property = Module('product_properties', __name__, url_prefix='/product_properties', no_version=True)
+product_property = Module('product_property', __name__, url_prefix='/product_property', no_version=True)
 
 @auth.required(Role.admin)
 def count_products_property():
 	""" FIXME not used, remove """
-	return db.product_properties.count()
+	return db.product_property.count()
 
 @auth.required(Role.admin)
 def get_product_properties():
@@ -37,8 +37,7 @@ def add_product_property():
 	try:
 		product_property = ProductProperty.from_dict(r)
 	except Exception as e:
-		print(e)
-		raise ProductPropertyException("Could not convert dictionary to ProductProperty")
+		raise ProductException(str(e))
 
 	try:
 		db.db.session.add(product_property)
@@ -46,9 +45,9 @@ def add_product_property():
 	except Exception as e:
 		db.db.session.rollback()
 		print(e)
-		raise ProductPropertyException("Could not add product property to database")
+		raise ProductException(str(e))
 
-	inserted = ProductProperty.query.get_or_404(product_property.id)
+	inserted = Product.query.get_or_404(product_property.id)
 
 	product_property = inserted.to_dict()
 
@@ -67,8 +66,7 @@ def remove_product_property(product_property_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		print(e)
-		raise ProductPropertyException("Could not remove product property")
+		raise ProductException(str(e))
 
 	tmp = product_property.to_dict()
 
@@ -95,8 +93,7 @@ def edit_product_property(product_property_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		print(e)
-		raise ProductPropertyException("Could not edit product property")
+		raise ProductException(str(e))
 
 	tmp = product_property.to_dict()
 
