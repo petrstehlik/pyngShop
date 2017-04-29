@@ -67,8 +67,8 @@ class Auth(object):
 		res.password = None
 		return (res)
 
-	def store_session(self, user):
-		session_id = self.session_manager.create(user)
+	def store_session(self, user, is_user=True):
+		session_id = self.session_manager.create(user, is_user)
 		return session_id
 
 	def lookup(self, session_id):
