@@ -574,7 +574,7 @@ class Manufacturer(db.Model):
 	telephone = db.Column(db.String(20), unique=False)
 	email = db.Column(db.String(255), unique=False)
 	id_num = db.Column(db.String(20), unique=False)
-	delivery_time = db.Column(db.Date, unique=False)
+	delivery_time = db.Column(db.Integer, unique=False)
 	products = db.relationship("Product", secondary=product_manufacturers,
 			backref="manufacturers")
 
