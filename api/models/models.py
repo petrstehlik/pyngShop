@@ -712,6 +712,14 @@ class Category(db.Model):
 		chlist = []
 		for ch in self.children:
 			tmp = ch.to_dict()
+			tmp["children"] = ch.children_dict()
+			chlist.append(tmp)
+		return chlist
+
+	def children_with_products_dict(self):
+		chlist = []
+		for ch in self.children:
+			tmp = ch.to_dict()
 			tmp["products"] = ch.products_dict()
 			tmp["children"] = ch.children_dict()
 			chlist.append(tmp)
