@@ -16,9 +16,7 @@ class CustomerException(ApiException):
 
 class Customer(db.Model):
 	__tablename__ = "customers"
-	id = db.Column(db.Integer,
-			db.Sequence("customer_cid_seq", start=1001, increment=1),
-			primary_key=True)
+	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(80), unique=True)
 	email = db.Column(db.String(120), unique=True)
 	first_name = db.Column(db.String(120), unique=False)
@@ -213,9 +211,7 @@ class ProductException(ApiException):
 
 class Product(db.Model):
     __tablename__ = "products"
-    id = db.Column(db.Integer,
-            db.Sequence("product_cid_seq", start=1, increment=1),
-            primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=False)
     slug = db.Column(db.String(255), unique=False)
     description = db.Column(db.String(10000), unique=False)
@@ -284,9 +280,7 @@ class ProductPropertyException(ApiException):
 
 class ProductProperty(db.Model):
     __tablename__ = "product_properties"
-    id = db.Column(db.Integer,
-            db.Sequence("product_property_cid_seq", start=1, increment=1),
-            primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=False)
     prefix = db.Column(db.String(255), unique=False)
     sufix = db.Column(db.String(10000), unique=False)
@@ -334,9 +328,7 @@ class ManufacturerException(ApiException):
 
 class Manufacturer(db.Model):
     __tablename__ = "manufacturers"
-    id = db.Column(db.Integer,
-            db.Sequence("manufacturer_cid_seq", start=1, increment=1),
-            primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=False)
     first_name = db.Column(db.String(255), unique=False)
     last_name = db.Column(db.String(255), unique=False)
@@ -405,9 +397,7 @@ class CategoryException(ApiException):
 
 class Category(db.Model):
     __tablename__ = "categories"
-    id = db.Column(db.Integer,
-            db.Sequence("category_cid_seq", start=1, increment=1),
-            primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=False)
     description = db.Column(db.String(10000), unique=False)
     slug = db.Column(db.String(255), unique=False)
