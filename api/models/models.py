@@ -7,6 +7,7 @@ Date: 04/2017
 from api.error import ApiException
 from api.role import Role
 from api.dbConnector import dbConnector
+from time import time
 
 conn = dbConnector()
 db = conn.db
@@ -183,11 +184,11 @@ class Order(db.Model):
 	customer_id = db.Column(db.Integer, db.ForeignKey("customers.id"))
 	ordered_products = db.relationship("OrderedProduct", backref="order", lazy="dynamic")
 
-	def __init__(self, timestamp, status, full_price=0.0,
+	def __init__(self, status, full_price=0.0,
 			id=None, shipping=None, customer=None,
 			ordered_products=[]):
 		self.id = id
-		self.timestamp = timestamp
+		self.timestamp = time()
 		self.status = status
 		self.full_price = full_price
 		self.shipping = shipping
@@ -225,7 +226,7 @@ class Order(db.Model):
 	def from_dict(self, order):
 		return self(
 			id         = order.get("id", None),
-			timestamp  = order.get("timestamp", None),
+			timestamp  = time(),
 			status     = order.get("status", None),
 			full_price = order.get("full_price", None),
 			shipping   = order.get("shipping", None),
@@ -362,14 +363,14 @@ class Review(db.Model):
 	timestamp = db.Column(db.Date, unique=False)
 	product = db.relationship("Product", backref="reviews")
 
-	def __init__(self, content, rating, timestamp,
-			product_id=None, customer_id=None,
-			product=None, customer=None):
+	def __init__(self, content, rating, product_id=None,
+			customer_id=None, product=None,
+			customer=None):
 		self.product_id = product_id
 		self.customer_id = customer_id
 		self.content = content
 		self.rating = rating
-		self.timestamp = timestamp
+		self.timestamp = time()
 		self.product = product
 		self.customer = customer
 
@@ -398,7 +399,7 @@ class Review(db.Model):
 		return self(
 			content = review.get("content", None),
 			rating = review.get("rating", None),
-			timestamp = review.get("timestamp", None),
+			timestamp = time(),
 			product = review.get("product", None),
 			customer = review.get("customer", None),
 			)
