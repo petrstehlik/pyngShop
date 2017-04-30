@@ -181,14 +181,18 @@ class Order(db.Model):
 	full_price = db.Column(db.Float, unique=False, default=0.0)
 	shipping_id = db.Column(db.Integer, db.ForeignKey("shipping.id"))
 	customer_id = db.Column(db.Integer, db.ForeignKey("customers.id"))
+	ordered_products = db.relationship("OrderedProduct", backref="order", lazy="dynamic")
 
-	def __init__(self, timestamp, status, full_price=0.0, id=None, shipping=None, customer=None):
+	def __init__(self, timestamp, status, full_price=0.0,
+			id=None, shipping=None, customer=None,
+			ordered_products=[]):
 		self.id = id
 		self.timestamp = timestamp
 		self.status = status
 		self.full_price = full_price
 		self.shipping = shipping
 		self.customer = customer
+		self.ordered_products = ordered_products
 
 	def to_dict(self):
 		tmp = {
@@ -211,6 +215,12 @@ class Order(db.Model):
 		else:
 			return self.customer.to_dict()
 
+	def ordered_products_dict(self):
+		oplist = []
+		for op in self.ordered_products:
+			oplist.append(op.to_dict())
+		return oplist
+
 	@classmethod
 	def from_dict(self, order):
 		return self(
@@ -220,6 +230,7 @@ class Order(db.Model):
 			full_price = order.full_price,
 			shipping   = order.shipping,
 			customer   = order.customer,
+			ordered_products = order.ordered_products,
 			)
 
 	def __repr__(self):
@@ -250,6 +261,7 @@ class Product(db.Model):
 			hidden = None,
 			reviews = [],
 			type_properties = [],
+			ordered_products = [],
 			):
 		self.name = name
 		self.id = id
@@ -261,6 +273,7 @@ class Product(db.Model):
 		self.hidden = hidden
 		self.reviews = reviews
 		self.type_properties = type_properties
+		self.ordered_products = ordered_products
 
 	def to_dict(self):
 		"""
@@ -291,6 +304,12 @@ class Product(db.Model):
 			tplist.append(tp.to_dict())
 		return tplist
 
+	def ordered_products_dict(self):
+		oplist = []
+		for op in self.ordered_products:
+			oplist.append(op.to_dict())
+		return oplist
+
 	@classmethod
 	def from_dict(self, product):
 		"""
@@ -307,10 +326,14 @@ class Product(db.Model):
 			hidden = product.get("hidden", None),
 			reviews = product.get("reviews", []),
 			type_properties = product.get("type_properties", []),
+			ordered_products = product.get("ordered_products", []),
 			))
 
 	def __repr__(self):
 		return '<Product %r>' % self.name
+
+class ReviewException(ApiException):
+	status_code = 401
 
 class Review(db.Model):
 	__tablename__ = 'reviews'
@@ -364,6 +387,53 @@ class Review(db.Model):
 
 	def __repr__(self):
 		return '<Review %r>' % str(self.timestamp)
+
+class OrderedProductException(ApiException):
+	status_code = 401
+
+class OrderedProduct(db.Model):
+	__tablename__ = "ordered_products"
+	product_id = db.Column(db.Integer, db.ForeignKey("products.id"), primary_key=True)
+	order_id = db.Column(db.Integer, db.ForeignKey("orders.id"), primary_key=True)
+	quantity = db.Column(db.Integer, unique=False)
+	product = db.relationship("Product", backref="ordered_products")
+
+	def __init__(self, quantity, product_id=None, order_id=None,
+			product=None, order=None):
+		self.product_id = product_id
+		self.order_id = order_id
+		self.quantity = quantity
+		self.product = product
+		self.order = order
+
+	def to_dict(self):
+		tmp = {
+			"quantity" : self.quantity,
+			}
+		return tmp
+
+	def product_dict(self):
+		if self.product == None:
+			return None
+		else:
+			return self.product.to_dict()
+
+	def order_dict(self):
+		if self.order == None:
+			return None
+		else:
+			return self.order.to_dict()
+
+	@classmethod
+	def from_dict(self, ordered_product):
+		return self(
+			quantity = ordered_product.quantity,
+			product = ordered_product.product,
+			order = ordered_product.order,
+			)
+
+	def __repr__(self):
+		return "<OrderedProduct %r>" % str(self.quantity)
 
 class ProductPropertyException(ApiException):
 	status_code = 401
@@ -422,6 +492,9 @@ class ProductProperty(db.Model):
 
 	def __repr__(self):
 		return '<Product property %r>' % self.name
+
+class TypePropertyException(ApiException):
+	status_code = 401
 
 class TypeProperty(db.Model):
 	__tablename__ = "type_properties"
