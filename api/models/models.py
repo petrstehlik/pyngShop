@@ -31,6 +31,7 @@ class Customer(db.Model):
 	state = db.Column(db.String(200), unique=False)
 	postal_code = db.Column(db.String(20), unique=False)
 	orders = db.relationship("Order", backref="customer", lazy="dynamic")
+	reviews = db.relationship("Review", backref="customer", lazy="dynamic")
 
 	def __init__(self,
 			username,
@@ -47,6 +48,7 @@ class Customer(db.Model):
 			state      = None,
 			postal_code= None,
 			orders     = [],
+			reviews    = [],
 			):
 		self.username = username
 		self.id = id
@@ -63,6 +65,7 @@ class Customer(db.Model):
 		self.state = state
 		self.postal_code = postal_code
 		self.orders = orders
+		self.reviews = reviews
 
 	def to_dict(self):
 		"""
@@ -93,6 +96,12 @@ class Customer(db.Model):
 			olist.append(order.to_dict())
 		return olist
 
+	def reviews_dict(self):
+		rlist = []
+		for r in self.reviews:
+			rlist.append(r.to_dict())
+		return rlist
+
 	@classmethod
 	def from_dict(self, user):
 		"""
@@ -113,6 +122,7 @@ class Customer(db.Model):
 			state       = user.get("state", None),
 			postal_code = user.get("postal_code", None),
 			orders      = user.get("orders", []),
+			reviews     = user.get("reviews", []),
 			))
 
 	def __repr__(self):
@@ -158,7 +168,7 @@ class Shipping(db.Model):
 			)
 
 	def __repr__(self):
-		return '<Shipping %r>' % self.id
+		return '<Shipping %r>' % str(self.id)
 
 class OrderException(ApiException):
 	status_code = 401
@@ -190,10 +200,16 @@ class Order(db.Model):
 		return tmp
 
 	def shipping_dict(self):
-		return self.shipping.to_dict()
+		if self.shipping == None:
+			return None
+		else:
+			return self.shipping.to_dict()
 
 	def customer_dict(self):
-		return self.customer.to_dict()
+		if self.customer == None:
+			return None
+		else:
+			return self.customer.to_dict()
 
 	@classmethod
 	def from_dict(self, order):
@@ -206,241 +222,306 @@ class Order(db.Model):
 			customer   = order.customer,
 			)
 
+	def __repr__(self):
+		return '<Order %r>' % str(self.id)
+
 class ProductException(ApiException):
-    status_code = 401
+	status_code = 401
 
 class Product(db.Model):
-    __tablename__ = "products"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), unique=False)
-    slug = db.Column(db.String(255), unique=False)
-    description = db.Column(db.String(10000), unique=False)
-    price = db.Column(db.Float, unique=False, default=0.00)
-    image = db.Column(db.String(255), unique=False)
-    in_stock = db.Column(db.Integer, unique=False, default=0)
-    hidden = db.Column(db.Boolean, unique=False, default=True)
+	__tablename__ = "products"
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(255), unique=False)
+	slug = db.Column(db.String(255), unique=False)
+	description = db.Column(db.String(10000), unique=False)
+	price = db.Column(db.Float, unique=False, default=0.00)
+	image = db.Column(db.String(255), unique=False)
+	in_stock = db.Column(db.Integer, unique=False, default=0)
+	hidden = db.Column(db.Boolean, unique=False, default=True)
 
-    def __init__(self,
-            name,
-            price,
-            id = None,
-            slug = None,
-            description = None,
-            image = None,
-            in_stock = None,
-            hidden = None,
-            ):
-        self.name = name
-        self.id = id
-        self.slug = slug
-        self.description = description
-        self.price = price
-        self.image = image
-        self.in_stock = in_stock
-        self.hidden = hidden
+	def __init__(self,
+			name,
+			price,
+			id = None,
+			slug = None,
+			description = None,
+			image = None,
+			in_stock = None,
+			hidden = None,
+			reviews = [],
+			):
+		self.name = name
+		self.id = id
+		self.slug = slug
+		self.description = description
+		self.price = price
+		self.image = image
+		self.in_stock = in_stock
+		self.hidden = hidden
+		self.reviews = reviews
 
-    def to_dict(self):
-        """
-        Return the internal data in dictionary
-        """
-        tmp = {
-            'name' : self.name,
-            'id' : self.id,
-            'slug' : self.slug,
-            'description' : self.description,
-            'price' : self.price,
-            'image' : self.image,
-            'in_stock' : self.in_stock,
-            'hidden': self.hidden,
-        }
+	def to_dict(self):
+		"""
+		Return the internal data in dictionary
+		"""
+		tmp = {
+			'name' : self.name,
+			'id' : self.id,
+			'slug' : self.slug,
+			'description' : self.description,
+			'price' : self.price,
+			'image' : self.image,
+			'in_stock' : self.in_stock,
+			'hidden': self.hidden,
+		}
 
-        return tmp
+		return tmp
 
-    @classmethod
-    def from_dict(self, product):
-        """
-        Create new product from dictionary
-        """
-        return(self(
-            name = product.get("name", None),
-            id = product.get("id", None),
-            slug = product.get("slug", None),
-            description = product.get("description", None),
-            price = product.get("price", 0.0),
-            image = product.get("image", None),
-            in_stock = product.get("in_stock", None),
-            hidden = product.get("hidden", None),
-            ))
+	def reviews_dict(self):
+		rlist = []
+		for r in self.reviews:
+			rlist.append(r.to_dict())
+		return rlist
 
-    def __repr__(self):
-        return '<Product %r>' % self.name
+	@classmethod
+	def from_dict(self, product):
+		"""
+		Create new product from dictionary
+		"""
+		return(self(
+			name = product.get("name", None),
+			id = product.get("id", None),
+			slug = product.get("slug", None),
+			description = product.get("description", None),
+			price = product.get("price", 0.0),
+			image = product.get("image", None),
+			in_stock = product.get("in_stock", None),
+			hidden = product.get("hidden", None),
+			reviews = product.get("reviews", []),
+			))
+
+	def __repr__(self):
+		return '<Product %r>' % self.name
+
+class Review(db.Model):
+	__tablename__ = 'reviews'
+	product_id = db.Column(db.Integer, db.ForeignKey('products.id'), primary_key=True)
+	customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'), primary_key=True)
+	content = db.Column(db.String(10000), unique=False)
+	rating = db.Column(db.Integer, unique=False)
+	timestamp = db.Column(db.Date, unique=False)
+	product = db.relationship("Product", backref="reviews")
+
+	def __init__(self, content, rating, timestamp,
+			product_id=None, customer_id=None,
+			product=None, customer=None):
+		self.product_id = product_id
+		self.customer_id = customer_id
+		self.content = content
+		self.rating = rating
+		self.timestamp = timestamp
+		self.product = product
+		self.customer = customer
+
+	def to_dict(self):
+		tmp = {
+			"content" : self.content,
+			"rating" : self.rating,
+			"timestamp" : self.timestamp,
+			}
+		return tmp
+
+	def product_dict(self):
+		if self.product == None:
+			return None
+		else:
+			return self.product.to_dict()
+
+	def customer_dict(self):
+		if self.customer == None:
+			return None
+		else:
+			return self.customer.to_dict()
+
+	@classmethod
+	def from_dict(self, review):
+		return self(
+			content = review.content,
+			rating = review.rating,
+			timestamp = review.timestamp,
+			product = review.product,
+			customer = review.customer,
+			)
+
+	def __repr__(self):
+		return '<Review %r>' % str(self.timestamp)
 
 class ProductPropertyException(ApiException):
-    status_code = 401
+	status_code = 401
 
 class ProductProperty(db.Model):
-    __tablename__ = "product_properties"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), unique=False)
-    prefix = db.Column(db.String(255), unique=False)
-    sufix = db.Column(db.String(10000), unique=False)
+	__tablename__ = "product_properties"
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(255), unique=False)
+	prefix = db.Column(db.String(255), unique=False)
+	sufix = db.Column(db.String(10000), unique=False)
 
-    def __init__(self,
-            name,
-            id = None,
-            prefix = None,
-            sufix = None,
-            ):
-        self.name = name
-        self.id = id
-        self.prefix = prefix
-        self.sufix = sufix
+	def __init__(self,
+			name,
+			id = None,
+			prefix = None,
+			sufix = None,
+			):
+		self.name = name
+		self.id = id
+		self.prefix = prefix
+		self.sufix = sufix
 
-    def to_dict(self):
-        """
-        Return the internal data in dictionary
-        """
-        tmp = {
-            'name' : self.name,
-            'id' : self.id,
-            'prefix' : self.prefix,
-            'sufix' : self.sufix,
-        }
+	def to_dict(self):
+		"""
+		Return the internal data in dictionary
+		"""
+		tmp = {
+			'name' : self.name,
+			'id' : self.id,
+			'prefix' : self.prefix,
+			'sufix' : self.sufix,
+		}
 
-        return tmp
+		return tmp
 
-    @classmethod
-    def from_dict(self, product_property):
-        """
-        Create new product_property from dictionary
-        """
-        return(self(
-            name = product_property.get("name", None),
-            prefix = product_property.get("prefix", None),
-            sufix = product_property.get("sufix", None),
-            ))
+	@classmethod
+	def from_dict(self, product_property):
+		"""
+		Create new product_property from dictionary
+		"""
+		return(self(
+			name = product_property.get("name", None),
+			prefix = product_property.get("prefix", None),
+			sufix = product_property.get("sufix", None),
+			))
 
-    def __repr__(self):
-        return '<Product property %r>' % self.name
+	def __repr__(self):
+		return '<Product property %r>' % self.name
 
 class ManufacturerException(ApiException):
-    status_code = 401
+	status_code = 401
 
 class Manufacturer(db.Model):
-    __tablename__ = "manufacturers"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), unique=False)
-    first_name = db.Column(db.String(255), unique=False)
-    last_name = db.Column(db.String(255), unique=False)
-    telephone = db.Column(db.String(20), unique=False)
-    email = db.Column(db.String(255), unique=False)
-    id_num = db.Column(db.String(20), unique=False)
-    delivery_time = db.Column(db.String(20), unique=False)
+	__tablename__ = "manufacturers"
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(255), unique=False)
+	first_name = db.Column(db.String(255), unique=False)
+	last_name = db.Column(db.String(255), unique=False)
+	telephone = db.Column(db.String(20), unique=False)
+	email = db.Column(db.String(255), unique=False)
+	id_num = db.Column(db.String(20), unique=False)
+	delivery_time = db.Column(db.String(20), unique=False)
 
 
-    def __init__(self,
-            name,
-            id = None,
-            first_name = None,
-            last_name = None,
-            telephone = None,
-            email = None,
-            id_num = None,
-            delivery_time = None,
-            ):
-        self.name = name
-        self.id = id
-        self.first_name = first_name
-        self.last_name = last_name
-        self.telephone = telephone
-        self.email = email
-        self.id_num = id_num
-        self.delivery_time = delivery_time
+	def __init__(self,
+			name,
+			id = None,
+			first_name = None,
+			last_name = None,
+			telephone = None,
+			email = None,
+			id_num = None,
+			delivery_time = None,
+			):
+		self.name = name
+		self.id = id
+		self.first_name = first_name
+		self.last_name = last_name
+		self.telephone = telephone
+		self.email = email
+		self.id_num = id_num
+		self.delivery_time = delivery_time
 
-    def to_dict(self):
-        """
-        Return the internal data in dictionary
-        """
-        tmp = {
-            'name' : self.name,
-            'id' : self.id,
-            'first_name' : self.first_name,
-            'last_name' : self.last_name,
-            'telephone' : self.telephone,
-            'email' : self.email,
-            'id_num' : self.id_num,
-            'delivery_time' : self.delivery_time,
-        }
+	def to_dict(self):
+		"""
+		Return the internal data in dictionary
+		"""
+		tmp = {
+			'name' : self.name,
+			'id' : self.id,
+			'first_name' : self.first_name,
+			'last_name' : self.last_name,
+			'telephone' : self.telephone,
+			'email' : self.email,
+			'id_num' : self.id_num,
+			'delivery_time' : self.delivery_time,
+		}
 
-        return tmp
+		return tmp
 
-    @classmethod
-    def from_dict(self, manufacturer):
-        """
-        Create new manufacturer from dictionary
-        """
-        return(self(
-            name = manufacturer.get("name", None),
-            first_name = manufacturer.get("first_name", None),
-            last_name = manufacturer.get("last_name", None),
-            telephone = manufacturer.get("telephone", None),
-            email = manufacturer.get("email", None),
-            id_num = manufacturer.get("id_num", None),
-            delivery_time = manufacturer.get("delivery_time", None),
-            ))
+	@classmethod
+	def from_dict(self, manufacturer):
+		"""
+		Create new manufacturer from dictionary
+		"""
+		return(self(
+			name = manufacturer.get("name", None),
+			first_name = manufacturer.get("first_name", None),
+			last_name = manufacturer.get("last_name", None),
+			telephone = manufacturer.get("telephone", None),
+			email = manufacturer.get("email", None),
+			id_num = manufacturer.get("id_num", None),
+			delivery_time = manufacturer.get("delivery_time", None),
+			))
 
-    def __repr__(self):
-        return '<Manufacturer %r>' % self.name
+	def __repr__(self):
+		return '<Manufacturer %r>' % self.name
 
 class CategoryException(ApiException):
-    status_code = 401
+	status_code = 401
 
 class Category(db.Model):
-    __tablename__ = "categories"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), unique=False)
-    description = db.Column(db.String(10000), unique=False)
-    slug = db.Column(db.String(255), unique=False)
-    hidden = db.Column(db.Boolean, unique=False, default=True)
+	__tablename__ = "categories"
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.String(255), unique=False)
+	description = db.Column(db.String(10000), unique=False)
+	slug = db.Column(db.String(255), unique=False)
+	hidden = db.Column(db.Boolean, unique=False, default=True)
 
-    def __init__(self,
-            name,
-            id = None,
-            description = None,
-            slug = None,
-            hidden = None,
-            ):
-        self.name = name
-        self.id = id
-        self.description = description
-        self.slug = slug
-        self.hidden = hidden
+	def __init__(self,
+			name,
+			id = None,
+			description = None,
+			slug = None,
+			hidden = None,
+			):
+		self.name = name
+		self.id = id
+		self.description = description
+		self.slug = slug
+		self.hidden = hidden
 
-    def to_dict(self):
-        """
-        Return the internal data in dictionary
-        """
-        tmp = {
-            'name' : self.name,
-            'id' : self.id,
-            'description' : self.description,
-            'slug' : self.slug,
-            'hidden' : self.hidden,
-        }
+	def to_dict(self):
+		"""
+		Return the internal data in dictionary
+		"""
+		tmp = {
+			'name' : self.name,
+			'id' : self.id,
+			'description' : self.description,
+			'slug' : self.slug,
+			'hidden' : self.hidden,
+		}
 
-        return tmp
+		return tmp
 
-    @classmethod
-    def from_dict(self, category):
-        """
-        Create new category from dictionary
-        """
-        return(self(
-            name = category.get("name", None),
-            description = category.get("description", None),
-            slug = category.get("slug", None),
-            hidden = category.get("hidden", None),
-            ))
+	@classmethod
+	def from_dict(self, category):
+		"""
+		Create new category from dictionary
+		"""
+		return(self(
+			name = category.get("name", None),
+			description = category.get("description", None),
+			slug = category.get("slug", None),
+			hidden = category.get("hidden", None),
+			))
 
-    def __repr__(self):
-        return '<Category %r>' % self.name
+	def __repr__(self):
+		return '<Category %r>' % self.name
