@@ -114,7 +114,7 @@ class Customer(db.Model):
 			last_name   = user.get("last_name", None),
 			email       = user.get("email", None),
 			password    = user.get("password", None),
-			settings    = user.get("settings", {}),
+			settings    = str(user.get("settings", {})),
 			address1    = user.get("address1", None),
 			address2    = user.get("address2", None),
 			phone       = user.get("phone", None),
