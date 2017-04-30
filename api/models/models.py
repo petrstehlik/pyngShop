@@ -263,6 +263,7 @@ class Product(db.Model):
 			type_properties = [],
 			ordered_products = [],
 			categories = [],
+			manufacturers = [],
 			):
 		self.name = name
 		self.id = id
@@ -276,6 +277,7 @@ class Product(db.Model):
 		self.type_properties = type_properties
 		self.ordered_products = ordered_products
 		self.categories = categories
+		self.manufacturers = manufacturers
 
 	def to_dict(self):
 		"""
@@ -318,6 +320,12 @@ class Product(db.Model):
 			clist.append(c.to_dict())
 		return clist
 
+	def manufacturers_dict(self):
+		mlist = []
+		for m in self.manufacturers:
+			mlist.append(m.to_dict())
+		return mlist
+
 	@classmethod
 	def from_dict(self, product):
 		"""
@@ -336,6 +344,7 @@ class Product(db.Model):
 			type_properties = product.get("type_properties", []),
 			ordered_products = product.get("ordered_products", []),
 			categories = product.get("categories", []),
+			manufacturers = product.get("manufacturers", []),
 			))
 
 	def __repr__(self):
@@ -549,6 +558,10 @@ class TypeProperty(db.Model):
 	def __repr__(self):
 		return "<TypeProperty %r>" % str(self.value)
 
+product_manufacturers = db.Table("product_manufacturers",
+		db.Column("product_id", db.Integer, db.ForeignKey("products.id"), primary_key=True),
+		db.Column("manufacturer_id", db.Integer, db.ForeignKey("manufacturers.id"), primary_key=True))
+
 class ManufacturerException(ApiException):
 	status_code = 401
 
@@ -562,7 +575,8 @@ class Manufacturer(db.Model):
 	email = db.Column(db.String(255), unique=False)
 	id_num = db.Column(db.String(20), unique=False)
 	delivery_time = db.Column(db.Date, unique=False)
-
+	products = db.relationship("Product", secondary=product_manufacturers,
+			backref="manufacturers")
 
 	def __init__(self,
 			name,
@@ -573,6 +587,7 @@ class Manufacturer(db.Model):
 			email = None,
 			id_num = None,
 			delivery_time = None,
+			products = [],
 			):
 		self.name = name
 		self.id = id
@@ -582,6 +597,7 @@ class Manufacturer(db.Model):
 		self.email = email
 		self.id_num = id_num
 		self.delivery_time = delivery_time
+		self.products = products
 
 	def to_dict(self):
 		"""
@@ -600,6 +616,12 @@ class Manufacturer(db.Model):
 
 		return tmp
 
+	def products_dict(self):
+		plist = []
+		for p in self.products:
+			plist.append(p.to_dict())
+		return plist
+
 	@classmethod
 	def from_dict(self, manufacturer):
 		"""
@@ -613,6 +635,7 @@ class Manufacturer(db.Model):
 			email = manufacturer.get("email", None),
 			id_num = manufacturer.get("id_num", None),
 			delivery_time = manufacturer.get("delivery_time", None),
+			products = manufacturer.get("products", []),
 			))
 
 	def __repr__(self):
