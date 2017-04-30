@@ -125,10 +125,10 @@ class Shipping(db.Model):
 	__tablename__ = "shipping"
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(200), unique=False)
-	price = db.Column(db.Integer, unique=False)
+	price = db.Column(db.Float, unique=False, default=0.0)
 	orders = db.relationship("Order", backref="shipping", lazy="dynamic")
 
-	def __init__(self, name, price, orders=[], id=None):
+	def __init__(self, name, price=0.0, orders=[], id=None):
 		self.id = id
 		self.name = name
 		self.price = price
@@ -153,7 +153,7 @@ class Shipping(db.Model):
 		return self(
 			id     =shipping.get('id', None),
 			name   =shipping.get('name', None),
-			price  =shipping.get('price', None),
+			price  =shipping.get('price', 0.0),
 			orders =shipping.get('orders', []),
 			)
 
@@ -168,11 +168,11 @@ class Order(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	timestamp = db.Column(db.Date, unique=False)
 	status = db.Column(db.String(200), unique=False)
-	full_price = db.Column(db.Integer, unique=False)
+	full_price = db.Column(db.Float, unique=False, default=0.0)
 	shipping_id = db.Column(db.Integer, db.ForeignKey("shipping.id"))
 	customer_id = db.Column(db.Integer, db.ForeignKey("customers.id"))
 
-	def __init__(self, timestamp, status, full_price, id=None, shipping=None, customer=None):
+	def __init__(self, timestamp, status, full_price=0.0, id=None, shipping=None, customer=None):
 		self.id = id
 		self.timestamp = timestamp
 		self.status = status
@@ -266,7 +266,7 @@ class Product(db.Model):
             id = product.get("id", None),
             slug = product.get("slug", None),
             description = product.get("description", None),
-            price = product.get("price", None),
+            price = product.get("price", 0.0),
             image = product.get("image", None),
             in_stock = product.get("in_stock", None),
             hidden = product.get("hidden", None),
