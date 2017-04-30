@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
   "name": "pyngShop",
   "version": "2.0.0-alpha",
-=======
-  "name": "www",
-  "version": "0.0.0",
->>>>>>> 10e2375... Angular 4 front-end
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -25,16 +20,12 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
-<<<<<<< HEAD
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.25",
     "bootstrap": "^4.0.0-alpha.6",
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "ng2-inline-editor": "^0.1.1-alpha.18",
     "ng2-validation": "^4.1.0",
-=======
-    "core-js": "^2.4.1",
->>>>>>> 10e2375... Angular 4 front-end
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },
