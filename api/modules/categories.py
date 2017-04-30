@@ -15,19 +15,14 @@ from api.role import Role
 
 category = Module('categories', __name__, url_prefix='/categories', no_version=True)
 
-@auth.required(Role.admin)
-def count_categories():
-	""" FIXME not used, remove """
-	return db.category.count()
-
 def get_categories():
 	res = Category.query.all()
 	categories = []
-
 	for category in res:
-		tmp = category.to_dict()
-		categories.append(tmp)
-
+		if category.parent == None:
+			tmp = category.to_dict()
+			tmp["children"] = category.children_dict()
+			categories.append(tmp)
 	return(json_util.dumps(categories))
 
 @auth.required(Role.admin)
