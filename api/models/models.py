@@ -431,11 +431,12 @@ class TypeProperty(db.Model):
 	product = db.relationship("Product", backref="type_properties")
 
 	def __init__(self, value, product_id=None, product_property_id=None,
-			product=None):
+			product=None, product_property=None):
 		self.product_id = product_id
 		self.product_property_id = product_property_id
 		self.value = value
 		self.product = product
+		self.product_property = product_property
 
 	def to_dict(self):
 		tmp = {
@@ -460,6 +461,7 @@ class TypeProperty(db.Model):
 		return self(
 			value = type_property.value,
 			product = type_property.product,
+			product_property = type_property.product_property,
 			)
 
 	def __repr__(self):
