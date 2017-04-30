@@ -249,6 +249,7 @@ class Product(db.Model):
 			in_stock = None,
 			hidden = None,
 			reviews = [],
+			type_properties = [],
 			):
 		self.name = name
 		self.id = id
@@ -259,6 +260,7 @@ class Product(db.Model):
 		self.in_stock = in_stock
 		self.hidden = hidden
 		self.reviews = reviews
+		self.type_properties = type_properties
 
 	def to_dict(self):
 		"""
@@ -283,6 +285,12 @@ class Product(db.Model):
 			rlist.append(r.to_dict())
 		return rlist
 
+	def type_properties_dict(self):
+		tplist = []
+		for tp in self.type_properties:
+			tplist.append(tp.to_dict())
+		return tplist
+
 	@classmethod
 	def from_dict(self, product):
 		"""
@@ -298,6 +306,7 @@ class Product(db.Model):
 			in_stock = product.get("in_stock", None),
 			hidden = product.get("hidden", None),
 			reviews = product.get("reviews", []),
+			type_properties = product.get("type_properties", []),
 			))
 
 	def __repr__(self):
@@ -365,17 +374,20 @@ class ProductProperty(db.Model):
 	name = db.Column(db.String(255), unique=False)
 	prefix = db.Column(db.String(255), unique=False)
 	sufix = db.Column(db.String(10000), unique=False)
+	type_properties = db.relationship("TypeProperty", backref="product_property", lazy="dynamic")
 
 	def __init__(self,
 			name,
 			id = None,
 			prefix = None,
 			sufix = None,
+			type_properties = [],
 			):
 		self.name = name
 		self.id = id
 		self.prefix = prefix
 		self.sufix = sufix
+		self.type_properties = type_properties
 
 	def to_dict(self):
 		"""
@@ -390,6 +402,12 @@ class ProductProperty(db.Model):
 
 		return tmp
 
+	def type_properties_dict(self):
+		tplist = []
+		for tp in self.type_properties:
+			tplist.append(tp.to_dict())
+		return tplist
+
 	@classmethod
 	def from_dict(self, product_property):
 		"""
@@ -399,10 +417,53 @@ class ProductProperty(db.Model):
 			name = product_property.get("name", None),
 			prefix = product_property.get("prefix", None),
 			sufix = product_property.get("sufix", None),
+			type_properties = product_property.get("type_properties", []),
 			))
 
 	def __repr__(self):
 		return '<Product property %r>' % self.name
+
+class TypeProperty(db.Model):
+	__tablename__ = "type_properties"
+	product_id = db.Column(db.Integer, db.ForeignKey("products.id"), primary_key=True)
+	product_property_id = db.Column(db.Integer, db.ForeignKey("product_properties.id"), primary_key=True)
+	value = db.Column(db.String(200), unique=False)
+	product = db.relationship("Product", backref="type_properties")
+
+	def __init__(self, value, product_id=None, product_property_id=None,
+			product=None):
+		self.product_id = product_id
+		self.product_property_id = product_property_id
+		self.value = value
+		self.product = product
+
+	def to_dict(self):
+		tmp = {
+			"value" : self.value,
+			}
+		return tmp
+
+	def product_dict(self):
+		if self.product == None:
+			return None
+		else:
+			return self.product.to_dict()
+
+	def product_property_dict(self):
+		if self.product_property == None:
+			return None
+		else:
+			return self.product_property.to_dict()
+
+	@classmethod
+	def from_dict(self, type_property):
+		return self(
+			value = type_property.value,
+			product = type_property.product,
+			)
+
+	def __repr__(self):
+		return "<TypeProperty %r>" % str(self.value)
 
 class ManufacturerException(ApiException):
 	status_code = 401
