@@ -224,13 +224,13 @@ class Order(db.Model):
 	@classmethod
 	def from_dict(self, order):
 		return self(
-			id         = order.id,
-			timestamp  = order.timestamp,
-			status     = order.status,
-			full_price = order.full_price,
-			shipping   = order.shipping,
-			customer   = order.customer,
-			ordered_products = order.ordered_products,
+			id         = order.get("id", None),
+			timestamp  = order.get("timestamp", None),
+			status     = order.get("status", None),
+			full_price = order.get("full_price", None),
+			shipping   = order.get("shipping", None),
+			customer   = order.get("customer", None),
+			ordered_products = order.get("ordered_products", []),
 			)
 
 	def __repr__(self):
@@ -387,11 +387,11 @@ class Review(db.Model):
 	@classmethod
 	def from_dict(self, review):
 		return self(
-			content = review.content,
-			rating = review.rating,
-			timestamp = review.timestamp,
-			product = review.product,
-			customer = review.customer,
+			content = review.get("content", None),
+			rating = review.get("rating", None),
+			timestamp = review.get("timestamp", None),
+			product = review.get("product", None),
+			customer = review.get("customer", None),
 			)
 
 	def __repr__(self):
@@ -436,9 +436,9 @@ class OrderedProduct(db.Model):
 	@classmethod
 	def from_dict(self, ordered_product):
 		return self(
-			quantity = ordered_product.quantity,
-			product = ordered_product.product,
-			order = ordered_product.order,
+			quantity = ordered_product.get("quantity", None),
+			product = ordered_product.get("product", None),
+			order = ordered_product.get("order", None),
 			)
 
 	def __repr__(self):
@@ -541,9 +541,9 @@ class TypeProperty(db.Model):
 	@classmethod
 	def from_dict(self, type_property):
 		return self(
-			value = type_property.value,
-			product = type_property.product,
-			product_property = type_property.product_property,
+			value = type_property.get("value", None),
+			product = type_property.get("product", None),
+			product_property = type_property.get("product_property", None),
 			)
 
 	def __repr__(self):
