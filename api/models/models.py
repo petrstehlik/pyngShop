@@ -656,8 +656,11 @@ class Category(db.Model):
 	description = db.Column(db.String(10000), unique=False)
 	slug = db.Column(db.String(255), unique=False)
 	hidden = db.Column(db.Boolean, unique=False, default=True)
+	parent_id = db.Column(db.Integer, db.ForeignKey("categories.id"))
 	products = db.relationship("Product", secondary=product_categories,
 			backref="categories")
+	children = db.relationship("Category", backref=db.backref("parent",
+		remote_side=[id]))
 
 	def __init__(self,
 			name,
@@ -665,14 +668,20 @@ class Category(db.Model):
 			description = None,
 			slug = None,
 			hidden = None,
+			parent_id = None,
 			products = [],
+			parent = None,
+			children = [],
 			):
 		self.name = name
 		self.id = id
 		self.description = description
 		self.slug = slug
 		self.hidden = hidden
+		self.parent_id = parent_id
 		self.products = products
+		self.parent = parent
+		self.children = children
 
 	def to_dict(self):
 		"""
@@ -685,7 +694,6 @@ class Category(db.Model):
 			'slug' : self.slug,
 			'hidden' : self.hidden,
 		}
-
 		return tmp
 
 	def products_dict(self):
@@ -693,6 +701,21 @@ class Category(db.Model):
 		for p in self.products:
 			plist.append(p.to_dict())
 		return plist
+
+	def parent_dict(self):
+		if self.parent == None:
+			return None
+		else:
+			return self.parent.to_dict()
+
+	def children_dict(self):
+		chlist = []
+		for ch in self.children:
+			tmp = ch.to_dict()
+			tmp["products"] = ch.products_dict()
+			tmp["children"] = ch.children_dict()
+			chlist.append(tmp)
+		return chlist
 
 	@classmethod
 	def from_dict(self, category):
@@ -705,6 +728,8 @@ class Category(db.Model):
 			slug = category.get("slug", None),
 			hidden = category.get("hidden", None),
 			products = category.get("products", []),
+			parent = category.get("parent", None),
+			children = category.get("children", []),
 			))
 
 	def __repr__(self):
