@@ -262,6 +262,7 @@ class Product(db.Model):
 			reviews = [],
 			type_properties = [],
 			ordered_products = [],
+			categories = [],
 			):
 		self.name = name
 		self.id = id
@@ -274,6 +275,7 @@ class Product(db.Model):
 		self.reviews = reviews
 		self.type_properties = type_properties
 		self.ordered_products = ordered_products
+		self.categories = categories
 
 	def to_dict(self):
 		"""
@@ -310,6 +312,12 @@ class Product(db.Model):
 			oplist.append(op.to_dict())
 		return oplist
 
+	def categories_dict(self):
+		clist = []
+		for c in self.categories:
+			clist.append(c.to_dict())
+		return clist
+
 	@classmethod
 	def from_dict(self, product):
 		"""
@@ -327,6 +335,7 @@ class Product(db.Model):
 			reviews = product.get("reviews", []),
 			type_properties = product.get("type_properties", []),
 			ordered_products = product.get("ordered_products", []),
+			categories = product.get("categories", []),
 			))
 
 	def __repr__(self):
@@ -619,6 +628,8 @@ class Category(db.Model):
 	description = db.Column(db.String(10000), unique=False)
 	slug = db.Column(db.String(255), unique=False)
 	hidden = db.Column(db.Boolean, unique=False, default=True)
+	products = db.relationship("Product", secondary=product_categories,
+			backref="categories")
 
 	def __init__(self,
 			name,
@@ -626,12 +637,14 @@ class Category(db.Model):
 			description = None,
 			slug = None,
 			hidden = None,
+			products = [],
 			):
 		self.name = name
 		self.id = id
 		self.description = description
 		self.slug = slug
 		self.hidden = hidden
+		self.products = products
 
 	def to_dict(self):
 		"""
@@ -647,6 +660,12 @@ class Category(db.Model):
 
 		return tmp
 
+	def products_dict(self):
+		plist = []
+		for p in self.products:
+			plist.append(p.to_dict())
+		return plist
+
 	@classmethod
 	def from_dict(self, category):
 		"""
@@ -657,7 +676,12 @@ class Category(db.Model):
 			description = category.get("description", None),
 			slug = category.get("slug", None),
 			hidden = category.get("hidden", None),
+			products = category.get("products", []),
 			))
 
 	def __repr__(self):
 		return '<Category %r>' % self.name
+
+product_categories = db.Table("product_categories",
+		db.Column("product_id", db.Integer, db.ForeignKey("products.id"), primary_key=True),
+		db.Column("category_id", db.Integer, db.ForeignKey("categories.id"), primary_key=True))
