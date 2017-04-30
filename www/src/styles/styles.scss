@@ -1,0 +1,53 @@
+/* You can add global styles to this file, and also import other style files */
+topbar {
+	height: 100px;
+	border: 1px solid red;
+
+	.user-menu {
+		margin-top: 35px;
+		color: #FFF;
+		display: block;
+		a {
+			color: #FFF;
+			font-weight: bold;
+		}
+		ul {
+			list-style-type: none;
+			float: right;
+			 li {
+			 	float: left;
+			 	&:after {
+					content: '| ';
+					display: inline-block;
+				}
+				&:last-child:after {
+					content: '';
+				}
+
+			 	a {
+			 		padding: 1em;
+
+			 		&:hover {
+			 			opacity: 0.5;
+			 		}
+			 	}
+			 }
+		}
+	}
+
+	.top-bar {
+		background: rgba(0,0,0,0.95);
+		height: 100px;
+
+		.logo {
+			display: block;
+			text-indent: -9999px;
+			height: 70px;
+			margin-top: 15px;
+			/*background: url('../img/logo.png') no-repeat center left;*/
+			background-size: contain;
+		}
+	}
+}
+
+
