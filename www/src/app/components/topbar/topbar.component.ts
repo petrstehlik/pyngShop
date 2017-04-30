@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { UserService, CartService, AuthService } from 'app/services';
+=======
+>>>>>>> de2c086... Add basic components
 
 @Component({
   selector: 'topbar',
   templateUrl: './topbar.component.html',
+<<<<<<< HEAD
   styleUrls: ['./topbar.component.scss'],
   providers : [UserService, CartService, AuthService]
 })
@@ -35,5 +39,19 @@ export class TopBarComponent implements OnInit {
                 }
             );
     }
+=======
+  styleUrls: ['./topbar.component.scss']
+})
+export class TopBarComponent implements OnInit {
+
+	role = {
+		"admin" : true
+	}
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+>>>>>>> de2c086... Add basic components
 
 }

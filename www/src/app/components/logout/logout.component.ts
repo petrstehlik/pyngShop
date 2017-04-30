@@ -29,6 +29,10 @@ export class LogoutComponent implements OnInit {
 					this.router.navigate([this.returnUrl]);
 				}
 			);
+<<<<<<< HEAD
 	}
+=======
+	} 
+>>>>>>> de2c086... Add basic components
 
 }
