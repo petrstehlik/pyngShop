@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/map'
 
-import { UserService } from 'app/services/user.service';
-
-@Injectable(
-)
+@Injectable()
 export class AuthService {
 
-	constructor(private http: Http,
-	           private userService : UserService) { }
+	constructor(private http: Http) { }
 
 	login(username: string, password: string) {
-		return this.http.post('/authorization/user',
+		return this.http.post('/authorization',
 			JSON.stringify({ username: username, password: password })
 			)
             .map((response: Response) => {
@@ -30,7 +26,6 @@ export class AuthService {
 				if (resp) {
                     // store user details and token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(resp));
-                    this.userService.refresh();
                 }
 			})
 			.catch(this.handleError);
@@ -43,8 +38,7 @@ export class AuthService {
 		return this.http.delete('/authorization')
 			.map((response : Response) => {
 				console.log(response);
-				this.userService.refresh();
-			}).catch(this.handleError);
+			});
 			//localStorage.removeItem('currentUser');
 
 	}
@@ -68,7 +62,6 @@ export class AuthService {
     }
 
 	private handleError(err : Response | any) {
-	    console.log(err);
 		return Promise.reject(err);
 	}
 }
