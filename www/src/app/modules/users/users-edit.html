@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <topbar></topbar>
 	<div class="container">
 		<a [routerLink]="['/', 'admin', 'users']"><span class="fa fa-chevron-left"></span> Back to users</a>
@@ -10,12 +11,28 @@
 		<label for="email">E-mail *</label>
 		<input placeholder="E-mail" [(ngModel)]="user.email"
 				name="email" type="email" id="email">
+=======
+<h2>
+	<a routerLink='/users'>
+		<i class="fa fa-chevron-left" aria-hidden="true"></i>
+	</a> Edit user "{{ user.username }}"</h2>
+
+<form>
+	<div class="form-group">
+		<label for="email">E-mail</label>
+		<input placeholder="E-mail" [(ngModel)]="user.email"
+				name="email" type="email" id="email" class="form-control">
+>>>>>>> e0bddf3... Add base for modules
 	</div>
 
 	<div class="form-group">
 		<label for="password">New Password</label>
 		<input placeholder="New password" [(ngModel)]="user.password"
+<<<<<<< HEAD
 				name="password" type="password" id="password">
+=======
+				name="password" type="password" id="password" class="form-control">
+>>>>>>> e0bddf3... Add base for modules
 
 		<label for="password_validation">Password Validation</label>
 		<input placeholder="Password validation" [(ngModel)]="passwordValidation"
@@ -42,13 +59,21 @@
 			id="last-name" class="form-control">
 	</div>
 
+<<<<<<< HEAD
 	<!--div class="form-group">
+=======
+	<div class="form-group">
+>>>>>>> e0bddf3... Add base for modules
 		<select placeholder="Role" [(ngModel)]="user.role" name="role" class="custom-select">
 			<option *ngFor="let role of roles" [value]="role.value">
 			  {{role.viewValue}}
 			</option>
 		</select>
+<<<<<<< HEAD
 	</div-->
+=======
+	</div>
+>>>>>>> e0bddf3... Add base for modules
 
 	<div class="form-group">
 		<button class="btn btn-primary"
@@ -58,5 +83,12 @@
 		<span *ngIf="error">Error: {{ error }}</span>
 	</div>
 </form>
+<<<<<<< HEAD
 	</div>
 
+=======
+
+
+{{ user | json }}
+{{ user_original | json }}
+>>>>>>> e0bddf3... Add base for modules

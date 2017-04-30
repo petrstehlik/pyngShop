@@ -10,13 +10,20 @@ import {
 	usersEditComponent
 	} from './users.component';
 
+<<<<<<< HEAD
 import { TopBarModule } from 'app/components/topbar/top-bar.module';
 
+=======
+>>>>>>> e0bddf3... Add base for modules
 import { AuthGuard } from  'app/utils/auth.guard';
 
 const usersRoutes : Routes = [
 	{
+<<<<<<< HEAD
 		path : 'admin/users',
+=======
+		path : 'users',
+>>>>>>> e0bddf3... Add base for modules
 		component : usersComponent,
 		canActivate : [AuthGuard],
 		data : {
@@ -63,7 +70,10 @@ const usersRoutes : Routes = [
 	imports : [
 		CommonModule,
 		FormsModule,
+<<<<<<< HEAD
 		TopBarModule,
+=======
+>>>>>>> e0bddf3... Add base for modules
 		RouterModule.forChild(usersRoutes)
 	],
 	declarations : [usersComponent, usersAddComponent, usersListComponent, usersEditComponent],
