@@ -618,6 +618,10 @@ class Manufacturer(db.Model):
 	def __repr__(self):
 		return '<Manufacturer %r>' % self.name
 
+product_categories = db.Table("product_categories",
+		db.Column("product_id", db.Integer, db.ForeignKey("products.id"), primary_key=True),
+		db.Column("category_id", db.Integer, db.ForeignKey("categories.id"), primary_key=True))
+
 class CategoryException(ApiException):
 	status_code = 401
 
@@ -681,7 +685,3 @@ class Category(db.Model):
 
 	def __repr__(self):
 		return '<Category %r>' % self.name
-
-product_categories = db.Table("product_categories",
-		db.Column("product_id", db.Integer, db.ForeignKey("products.id"), primary_key=True),
-		db.Column("category_id", db.Integer, db.ForeignKey("categories.id"), primary_key=True))
