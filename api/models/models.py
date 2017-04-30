@@ -177,7 +177,7 @@ class OrderException(ApiException):
 class Order(db.Model):
 	__tablename__ = "orders"
 	id = db.Column(db.Integer, primary_key=True)
-	timestamp = db.Column(db.Date, unique=False)
+	timestamp = db.Column(db.Integer, unique=False)
 	status = db.Column(db.String(200), unique=False)
 	full_price = db.Column(db.Float, unique=False, default=0.0)
 	shipping_id = db.Column(db.Integer, db.ForeignKey("shipping.id"))
@@ -360,7 +360,7 @@ class Review(db.Model):
 	customer_id = db.Column(db.Integer, db.ForeignKey('customers.id'), primary_key=True)
 	content = db.Column(db.String(10000), unique=False)
 	rating = db.Column(db.Integer, unique=False)
-	timestamp = db.Column(db.Date, unique=False)
+	timestamp = db.Column(db.Integer, unique=False)
 	product = db.relationship("Product", backref="reviews")
 
 	def __init__(self, content, rating, product_id=None,
