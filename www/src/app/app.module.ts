@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-<<<<<<< HEAD
 import { HttpModule, Http, Request, XHRBackend, RequestOptions} from '@angular/http';
 import { RouterModule, Routes, Router } from '@angular/router';
 
@@ -178,22 +177,6 @@ export function setFactory (xhrBackend: XHRBackend,
 		}
 
   ],
-=======
-import { HttpModule } from '@angular/http';
-
-import { AppComponent } from './app.component';
-
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule
-  ],
-  providers: [],
->>>>>>> 10e2375... Angular 4 front-end
   bootstrap: [AppComponent]
 })
 export class AppModule { }

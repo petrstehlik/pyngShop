@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
-<<<<<<< HEAD
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AuthService } from './services';
-=======
->>>>>>> 10e2375... Angular 4 front-end
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-<<<<<<< HEAD
   styleUrls: ['./app.component.css'],
   providers : [AuthService]
 })
@@ -80,10 +76,4 @@ export class AppComponent {
 		this.user = { user : {username : ""}};
 		this.router.navigate(['/login']);
 	}
-=======
-  styleUrls: ['./app.component.css']
-})
-export class AppComponent {
-  title = 'app works!';
->>>>>>> 10e2375... Angular 4 front-end
 }
