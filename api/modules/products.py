@@ -278,7 +278,10 @@ def remove_category(product_id, category_id):
 	product = Product.query.get_or_404(product_id)
 	category = Category.query.get_or_404(category_id)
 
-	product.categories.remove(category)
+	if category in product.categories:
+		product.categories.remove(category)
+	else:
+		raise CategoryException("There is not such a category", status_code=404)
 
 	try:
 		db.db.session.commit()
