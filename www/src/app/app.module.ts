@@ -18,6 +18,8 @@ import { HttpInterceptor } from './utils/index';
 import { SafePipe, SafePipeModule } from 'app/utils/safe.pipe';
 
 import { modules } from './modules';
+import { CategoryBarComponent } from './components/category-bar/category-bar.component';
+import { CategoryItemComponent } from './components/category-item/category-item.component';
 
 export const appRoutes: Routes = [
 	{
@@ -54,7 +56,9 @@ export function setFactory (xhrBackend: XHRBackend,
     LogoutComponent,
     SetupComponent,
     NullComponent,
-    TopBarComponent
+    TopBarComponent,
+    CategoryBarComponent,
+    CategoryItemComponent
   ],
   imports: [
 	modules,
