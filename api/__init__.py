@@ -29,6 +29,7 @@ config = Config()
 from .dbConnector import dbConnector
 from .session import SessionManager
 from .bootstrap import routes, import_modules, admin_setup
+from .models import *
 from .auth import Auth
 from .role import Role
 
@@ -49,7 +50,7 @@ session_manager = SessionManager.from_object(config)
 print("# Authorization module setting up")
 auth = Auth(db, session_manager, config['api']['secret_key'])
 
-if (db.provider == "mongodb"):
+if (db.provider == "mongodb" or db.provider == "sqlite"):
 	admin = admin_setup(db)
 
 print("# Configuring server app")

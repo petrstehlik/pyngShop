@@ -1,5 +1,5 @@
-from .error import ApiException
-from .role import Role
+from api.error import ApiException
+from api.role import Role
 
 class UserException(ApiException):
 	status_code = 401
@@ -130,7 +130,7 @@ class User(object):
 			settings	= user.get("settings", {})
 			))
 
-from .dbConnector import dbConnector
+from api.dbConnector import dbConnector
 conn = dbConnector()
 
 db = conn.db
@@ -153,7 +153,7 @@ class SqlUser(db.Model):
 			last_name	= None,
 			email		= None,
 			password	= None,
-			role		= None,
+			role		= Role.guest,
 			settings	= None,
 			):
 		self.username = username
@@ -226,7 +226,7 @@ class SqlUser(db.Model):
 			email		= user.get("email", None),
 			password	= user.get("password", None),
 			role		= User.parseRole(user.get("role", None)),
-			settings	= user.get("settings", {})
+			settings	= str(user.get("settings", {}))
 			))
 
 	def __repr__(self):

@@ -4,12 +4,13 @@ from bson import json_util
 from api import auth, db
 from api.module import Module
 from api.auth import AuthException
-from api.user import SqlUser as User
+from api.models.user import SqlUser as User
+from api.models.models import Customer
 
 au = Module('authorization', __name__, url_prefix='/authorization', no_version=True)
 
-@au.route('', methods=['POST'])
-def login():
+@au.route('/user', methods=['POST'])
+def login_user():
 	"""
 	Authorize user using their username and password
 	@return user's document from the DB including config
@@ -21,11 +22,25 @@ def login():
 
 	user = User(user_data['username'], password=user_data['password'])
 
-	user = auth.login(user)
+	user = auth.login_user(user)
 
-	session_id = auth.store_session(user)
+	session_id = auth.store_session(user, is_user=True)
 
 	return(json_util.dumps({"session_id" : session_id, "user" : user.to_dict()}))
+
+@au.route('/customer', methods=['POST'])
+def login_customer():
+	"""
+	Authorize customer using their username and password
+	@return customer's document from the DB including config
+	"""
+	customer_data = request.get_json()
+	if not customer_data:
+		raise AuthException("Missing customer data")
+	customer = Customer(customer_data['username'], password=customer_data['password'])
+	customer = auth.login_customer(customer)
+	session_id = auth.store_session(customer, is_user=False)
+	return(json_util.dumps({"session_id" : session_id, "customer" : customer.to_dict()}))
 
 @au.route('', methods=['DELETE'])
 @auth.required()
