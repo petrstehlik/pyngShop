@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-<<<<<<< HEAD
 import { AuthService, UserService } from 'app/services';
 
 @Component({
@@ -8,15 +7,6 @@ import { AuthService, UserService } from 'app/services';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   providers : [AuthService, UserService]
-=======
-import { AuthService } from 'app/services';
-
-@Component({
-  selector: 'login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  providers : [AuthService]
->>>>>>> de2c086... Add basic components
 })
 export class LoginComponent implements OnInit {
 
@@ -35,12 +25,8 @@ export class LoginComponent implements OnInit {
 	constructor(
 		private route : ActivatedRoute,
 		private router : Router,
-<<<<<<< HEAD
 		private authService: AuthService,
 	    private userService : UserService) {}
-=======
-		private authService: AuthService) {}
->>>>>>> de2c086... Add basic components
 
 	ngOnInit() {
 		// fetch the return URL and use it if set
@@ -83,10 +69,7 @@ export class LoginComponent implements OnInit {
 			.subscribe(
 				data => {
 					this.unsetError();
-<<<<<<< HEAD
 					this.userService.refresh();
-=======
->>>>>>> de2c086... Add basic components
 					this.router.navigate([this.returnUrl]);
 				},
 				error => {
