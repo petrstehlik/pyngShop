@@ -24,10 +24,12 @@ import { CategoryBarComponent } from './components/category-bar/category-bar.com
 import { CategoryItemComponent } from './components/category-item/category-item.component';
 import { CategoryComponent } from './components/category/category.component';
 
-import {UserService} from './services/user.service'
+import {UserService} from './services/user.service';
+import { RegisterComponent } from './components/register/register.component'
 
 import {InlineEditorModule} from 'ng2-inline-editor';
 import { ProductCardComponent } from './components/product-card/product-card.component';
+import { Contact } from './components/contact/contact.component';
 
 export const appRoutes: Routes = [
 	{
@@ -42,6 +44,10 @@ export const appRoutes: Routes = [
 		path : 'logout',
 		component : LogoutComponent,
 		canActivate : [AuthGuard]
+	},
+	{
+		path : 'register',
+		component : RegisterComponent
 	},
     {
         path : 'category/:id',
@@ -77,7 +83,12 @@ export function setFactory (xhrBackend: XHRBackend,
     CategoryBarComponent,
     CategoryItemComponent,
     CategoryComponent,
+<<<<<<< 8015c76c710cda618660da91680e38d10ea194e6
     ProductCardComponent
+=======
+    RegisterComponent,
+    Contact
+>>>>>>> Add registration form & components
   ],
   imports: [
 	modules,

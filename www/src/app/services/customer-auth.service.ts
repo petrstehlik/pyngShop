@@ -49,6 +49,20 @@ export class CustomerAuthService {
 
 	}
 
+	register(customer : Object) {
+		return this.http.post('/customers', JSON.stringify(customer))
+		.map((response : Response) => {
+			console.log(response);
+		}).catch(this.handleError);
+	}
+
+	update(customer : Object) {
+		return this.http.put('/customer', JSON.stringify(customer))
+		.map((response : Response) => {
+			console.log(response);
+		}).catch(this.handleError);
+	}
+
 	checkSession() {
 		return this.http.get('/authorization').map(
 			(response : Response) => {
