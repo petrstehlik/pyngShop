@@ -8,6 +8,7 @@ import bcrypt
 from flask import request
 from bson import json_util, ObjectId
 import pymongo
+from slugify import slugify
 
 from api import auth, db
 from api.module import Module
@@ -45,6 +46,7 @@ def add_category():
 	try:
 		if parent != None:
 			parent.children.append(category)
+		category.slug = slugify(category.name, to_lower=True)
 		db.db.session.add(category)
 		res = db.db.session.commit()
 	except Exception as e:
@@ -87,6 +89,7 @@ def edit_category(category_id):
 	# check for all fields to be updated
 	if "name" in category_dict and category_dict["name"]!= "":
 		category.name = category_dict["name"]
+		category.slug = slugify(category.name, to_lower=True)
 
 	if "description" in category_dict and category_dict["description"] != "":
 		category.description = category_dict["description"]
