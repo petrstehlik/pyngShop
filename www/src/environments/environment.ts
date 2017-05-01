@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  apiUrl : "/libapi",
+  apiUrl : "/api",
   ftas : {
     /**
       * simple URL (without protocol) to FTAS instance
