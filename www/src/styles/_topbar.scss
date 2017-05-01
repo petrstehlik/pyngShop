@@ -1,8 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
 topbar {
 	height: 100px;
-	border: 1px solid red;
-
 	.user-menu {
 		margin-top: 35px;
 		color: #FFF;
@@ -44,11 +41,8 @@ topbar {
 			text-indent: -9999px;
 			height: 70px;
 			margin-top: 15px;
-			/*background: url('../img/logo.png') no-repeat center left;*/
+			background: url('../assets/logo.png') no-repeat center left;
 			background-size: contain;
 		}
 	}
 }
-
-
-
