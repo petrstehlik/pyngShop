@@ -1,0 +1,81 @@
+<topbar></topbar>
+<category-bar></category-bar>
+
+<div class="container">
+	<h2>Register</h2>
+	<form (ngSubmit)="onSubmit()" #contactForm="ngForm" novalidate>
+		<div class="form-group">
+			<label for="username">Username *</label>
+			<input type="text" class="form-control" placeholder="Enter Your Username" required
+				[(ngModel)]="contact.username" #fusername="ngModel" name="user_name">
+			<div [hidden]="fusername.valid || fusername.pristine" class="alert alert-danger">
+				username is required
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="firstname">First Name</label>
+			<input type="text" class="form-control" placeholder="Enter Your First Name"
+				[(ngModel)]="contact.firstname" #fname="ngModel" name="first_name">
+		</div>
+
+		<div class="form-group">
+			<label for="lastname">Last Name *</label>
+			<input type="text" class="form-control" placeholder="Enter Your Last Name" required
+				[(ngModel)]="contact.lastname" #flname="ngModel" name="last_name">
+			<div [hidden]="flname.valid || flname.pristine" class="alert alert-danger">
+				Lastname is required
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="password">Password *</label>
+			<input type="password" class="form-control" placeholder="Enter Your Password" required
+				[(ngModel)]="contact.password" #fpass="ngModel" name="password">
+			<div [hidden]="fpass.valid || fpass.pristine" class="alert alert-danger">
+				Password is required
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="email">Email *</label>
+			<input type="email" class="form-control" placeholder="Enter Your Email" required
+				[(ngModel)]="contact.email" #fmail="ngModel" name="email">
+			<div [hidden]="fmail.valid || fmail.pristine" class="alert alert-danger">
+				Email is required
+			</div>
+		</div>
+
+		<button type="submit" class="btn btn-primary" [disabled]="!contactForm.form.valid">
+			Submit
+		</button>
+		<button type="button" class="btn btn-primary" (click)="newContact()">
+			New Contact
+		</button>
+	</form>
+</div>
+<div [hidden]="!submitted">
+	<h2>Your contact details :</h2>
+	<div class="well">
+		<div class="row">
+			<div class="col-xs-2">First Name</div>
+			<div class="col-xs-10 pull-left">{{ contact.firstname }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2">Last Name</div>
+			<div class="col-xs-10 pull-left">{{ contact.lastname }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2">Country</div>
+			<div class="col-xs-10 pull-left">{{ contact.country }}</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-2">Phone Number</div>
+			<div class="col-xs-10 pull-left">{{ contact.phone }}</div>
+		</div>
+		<br>
+		<button class="btn btn-primary" (click)="submitted=false">Edit Contact</button>
+	</div>
+</div>
+
+{{contact|json}}
