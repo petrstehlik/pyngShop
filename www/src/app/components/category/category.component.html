@@ -1,73 +1,11 @@
 <topbar></topbar>
 <category-bar></category-bar>
 
-<div class="container">
-	<div class="row">
-		<h2 *ngIf="!user.isAdmin(); else admin_edit_name" class="col">{{ category.name }}</h2>
+<p>
+  category works!
+</p>
 
-		<ng-template #admin_edit_name>
-			<div class="col-4">
-				<div class="form-control">
-					<label>Category name</label>
-					<inline-editor type="text" [(ngModel)]="category.name" name="headline" (onSave)="update($event)"></inline-editor>
-				</div>
-			</div>
-			<div class="col-2">
-				<div class="form-control">
 
-					<label>Slug</label>
-					<small>
-						<inline-editor type="text" [(ngModel)]="category.slug" name="slug" (onSave)="update($event)"></inline-editor>
-					</small>
-				</div>
-			</div>
-		</ng-template>
-	</div>
+{{ category | json }}
 
-	<!-- DESCRIPTION -->
-	<div class="row">
-
-		<p *ngIf="!user.isAdmin(); else admin_edit_description" class="col">
-			{{ category.description }}
-		</p>
-
-		<ng-template #admin_edit_description>
-			<div class="col-12">
-				<div class="form-control">
-					<label>Description</label>
-					<inline-editor type="textarea" [(ngModel)]="category.description" (onSave)="update($event)" name="description"></inline-editor>
-				</div>
-			</div>
-		</ng-template>
-	</div>
-
-	<!-- SUBCATEGORIES -->
-	<div class="row subcat" *ngIf="(category.children && category.children.length > 0) || user.isAdmin()">
-		<h4 class="col">Subcategories</h4>
-
-		<div class="col-12">
-			<div class="row">
-				<div class="cat col-2" *ngFor="let subc of category.children">
-					<a class="btn" [routerLink]="['/', 'category', subc.id]" >{{ subc.name }}</a>
-				</div>
-
-				<div class="cat col-4 btn" *ngIf="user.isAdmin()">
-					<label>Add new subcategory</label>
-					<inline-editor type="text" [(ngModel)]="newsubcat.name" (onSave)="addSubCat($event)" name="newsubcat" size="14"></inline-editor>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="row product-listing">
-		<product-card [item]="product" *ngFor="let product of category.products" class="col-4" [hidden]="product?.hidden"></product-card>
-
-		<div class="col-4" *ngIf="user.isAdmin()">
-			<a class="card" [routerLink]="['/', 'category', id, 'product', 'new']">
-				<img class="card-img-top" src="assets/add_icon.png" alt="Add new product" />
-				<span class="btn btn-primary">Add new product</span>
-			</a>
-		</div>
-	</div>
-</div>
-
+{{ id }}
