@@ -27,7 +27,7 @@ def filter_criterion(ts, from_, to_):
 	elif from_ != None and to_ != None:
 		return (and_(ts >= from_, ts <= to_))
 
-@auth.required(Role.admin)
+#@auth.required(Role.admin)
 def get_orders():
 	arg_from = request.args.get("from", None)
 	arg_to = request.args.get("to", None)
@@ -77,7 +77,7 @@ def get_orders():
 
 	return(json_util.dumps(orders))
 
-@auth.required(Role.admin)
+#@auth.required(Role.admin)
 def get_products():
 	arg_from = request.args.get("from", None)
 	arg_to = request.args.get("to", None)
