@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
 import {CategoryService } from 'app/services/category.service';
+import {UserService } from 'app/services/user.service';
 
 @Component({
   selector: 'category-bar',
   templateUrl: './category-bar.component.html',
   styleUrls: ['./category-bar.component.scss'],
-  providers : [CategoryService]
+  providers : [CategoryService, UserService]
 })
 export class CategoryBarComponent implements OnInit {
 
-    user = {
-        admin : false
-    }
     categories = [
         {
             "slug" : "ebooks",
@@ -27,7 +25,10 @@ export class CategoryBarComponent implements OnInit {
         }
     ]
 
-    constructor(private category : CategoryService) { }
+    newcat = "+ Add Category";
+
+    constructor(private category : CategoryService,
+               private user : UserService) { }
 
     ngOnInit() {
         this.category.fetchAll().subscribe(
@@ -38,6 +39,13 @@ export class CategoryBarComponent implements OnInit {
                 console.log(error);
             }
         );
+    }
+
+    saveEditable(event : any) {
+        if (event == "+ Add Category") {
+            return;
+        }
+        console.log(event);
     }
 
 }
