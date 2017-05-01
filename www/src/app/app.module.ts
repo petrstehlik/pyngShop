@@ -14,6 +14,7 @@ import { SetupComponent } from './components/';
 import { NullComponent, TopBarComponent } from './components/';
 import { CustomerLoginComponent } from './components/customer-login/login.component';
 
+
 import { AuthGuard } from './utils/index';
 import { HttpInterceptor } from './utils/index';
 import { SafePipe, SafePipeModule } from 'app/utils/safe.pipe';
@@ -24,6 +25,8 @@ import { CategoryItemComponent } from './components/category-item/category-item.
 import { CategoryComponent } from './components/category/category.component';
 
 import {UserService} from './services/user.service'
+
+import {InlineEditorModule} from 'ng2-inline-editor';
 
 export const appRoutes: Routes = [
 	{
@@ -80,6 +83,7 @@ export function setFactory (xhrBackend: XHRBackend,
     BrowserModule,
 	FormsModule,
 	HttpModule,
+	InlineEditorModule,
 	NgbModule.forRoot(),
 	RouterModule.forRoot(appRoutes)
   ],
