@@ -12,6 +12,7 @@ import { LoginComponent } from './components/';
 import { LogoutComponent } from './components/';
 import { SetupComponent } from './components/';
 import { NullComponent, TopBarComponent } from './components/';
+import { CustomerLoginComponent } from './components/customer-login/login.component';
 
 import { AuthGuard } from './utils/index';
 import { HttpInterceptor } from './utils/index';
@@ -20,17 +21,28 @@ import { SafePipe, SafePipeModule } from 'app/utils/safe.pipe';
 import { modules } from './modules';
 import { CategoryBarComponent } from './components/category-bar/category-bar.component';
 import { CategoryItemComponent } from './components/category-item/category-item.component';
+import { CategoryComponent } from './components/category/category.component';
+
+import {UserService} from './services/user.service'
 
 export const appRoutes: Routes = [
 	{
-		path : 'login',
+		path : 'admin/login',
 		component : LoginComponent
+	},
+	{
+		path : 'login',
+		component : CustomerLoginComponent
 	},
 	{
 		path : 'logout',
 		component : LogoutComponent,
 		canActivate : [AuthGuard]
 	},
+    {
+        path : 'category/:id',
+        component : CategoryComponent
+    },
 	{
 		path: '',
 		component: HomeComponent,
@@ -53,12 +65,14 @@ export function setFactory (xhrBackend: XHRBackend,
     AppComponent,
     HomeComponent,
     LoginComponent,
+    CustomerLoginComponent,
     LogoutComponent,
     SetupComponent,
     NullComponent,
     TopBarComponent,
     CategoryBarComponent,
-    CategoryItemComponent
+    CategoryItemComponent,
+    CategoryComponent
   ],
   imports: [
 	modules,
@@ -71,6 +85,7 @@ export function setFactory (xhrBackend: XHRBackend,
   ],
   providers: [
 	AuthGuard,
+	UserService,
 	SafePipe,
 		{
 			provide : Http,
