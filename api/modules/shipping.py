@@ -18,7 +18,7 @@ shipping = Module('shippings', __name__, url_prefix='/shippings', no_version=Tru
 @auth.required(Role.admin)
 def count_shippings():
 	""" FIXME not used, remove """
-	return db.shipping.count()
+	return db.shippings.count()
 
 def get_shippings():
 	res = Shipping.query.all()

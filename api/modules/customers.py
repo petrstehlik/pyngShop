@@ -8,7 +8,7 @@ from bson import json_util
 
 from .. import auth, db
 from ..module import Module
-from ..models.models import Customer, CustomerException
+from ..models.models import Customer, CustomerException, Order
 from ..role import Role
 from ..session import SessionException
 
@@ -190,6 +190,30 @@ def edit_profile():
 	tmp = customer.to_dict()
 	return(json_util.dumps(tmp))
 
+@auth.required()
+def get_orders():
+	session_id = request.headers.get('Authorization', None)
+	if not session_id:
+		raise SessionException("Header field 'Authorization' not found.")
+	try:
+		session = auth.lookup(session_id)
+	except SessionException:
+		raise SessionException("Session not found")
+
+	res = db.db.session.query(Order).filter_by(customer_id = session["user"].id).all()
+	orders = []
+
+	for order in res:
+		tmp = order.to_dict()
+		tmp["shipping"] = order.shipping.to_dict()
+		products = []
+		for ordered_product in order.ordered_products:
+			products.append(ordered_product.product.to_dict())
+		tmp["products"] = products
+		orders.append(tmp)
+
+	return(json_util.dumps(orders))
+
 customers.add_url_rule('', view_func=get_customers, methods=['GET'])
 customers.add_url_rule('', view_func=add_customer, methods=['POST'])
 customers.add_url_rule('/<string:customer_id>', view_func=get_customer, methods=['GET'])
@@ -197,3 +221,5 @@ customers.add_url_rule('/<string:customer_id>', view_func=edit_customer, methods
 customers.add_url_rule('/<string:customer_id>', view_func=remove_customer, methods=['DELETE'])
 profile.add_url_rule('', view_func=get_profile, methods=['GET'])
 profile.add_url_rule('', view_func=edit_profile, methods=['PUT'])
+profile.add_url_rule('/orders', view_func=get_orders, methods=['GET'])
+
