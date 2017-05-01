@@ -31,10 +31,8 @@ def get_orders():
 		tmp["shipping"] = order.shipping.to_dict()
 		products = []
 		for ordered_product in order.ordered_products:
-			op = ordered_product.to_dict()
-			op["product"] = ordered_product.product_dict()
-			products.append(op)
-		tmp["ordered_products"] = products
+			products.append(ordered_product.product.to_dict())
+		tmp["products"] = products
 		orders.append(tmp)
 
 	return(json_util.dumps(orders))
@@ -60,10 +58,6 @@ def add_order():
 	order["full_price"] = shipping["price"]
 	for ordered_product in r["ordered_products"]:
 		product = Product.query.get_or_404(ordered_product["product"]["id"])
-		if product.in_stock - ordered_product["quantity"] < 0:
-			raise OrderException("Not enough products in stock", status_code=403)
-		else:
-			product.in_stock = product.in_stock - ordered_product["quantity"]
 		products.append(product)
 		product_dict = product.to_dict()
 		order["full_price"] += (product_dict["price"] * ordered_product["quantity"])
@@ -73,16 +67,14 @@ def add_order():
 	try:
 		order = Order.from_dict(order)
 	except Exception as e:
-		print(e)
-		raise OrderException("Could not convert dictionary to Order")
+		raise OrderException(str(e))
 
 	try:
 		db.db.session.add(order)
 		res = db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		print(e)
-		raise OrderException("Could not add order to database")
+		raise OrderException(str(e))
 
 	inserted_order = Order.query.get_or_404(order.id)
 
@@ -96,16 +88,14 @@ def add_order():
 		try:
 			order_product = OrderedProduct.from_dict(order_product)
 		except Exception as e:
-			print(e)
-			raise OrderedProductException("Could not convert dictionary to OrderedProduct")
+			raise OrderedProductException(str(e))
 
 		try:
 			db.db.session.add(order_product)
 			res = db.db.session.commit()
 		except Exception as e:
 			db.db.session.rollback()
-			print(e)
-			raise OrderedProductException("Could not add ordered product to database")
+			raise OrderedProductException(str(e))
 
 	inserted = Order.query.get_or_404(order.id)
 
@@ -126,8 +116,7 @@ def remove_order(order_id):
 			db.db.session.commit()
 		except Exception as e:
 			db.db.session.rollback()
-			print(e)
-			raise OrderException("Could not remove ordered product")
+			raise OrderException(str(e))
 
 	order = Order.query.get_or_404(order_id)
 
@@ -136,8 +125,7 @@ def remove_order(order_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		print(e)
-		raise OrderException("Could not remove order")
+		raise OrderException(str(e))
 
 	tmp = order.to_dict()
 
@@ -165,8 +153,7 @@ def edit_order(order_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		print(e)
-		raise OrderException("Could not edit order")
+		raise OrderException(str(e))
 
 	tmp = order.to_dict()
 
@@ -180,10 +167,8 @@ def get_order(order_id):
 	tmp["shipping"] = order.shipping.to_dict()
 	products = []
 	for ordered_product in order.ordered_products:
-		op = ordered_product.to_dict()
-		op["product"] = ordered_product.product_dict()
-		products.append(op)
-	tmp["ordered_products"] = products
+		products.append(ordered_product.product.to_dict())
+	tmp["products"] = products
 
 	return(json_util.dumps(tmp))
 

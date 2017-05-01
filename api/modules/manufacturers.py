@@ -18,7 +18,7 @@ manufacturer = Module('manufacturers', __name__, url_prefix='/manufacturers', no
 @auth.required(Role.admin)
 def count_manufacturers():
 	""" FIXME not used, remove """
-	return db.manufacturer.count()
+	return db.manufacturers.count()
 
 @auth.required(Role.admin)
 def get_manufacturers():
