@@ -11,8 +11,7 @@ import { HomeComponent } from './components/';
 import { LoginComponent } from './components/';
 import { LogoutComponent } from './components/';
 import { SetupComponent } from './components/';
-import { NullComponent } from './components/';
-import { TopBarComponent } from './components/topbar/topbar.component';
+import { NullComponent, TopBarComponent } from './components/';
 
 import { AuthGuard } from './utils/index';
 import { HttpInterceptor } from './utils/index';
