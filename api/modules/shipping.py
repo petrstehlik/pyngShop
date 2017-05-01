@@ -18,7 +18,7 @@ shipping = Module('shippings', __name__, url_prefix='/shippings', no_version=Tru
 @auth.required(Role.admin)
 def count_shippings():
 	""" FIXME not used, remove """
-	return db.shippings.count()
+	return db.shipping.count()
 
 def get_shippings():
 	res = Shipping.query.all()
@@ -36,8 +36,7 @@ def add_shipping():
 	try:
 		shipping = Shipping.from_dict(r)
 	except Exception as e:
-		print(e)
-		raise ShippingException("Could not convert dictionary to Shipping")
+		raise ShippingException(str(e))
 
 	try:
 		db.db.session.add(shipping)
@@ -45,7 +44,7 @@ def add_shipping():
 	except Exception as e:
 		db.db.session.rollback()
 		print(e)
-		raise ShippingException("Could not add shipping to database")
+		raise ShippingException(str(e))
 
 	inserted = Shipping.query.get_or_404(shipping.id)
 
@@ -66,8 +65,7 @@ def remove_shipping(shipping_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		print(e)
-		raise ShippingException("Could not remove shipping")
+		raise ShippingException(str(e))
 
 	tmp = shipping.to_dict()
 
@@ -91,8 +89,7 @@ def edit_shipping(shipping_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		print(e)
-		raise ShippingException("Could not edit shipping")
+		raise ShippingException(str(e))
 
 	tmp = shipping.to_dict()
 
