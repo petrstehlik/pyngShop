@@ -226,7 +226,6 @@ class Order(db.Model):
 	def from_dict(self, order):
 		return self(
 			id         = order.get("id", None),
-			timestamp  = int(time()),
 			status     = order.get("status", None),
 			full_price = order.get("full_price", None),
 			shipping   = order.get("shipping", None),
@@ -399,7 +398,6 @@ class Review(db.Model):
 		return self(
 			content = review.get("content", None),
 			rating = review.get("rating", None),
-			timestamp = int(time()),
 			product = review.get("product", None),
 			customer = review.get("customer", None),
 			)
