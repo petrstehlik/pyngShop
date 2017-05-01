@@ -1,7 +1,3 @@
-<p>
-  topbar works!
-</p>
-
 <div class="top-bar">
     <div class="container">
         <div class="row">
@@ -11,22 +7,25 @@
 
             <div class="user-menu col-md-6 hidden-print">
             <ul>
-                <li *ngIf="!(role.admin || role.customer)">
-                    <a ng-href="#/login" ><span class="glyphicon glyphicon-log-in white"></span> Login</a>
+                <li *ngIf="!(user.isAdmin() || user.isCustomer())">
+                    <a [routerLink]="['/', 'login']" ><span class="glyphicon glyphicon-log-in white"></span> Login</a>
                 </li>
-                <li *ngIf="!role.admin">
-                    <a ng-href="#/invoice">Check Invoice</a>
+                <li *ngIf="!user.isAdmin()">
+                    <a [routerLink]="['/','invoice']">Check Invoice</a>
                 </li>
-                <li *ngIf="role.customer">
-                    <a ng-href="#/account">Hello {{role.cred.details.first_name}}</a> ()
+                <li *ngIf="user.isCustomer()">
+                    <a [routerLink]="['/','account']">Account</a>
                 </li>
-                <li *ngIf="role.admin">
-                    <a ng-href="#/admin">Administration</a>
-                </li>   
-                <li *ngIf="!role.admin">
-                    <a ng-href="#/cart" ><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span *ngIf="cart.count">({{cart.count}})</span></a>
+                <li *ngIf="user.isAdmin()">
+                    <a [routerLink]="['/', 'admin']">Administration</a>
                 </li>
-                <li *ngIf="role.admin || role.customer">
+                <li *ngIf="!user.isAdmin()">
+                    <a [routerLink]="['cart']" >
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                        Cart <small>({{cart.length()}})</small>
+                    </a>
+                </li>
+                <li *ngIf="user.isAdmin() || user.isCustomer()">
                     <a (click)="logout()">
                         Log Out <span class="glyphicon glyphicon-log-out white"></span>
                     </a>
