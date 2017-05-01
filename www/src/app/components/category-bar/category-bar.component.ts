@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+<<<<<<< HEAD
 import {CategoryService } from 'app/services/category.service';
 import {UserService } from 'app/services/user.service';
 
@@ -67,4 +68,35 @@ export class CategoryBarComponent implements OnInit {
 			}
     	);
     }
+=======
+@Component({
+  selector: 'category-bar',
+  templateUrl: './category-bar.component.html',
+  styleUrls: ['./category-bar.component.scss']
+})
+export class CategoryBarComponent implements OnInit {
+
+    user = {
+        admin : false
+    }
+    categories = [
+        {
+            "slug" : "ebooks",
+            "name" : "Ebooks",
+            "sub" : [
+                {
+                    "slug" : "beletry",
+                    "name" : "Beletry"
+                }
+            ]
+
+        }
+    ]
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+>>>>>>> 9107357... Components: Category Bar and Item
 }

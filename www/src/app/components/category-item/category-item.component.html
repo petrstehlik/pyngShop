@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <li [routerLinkActive]="['active']" class="navbar-item">
 	<a [routerLink]="['/category', item.id]" class="nav-link">
 		{{item.name}}
@@ -31,3 +32,16 @@
 		</li>
 	</ul-->	
 </li>
+=======
+<span *ngIf="user.admin" class="glyphicon glyphicon-remove" (click)="deleteCategory()"></span>
+
+<a [routerLink]="['category', item.slug]">
+    {{item.name}}
+</a>
+
+<span (click)="textBtnForm.$show()"
+    [hidden]="!textBtnForm.$visible"
+    *ngIf="user.admin"
+    class="glyphicon glyphicon-edit">
+</span>
+>>>>>>> 9107357... Components: Category Bar and Item

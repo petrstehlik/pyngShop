@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="container">
 <nav class="main-menu hidden-print navbar-light navbar">
 	<ul>
@@ -23,5 +24,33 @@
 		</li>
 	</ul>
 </nav>
+=======
+
+<div class="main-menu hidden-print">
+	<ul class="container">
+		<li>
+			<a [routerLink]="['/']">Home</a>
+		</li>
+		<li *ngFor="let menu_item of categories" [hidden]="menu_item.hidden">
+            <category-item [item]="menu_item"></category-item>
+
+            <ul *ngIf="menu_item.sub.length > 0 || user.admin">
+				<li *ngFor="let submenu_item of menu_item.sub" [hidden]="submenu_item.hidden">
+				    <category-item [item]="submenu_item"></category-item>
+				</li>
+				<li *ngIf="user.admin">
+                    <a href="#">
+                        <span *ngIf="!newcat.name">+ Add Subcategory</span>
+                    </a>
+				</li>
+			</ul>
+		</li>
+		<li *ngIf="user.admin">
+            <a href="#">
+                <span *ngIf="!newcat.name">+ Add Category</span>
+            </a>
+		</li>
+	</ul>
+>>>>>>> 9107357... Components: Category Bar and Item
 </div>
 
