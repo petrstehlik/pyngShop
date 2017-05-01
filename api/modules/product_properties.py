@@ -18,7 +18,7 @@ product_property = Module('product_properties', __name__, url_prefix='/product_p
 @auth.required(Role.admin)
 def count_products_property():
 	""" FIXME not used, remove """
-	return db.product_property.count()
+	return db.product_properties.count()
 
 @auth.required(Role.admin)
 def get_product_properties():
