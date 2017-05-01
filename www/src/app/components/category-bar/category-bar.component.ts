@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
+import {CategoryService } from 'app/services/category.service';
+
 @Component({
   selector: 'category-bar',
   templateUrl: './category-bar.component.html',
-  styleUrls: ['./category-bar.component.scss']
+  styleUrls: ['./category-bar.component.scss'],
+  providers : [CategoryService]
 })
 export class CategoryBarComponent implements OnInit {
 
@@ -24,9 +27,17 @@ export class CategoryBarComponent implements OnInit {
         }
     ]
 
-  constructor() { }
+    constructor(private category : CategoryService) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+        this.category.fetchAll().subscribe(
+            data => {
+                this.categories = data
+            },
+            error => {
+                console.log(error);
+            }
+        );
+    }
 
 }
