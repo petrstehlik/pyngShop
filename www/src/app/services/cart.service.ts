@@ -11,7 +11,15 @@ export class CartService {
     cart : Array<Object> = [];
 
     constructor() {
+<<<<<<< HEAD
         this.refresh();
+=======
+        this.cart = JSON.parse(localStorage.getItem("cart"));
+
+        if (this.cart == null) {
+            this.cart = [];
+        }
+>>>>>>> fcc9bc1... Service: operations with cart
     }
 
     clear() {
@@ -23,6 +31,7 @@ export class CartService {
         localStorage.setItem("cart", JSON.stringify(this.cart));
     }
 
+<<<<<<< HEAD
     refresh() {
         this.cart = JSON.parse(localStorage.getItem("cart"));
 
@@ -49,16 +58,31 @@ export class CartService {
         }
             if (product["product"]["id"] == item["id"]) {
                 product["quantity"] += quantity;
+=======
+    length() {
+        return this.cart.length;
+    }
+
+    addItem(item : Object) {
+        for (let product of this.cart) {
+            if (product["product"]["id"] == item["id"]) {
+                product["quantity"] += item["quantity"];
+>>>>>>> fcc9bc1... Service: operations with cart
                 this.save();
                 return;
             }
         }
 
+<<<<<<< HEAD
         this.cart.push({"product" : item, "quantity" : quantity});
+=======
+        this.cart.push(item);
+>>>>>>> fcc9bc1... Service: operations with cart
 
         this.save();
     }
 
+<<<<<<< HEAD
     updateItem(item : Object, quantity : Number) {
 		for (let product of this.cart) {
             if (product["product"]["id"] == item["id"]) {
@@ -86,5 +110,17 @@ export class CartService {
 
         console.debug("Item not found in cart");
         this.save();
+=======
+    removeItem(item : Object) {
+        for (let product of this.cart) {
+            if (product["product"]["id"] == item["id"]) {
+                product["quantity"] -= item["quantity"];
+                this.save();
+                return;
+            }
+        }
+
+        console.debug("Item not found in cart");
+>>>>>>> fcc9bc1... Service: operations with cart
     }
 }
