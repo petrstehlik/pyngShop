@@ -1,30 +1,18 @@
-<<<<<<< HEAD
-=======
-<p>
-  topbar works!
-</p>
-
->>>>>>> de2c086... Add basic components
 <div class="top-bar">
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-<<<<<<< HEAD
-                <a [routerLink]="['/']" class="logo">{{ logo }}</a>
-=======
                 <a ng-href="#/" class="logo">{{ logo }}</a>
->>>>>>> de2c086... Add basic components
             </div>
 
             <div class="user-menu col-md-6 hidden-print">
             <ul>
-<<<<<<< HEAD
-                <li *ngIf="user.user == null">
+                <li *ngIf="!(user.isAdmin() || user.isCustomer())">
                     <a [routerLink]="['/', 'login']" ><span class="glyphicon glyphicon-log-in white"></span> Login</a>
                 </li>
-                <!--li *ngIf="!user.isAdmin()">
+                <li *ngIf="!user.isAdmin()">
                     <a [routerLink]="['/','invoice']">Check Invoice</a>
-                </li-->
+                </li>
                 <li *ngIf="user.isCustomer()">
                     <a [routerLink]="['/','account']">Account</a>
                 </li>
@@ -32,30 +20,12 @@
                     <a [routerLink]="['/', 'admin']">Administration</a>
                 </li>
                 <li *ngIf="!user.isAdmin()">
-                    <a [routerLink]="['/','cart']" >
+                    <a [routerLink]="['cart']" >
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                         Cart <small>({{cart.length()}})</small>
                     </a>
                 </li>
                 <li *ngIf="user.isAdmin() || user.isCustomer()">
-=======
-                <li *ngIf="!(role.admin || role.customer)">
-                    <a ng-href="#/login" ><span class="glyphicon glyphicon-log-in white"></span> Login</a>
-                </li>
-                <li *ngIf="!role.admin">
-                    <a ng-href="#/invoice">Check Invoice</a>
-                </li>
-                <li *ngIf="role.customer">
-                    <a ng-href="#/account">Hello {{role.cred.details.first_name}}</a> ()
-                </li>
-                <li *ngIf="role.admin">
-                    <a ng-href="#/admin">Administration</a>
-                </li>   
-                <li *ngIf="!role.admin">
-                    <a ng-href="#/cart" ><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span *ngIf="cart.count">({{cart.count}})</span></a>
-                </li>
-                <li *ngIf="role.admin || role.customer">
->>>>>>> de2c086... Add basic components
                     <a (click)="logout()">
                         Log Out <span class="glyphicon glyphicon-log-out white"></span>
                     </a>
