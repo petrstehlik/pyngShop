@@ -31,7 +31,7 @@ export class UserService {
 
     isCustomer() {
         try {
-            return this.user["user"]["role"] > 9;
+            return this.user["customer"]["role"] > 9;
         } catch(e) {
             return false;
         }
