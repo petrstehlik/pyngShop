@@ -1,0 +1,25 @@
+.login-container {
+	height: 100%;
+	width: 100%;
+}
+
+.login {
+	width: 25%;
+	max-width: 300px;
+	max-height: 300px;
+	-webkit-box-shadow: 0 0 15px 0px rgba(0,0,0,0.5);
+	box-shadow: 0 0 15px 0px rgba(0,0,0,0.5);
+	padding: 2em;
+
+	h2 {
+		padding-bottom: 0.25em;
+		span {
+			display: none;
+		}
+
+		img {
+			display: block;
+			width: 100%;
+		}
+	}
+}
