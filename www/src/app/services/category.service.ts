@@ -39,7 +39,6 @@ export class CategoryService {
     }
 
     add(item : Object) {
-    	item["hidden"] = false;
         return this.http.post('/categories', JSON.stringify(item))
             .map((r : Response) => {
                 let response = r.json();
