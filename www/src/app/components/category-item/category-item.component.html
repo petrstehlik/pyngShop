@@ -1,0 +1,11 @@
+<span *ngIf="user.admin" class="glyphicon glyphicon-remove" (click)="deleteCategory()"></span>
+
+<a [routerLink]="['category', item.slug]">
+    {{item.name}}
+</a>
+
+<span (click)="textBtnForm.$show()"
+    [hidden]="!textBtnForm.$visible"
+    *ngIf="user.admin"
+    class="glyphicon glyphicon-edit">
+</span>
