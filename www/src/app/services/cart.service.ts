@@ -11,11 +11,7 @@ export class CartService {
     cart : Array<Object> = [];
 
     constructor() {
-        this.cart = JSON.parse(localStorage.getItem("cart"));
-
-        if (this.cart == null) {
-            this.cart = [];
-        }
+        this.refresh();
     }
 
     clear() {
@@ -25,6 +21,14 @@ export class CartService {
 
     save() {
         localStorage.setItem("cart", JSON.stringify(this.cart));
+    }
+
+    refresh() {
+        this.cart = JSON.parse(localStorage.getItem("cart"));
+
+        if (this.cart == null) {
+            this.cart = [];
+        }
     }
 
     length() {
