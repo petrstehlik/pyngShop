@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {CategoryService } from 'app/services/category.service';
 import {UserService } from 'app/services/user.service';
 
@@ -75,6 +76,8 @@ export class CategoryBarComponent implements OnInit {
 >>>>>>> 9107357... Components: Category Bar and Item
 =======
 >>>>>>> 9107357... Components: Category Bar and Item
+=======
+>>>>>>> 9107357... Components: Category Bar and Item
 @Component({
   selector: 'category-bar',
   templateUrl: './category-bar.component.html',
@@ -106,6 +109,9 @@ export class CategoryBarComponent implements OnInit {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 9107357... Components: Category Bar and Item
+=======
 >>>>>>> 9107357... Components: Category Bar and Item
 =======
 >>>>>>> 9107357... Components: Category Bar and Item
