@@ -8,8 +8,8 @@
 			<label for="username">Username *</label>
 			<input type="text" class="form-control" placeholder="Enter Your Username" required
 				[(ngModel)]="contact.username" #fusername="ngModel" name="user_name">
-			<div *ngIf="fusername.errors?.required" class="alert alert-danger">
-				Username is required
+			<div [hidden]="fusername.valid || fusername.pristine" class="alert alert-danger">
+				username is required
 			</div>
 		</div>
 
@@ -23,33 +23,26 @@
 			<label for="lastname">Last Name *</label>
 			<input type="text" class="form-control" placeholder="Enter Your Last Name" required
 				[(ngModel)]="contact.lastname" #flname="ngModel" name="last_name">
-			<div *ngIf="flname.errors?.required" class="alert alert-danger">
-				Last Name is required
+			<div [hidden]="flname.valid || flname.pristine" class="alert alert-danger">
+				Lastname is required
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label for="password">Password *</label>
 			<input type="password" class="form-control" placeholder="Enter Your Password" required
-				[(ngModel)]="contact.password" #fpass="ngModel" name="password"
-				[rangeLength]="[5, 99]">
-			<div *ngIf="fpass.errors?.required" class="alert alert-danger">
+				[(ngModel)]="contact.password" #fpass="ngModel" name="password">
+			<div [hidden]="fpass.valid || fpass.pristine" class="alert alert-danger">
 				Password is required
-			</div>
-			<div *ngIf="fpass.errors?.rangeLength" class="alert alert-danger">
-				Password must be at least 5 characters long.
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label for="email">Email *</label>
-			<input type="email" class="form-control" placeholder="Enter Your Email" required email
+			<input type="email" class="form-control" placeholder="Enter Your Email" required
 				[(ngModel)]="contact.email" #fmail="ngModel" name="email">
-			<div *ngIf="fmail.errors?.required" class="alert alert-danger">
+			<div [hidden]="fmail.valid || fmail.pristine" class="alert alert-danger">
 				Email is required
-			</div>
-			<div *ngIf="fmail.errors?.email" class="alert alert-danger">
-				Invalid email
 			</div>
 		</div>
 
@@ -84,3 +77,5 @@
 		<button class="btn btn-primary" (click)="submitted=false">Edit Contact</button>
 	</div>
 </div>
+
+{{contact|json}}
