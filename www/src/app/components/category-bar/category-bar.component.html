@@ -4,11 +4,11 @@
 		<li>
 			<a [routerLink]="['/']">Home</a>
 		</li>
-		<li *ngFor="let menu_item of categories" [hidden]="menu_item.hidden">
+		<li *ngFor="let menu_item of categories" [hidden]="!menu_item.hidden">
             <category-item [item]="menu_item"></category-item>
 
-            <ul *ngIf="menu_item.sub.length > 0 || user.admin">
-				<li *ngFor="let submenu_item of menu_item.sub" [hidden]="submenu_item.hidden">
+            <ul *ngIf="menu_item?.children?.length > 0 || user.admin">
+				<li *ngFor="let submenu_item of menu_item.children" [hidden]="!submenu_item.hidden">
 				    <category-item [item]="submenu_item"></category-item>
 				</li>
 				<li *ngIf="user.admin">
