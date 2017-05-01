@@ -47,17 +47,15 @@
 				<li *ngFor="let submenu_item of menu_item.children" [hidden]="!submenu_item.hidden">
 				    <category-item [item]="submenu_item"></category-item>
 				</li>
-				<li *ngIf="user.admin">
+				<li *ngIf="user.isAdmin()">
                     <a href="#">
                         <span *ngIf="!newcat.name">+ Add Subcategory</span>
                     </a>
 				</li>
 			</ul>
 		</li>
-		<li *ngIf="user.admin">
-            <a href="#">
-                <span *ngIf="!newcat.name">+ Add Category</span>
-            </a>
+		<li *ngIf="user.isAdmin()">
+            <inline-editor type="text" [(ngModel)]="newcat" (onSave)="saveEditable($event)" name="editableText1" size="8"></inline-editor>
 		</li>
 	</ul>
 <<<<<<< HEAD
