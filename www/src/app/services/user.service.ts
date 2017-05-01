@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
 
 @Injectable()
 export class UserService {
     user : Object;
 
-    constructor(private auth : AuthService) {
-        this.user = JSON.parse(localStorage.getItem('currentUser'));
+    constructor() {
+        this.refresh();
+    }
 
-        if (this.user == undefined) {
+    refresh() {
+        this.user = JSON.parse(localStorage.getItem('currentUser'));
+        console.log("refresh has been called", this.user);
+
+        if (this.user == null) {
             console.warn("No user found");
         }
     }
