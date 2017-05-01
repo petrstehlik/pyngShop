@@ -7,7 +7,7 @@
 
             <div class="user-menu col-md-6 hidden-print">
             <ul>
-                <li *ngIf="!(user.isAdmin() || user.isCustomer())">
+                <li *ngIf="user.user == null">
                     <a [routerLink]="['/', 'login']" ><span class="glyphicon glyphicon-log-in white"></span> Login</a>
                 </li>
                 <li *ngIf="!user.isAdmin()">
