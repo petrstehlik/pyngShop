@@ -7,6 +7,7 @@ import bcrypt
 from flask import request
 from bson import json_util, ObjectId
 import pymongo
+from slugify import slugify
 
 from api import auth, db
 from api.module import Module
@@ -38,6 +39,7 @@ def add_product():
 		raise ProductException(str(e))
 
 	try:
+		product.slug = slugify(product.name, to_lower=True)
 		db.db.session.add(product)
 		res = db.db.session.commit()
 	except Exception as e:
@@ -79,6 +81,7 @@ def edit_product(product_id):
 	# check for all fields to be updated
 	if "name" in product_dict and product_dict["name"] != "":
 		product.name = product_dict["name"]
+		product.slug = slugify(product.name, to_lower=True)
 
 	if "price" in product_dict and product_dict["price"] != "":
 		product.price = product_dict["price"]
