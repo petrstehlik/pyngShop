@@ -20,11 +20,7 @@ export class usersComponent {};
 	providers : [UsersService]
 })
 export class usersAddComponent {
-<<<<<<< HEAD
-	returnUrl = "admin/users";
-=======
 	returnUrl = "/users";
->>>>>>> e0bddf3... Add base for modules
 
 	user = {
 		first_name : "",
@@ -32,11 +28,7 @@ export class usersAddComponent {
 		username : "",
 		email : "",
 		password : "",
-<<<<<<< HEAD
-		role : 0
-=======
 		role : 10
->>>>>>> e0bddf3... Add base for modules
 	}
 
 	error = "";
@@ -81,11 +73,7 @@ export class usersAddComponent {
 @Component({
 	selector : 'users-list',
 	template : `
-<<<<<<< HEAD
-	<topbar></topbar>
 	<div class="container">
-		<a [routerLink]="['/', 'admin']"><span class="fa fa-chevron-left"></span> Back to admin</a>
-	
 		<h2>Users management</h2>
 		<section class="box d-flex flex-row">
 			<table class="table table-hover">
@@ -107,7 +95,7 @@ export class usersAddComponent {
 					<td>{{ user.last_name }}</td>
 					<td>{{ user.role }}</td>
 					<td>
-						<a class="btn btn-secondary" [routerLink]="[user.id]">View user</a>
+						<button class="btn btn-secondary"routerLink="{{user.id.$oid}}">View user</button>
 						<button class="btn btn-danger" title="Remove user" (click)="removeUser(user)"
 						*ngIf="currentUser.user.username != user.username">Delete user</button>
 					</td>
@@ -122,44 +110,6 @@ export class usersAddComponent {
 			</table>
 		</section>
 	</div>
-=======
-	<h2>Users management</h2>
-	<section class="box d-flex flex-row">
-		<table class="table table-hover">
-			<thead>
-			<tr>
-				<th>Username</th>
-				<th>E-mail</th>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>Role</th>
-				<th>Action</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr *ngFor="let user of users">
-				<td>{{ user.username }}</td>
-				<td>{{ user.email }}</td>
-				<td>{{ user.first_name }}</td>
-				<td>{{ user.last_name }}</td>
-				<td>{{ user.role }}</td>
-				<td>
-					<button class="btn btn-secondary"routerLink="{{user.id.$oid}}">View user</button>
-					<button class="btn btn-danger" title="Remove user" (click)="removeUser(user)"
-					*ngIf="currentUser.user.username != user.username">Delete user</button>
-				</td>
-			</tr>
-			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="5"><button type="button" class="btn btn-primary" routerLink="add" routerLinkActive="active-link">Add new user</button>
-					<td>
-				</tr>
-			</tfoot>
-		</table>
-	</section>
-
->>>>>>> e0bddf3... Add base for modules
 		`,
 	providers : [UsersService]
 
@@ -188,13 +138,8 @@ export class usersListComponent {
 	}
 
 	removeUser(user:Object) {
-<<<<<<< HEAD
-		console.log(user['id']);
-		this.usersService.remove(user['id']).subscribe(
-=======
 		console.log(user['id']['$oid']);
 		this.usersService.remove(user['id']['$oid']).subscribe(
->>>>>>> e0bddf3... Add base for modules
 			data => {
 			console.log(data);
 			this.listUsers();
@@ -269,11 +214,7 @@ export class usersEditComponent {
 		if (Object.keys(diff_user).length > 0) {
 			this.usersService.update(this.userId, diff_user).subscribe(
 				data => {
-<<<<<<< HEAD
-					this.router.navigate(['admin/users']);
-=======
 					this.router.navigate(['/users']);
->>>>>>> e0bddf3... Add base for modules
 				},
 				error => {
 					console.log(error);

@@ -1,36 +1,14 @@
 <topbar></topbar>
 <div class="container">
 	<ul class="list-group">
-	  <li class="list-group-item"><a [routerLink]="['/']">Home</a></li>
 	  <li class="list-group-item"><a [routerLink]="['users']">Manage users</a></li>
-	  <!--li class="list-group-item"><a [routerLink]="['manufacturers']">Manage manufacturers</a></li-->
+	  <li class="list-group-item"><a [routerLink]="['manufacturers']">Manage manufacturers</a></li>
 	  <li class="list-group-item"><a [routerLink]="['shipping']">Manage shipping methods</a></li>
 	  <li class="list-group-item"><a [routerLink]="['orders']">Manage orders</a></li>
 	</ul>
-
-
-	<div class="row">
-		<div class="card-block">
-			<h4 class="card-title">{{ orders?.sum | currency:USD:'1.2-2'}} CZK</h4>
-			<p class="card-text">Total value of orders</p>
-		</div>
-
-		<div class="card-block">
-			<h4 class="card-title">{{ orders?.average | currency:USD:'1.2-2'}} CZK</h4>
-			<p class="card-text">Average value of orders</p>
-		</div>
-
-		<div class="card-block">
-			<h4 class="card-title">{{ orders?.count}}</h4>
-			<p class="card-text">Number of orders</p>
-		</div>
-	</div>
-
-	<div class="row">
-		<h4 class="col-12">Top selling product</h4>
-		<product-card class="col-4" [item]="products?.popular_products[0]?.product"></product-card>
-	</div>
 </div>
+
+
 
 
 
