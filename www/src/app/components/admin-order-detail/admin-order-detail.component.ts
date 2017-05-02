@@ -43,7 +43,7 @@ export class AdminOrderDetailComponent implements OnInit {
   update() {
           this.orderService.update(this.order).subscribe(
               data => {
-                  this.order = data;
+                  console.log(data);
               },
               err => {
                   console.log(err);
@@ -65,6 +65,12 @@ export class AdminOrderDetailComponent implements OnInit {
 			}
 		}*/
 
+	}
+
+	markShipped() {
+		this.order["status"] = "Shipped";
+
+		this.update();
 	}
 
 
