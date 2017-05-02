@@ -33,6 +33,7 @@ import { ProductNewComponent } from './components/product-new/product-new.compon
 import { Contact } from './components/contact/contact.component';
 import { AccountComponent } from './components/account/account.component';
 import { CustomFormsModule } from 'ng2-validation';
+import { AdminComponent } from './components/admin/admin.component';
 
 export const appRoutes: Routes = [
 	{
@@ -70,7 +71,7 @@ export const appRoutes: Routes = [
 	},
 	{
 		path: 'admin',
-		component : NullComponent,
+		component : AdminComponent,
 		canActivate : [AuthGuard],
 		data : {
 			role : 0
@@ -110,7 +111,8 @@ export function setFactory (xhrBackend: XHRBackend,
     ProductNewComponent,
     RegisterComponent,
     Contact,
-    AccountComponent
+    AccountComponent,
+    AdminComponent
   ],
   imports: [
 	modules,
@@ -135,5 +137,4 @@ export function setFactory (xhrBackend: XHRBackend,
 
   ],
   bootstrap: [AppComponent]
-})
 export class AppModule { }

@@ -14,7 +14,7 @@ import { AuthGuard } from  'app/utils/auth.guard';
 
 const usersRoutes : Routes = [
 	{
-		path : 'users',
+		path : 'admin/users',
 		component : usersComponent,
 		canActivate : [AuthGuard],
 		data : {
