@@ -62,7 +62,7 @@ export class ProductComponent implements OnInit {
    remove() {
      this.submitted = true;
      this.message = null;
-     this.product["hidden"] = true;
+     this.product["hidden"] = !this.product["hidden"];
      this.productService.update(this.product).subscribe(
        data => {
          this.product = data;
