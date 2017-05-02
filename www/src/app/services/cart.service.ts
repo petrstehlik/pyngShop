@@ -32,32 +32,56 @@ export class CartService {
     }
 
     length() {
-        return this.cart.length;
+    	let len = 0;
+    	for (let item of this.cart)
+    		len += item["quantity"];
+        return len;
     }
 
-    addItem(item : Object) {
+    get() {
+		return JSON.parse(localStorage.getItem("cart"));
+    }
+
+    addItem(item : Object, quantity : Number) {
         for (let product of this.cart) {
             if (product["product"]["id"] == item["id"]) {
-                product["quantity"] += item["quantity"];
+                product["quantity"] += quantity;
                 this.save();
                 return;
             }
         }
 
-        this.cart.push(item);
+        this.cart.push({"product" : item, "quantity" : quantity});
 
         this.save();
     }
 
-    removeItem(item : Object) {
-        for (let product of this.cart) {
+    updateItem(item : Object, quantity : Number) {
+		for (let product of this.cart) {
             if (product["product"]["id"] == item["id"]) {
-                product["quantity"] -= item["quantity"];
+                product["quantity"] = quantity;
                 this.save();
                 return;
             }
         }
 
+        this.save();
+
+    }
+
+    removeItem(item : Object) {
+    	let i = 0;
+        for (let product of this.cart) {
+            if (product["product"]["id"] == item["id"]) {
+                this.cart.splice(i, 1);
+
+                this.save();
+                return;
+            }
+        	i += 1;
+        }
+
         console.debug("Item not found in cart");
+        this.save();
     }
 }

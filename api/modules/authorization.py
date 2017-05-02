@@ -4,6 +4,7 @@ from bson import json_util
 from api import auth, db
 from api.module import Module
 from api.auth import AuthException
+from api.role import Role
 from api.models.user import SqlUser as User
 from api.models.models import Customer
 
@@ -22,9 +23,14 @@ def login_user():
 
 	user = User(user_data['username'], password=user_data['password'])
 
+	if (user.role != Role.admin and
+			user.role != Role.user and
+			user.role != Role.guest):
+		raise AuthException("Unsupported role")
+
 	user = auth.login_user(user)
 
-	session_id = auth.store_session(user, is_user=True)
+	session_id = auth.store_session(user)
 
 	return(json_util.dumps({"session_id" : session_id, "user" : user.to_dict()}))
 
@@ -38,8 +44,10 @@ def login_customer():
 	if not customer_data:
 		raise AuthException("Missing customer data")
 	customer = Customer(customer_data['username'], password=customer_data['password'])
+	if customer.role != Role.customer:
+		raise AuthException("Unsupported role")
 	customer = auth.login_customer(customer)
-	session_id = auth.store_session(customer, is_user=False)
+	session_id = auth.store_session(customer)
 	return(json_util.dumps({"session_id" : session_id, "customer" : customer.to_dict()}))
 
 @au.route('', methods=['DELETE'])

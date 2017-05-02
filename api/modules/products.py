@@ -7,6 +7,7 @@ import bcrypt
 from flask import request
 from bson import json_util, ObjectId
 import pymongo
+from slugify import slugify
 
 from api import auth, db
 from api.module import Module
@@ -33,17 +34,25 @@ def get_products():
 def add_product():
 	r = request.get_json()
 	try:
+		categories_dict = r.pop("categories", [])
 		product = Product.from_dict(r)
+		for cat in categories_dict:
+			category_id = cat.get("id", None)
+			category = Category.query.get(category_id)
+			if category != None:
+				product.categories.append(category)
 	except Exception as e:
-		raise ProductException(str(e))
+		print(e)
+		raise ProductException("Could not convert dictionary to Product")
 
 	try:
+		product.slug = slugify(product.name, to_lower=True)
 		db.db.session.add(product)
 		res = db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
 		print(e)
-		raise ProductException(str(e))
+		raise ProductException("Could not add product to database")
 
 	inserted = Product.query.get_or_404(product.id)
 
@@ -64,7 +73,8 @@ def remove_product(product_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise ProductException(str(e))
+		print(e)
+		raise ProductException("Could not remove product")
 
 	tmp = product.to_dict()
 
@@ -79,6 +89,7 @@ def edit_product(product_id):
 	# check for all fields to be updated
 	if "name" in product_dict and product_dict["name"] != "":
 		product.name = product_dict["name"]
+		product.slug = slugify(product.name, to_lower=True)
 
 	if "price" in product_dict and product_dict["price"] != "":
 		product.price = product_dict["price"]
@@ -103,7 +114,8 @@ def edit_product(product_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise ProductException(str(e))
+		print(e)
+		raise ProductException("Could not edit product")
 
 	tmp = product.to_dict()
 
@@ -132,14 +144,16 @@ def add_review(product_id):
 	try:
 		review = Review.from_dict(r)
 	except Exception as e:
-		raise ReviewException(str(e))
+		print(e)
+		raise ReviewException("Could not convert dictionary to Review")
 
 	try:
 		db.db.session.add(review)
 		res = db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise ReviewException(str(e))
+		print(e)
+		raise ReviewException("Could not add review to database")
 
 	inserted = db.db.session.query(Review).\
 		filter_by(product_id = product_id, customer_id = session["user"].id).first()
@@ -174,7 +188,6 @@ def get_properties(product_id):
 	return(json_util.dumps(product_properties))
 
 @auth.required(Role.admin)
-@auth.required()
 def add_property(product_id, property_id):
 	r = request.get_json()
 	r["product"] = Product.query.get_or_404(product_id)
@@ -183,14 +196,16 @@ def add_property(product_id, property_id):
 	try:
 		review = TypeProperty.from_dict(r)
 	except Exception as e:
-		raise TypePropertyException(str(e))
+		print(e)
+		raise TypePropertyException("Could not convert dictionary to TypeProperty")
 
 	try:
 		db.db.session.add(review)
 		res = db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise TypePropertyException(str(e))
+		print(e)
+		raise TypePropertyException("Could not add type property to database")
 
 	inserted = db.db.session.query(TypeProperty).\
 		filter_by(product_id = product_id, product_property_id = property_id).first()
@@ -215,7 +230,8 @@ def edit_property(product_id, property_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise TypePropertyException(str(e))
+		print(e)
+		raise TypePropertyException("Could not edit type property")
 
 	inserted = db.db.session.query(TypeProperty).\
 		filter_by(product_id = product_id, product_property_id = property_id).first()
@@ -237,7 +253,8 @@ def remove_property(product_id, property_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise TypePropertyException(str(e))
+		print(e)
+		raise TypePropertyException("Could not remove type property")
 
 	tmp = property.to_dict()
 
@@ -254,7 +271,8 @@ def add_category(product_id, category_id):
 		res = db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise CategoryException(str(e))
+		print(e)
+		raise CategoryException("Could not add category to product")
 
 	product = Product.query.get_or_404(product_id)
 	category = Category.query.get_or_404(category_id)
@@ -287,7 +305,8 @@ def remove_category(product_id, category_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise CategoryException(str(e))
+		print(e)
+		raise CategoryException("Could not remove category from product")
 
 	product = Product.query.get_or_404(product_id)
 

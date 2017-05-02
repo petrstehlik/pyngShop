@@ -37,6 +37,10 @@ import { AdminComponent } from './components/admin/admin.component';
 import { AdminManufacturerComponent } from './components/admin-manufacturer/admin-manufacturer.component';
 import { AdminShippingComponent } from './components/admin-shipping/admin-shipping.component';
 import { Manufacturer } from './components/manufacturer/manufacturer.component';
+import { TruncatePipe } from './utils/truncate.pipe';
+import { ProductComponent } from './components/product/product.component';
+import { CartComponent } from './components/cart/cart.component';
+import { TotalPipe } from './utils/total.pipe';
 
 export const appRoutes: Routes = [
 	{
@@ -81,12 +85,20 @@ export const appRoutes: Routes = [
 		}
 	},
 	{
+		path : 'product/:id',
+		component : ProductComponent
+	},
+	{
 		path: 'admin',
 		component : AdminComponent,
 		canActivate : [AuthGuard],
 		data : {
 			role : 0
 		}
+	},
+	{
+		path : 'cart',
+		component : CartComponent
 	},
 	{
 		path: '',
@@ -126,7 +138,11 @@ export function setFactory (xhrBackend: XHRBackend,
     AdminComponent,
     AdminManufacturerComponent,
     AdminShippingComponent,
-    Manufacturer
+    Manufacturer,
+    TruncatePipe,
+    ProductComponent,
+    CartComponent,
+    TotalPipe
   ],
   imports: [
 	modules,

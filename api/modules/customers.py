@@ -8,7 +8,7 @@ from bson import json_util
 
 from .. import auth, db
 from ..module import Module
-from ..models.models import Customer, CustomerException
+from ..models.models import Customer, CustomerException, Order
 from ..role import Role
 from ..session import SessionException
 
@@ -55,7 +55,8 @@ def unprotected_add_customer(customer_data):
 	try:
 		customer = Customer.from_dict(customer_data)
 	except Exception as e:
-		raise CustomerException(str(e))
+		print(e)
+		raise CustomerException("Could not convert dictionary to Customer")
 
 	if customer.password == None:
 		raise CustomerException("Missing password")
@@ -69,14 +70,15 @@ def unprotected_add_customer(customer_data):
 	except Exception as e:
 		db.db.session.rollback()
 		print(e)
-		raise CustomerException(str(e))
+		raise CustomerException("Could not add customer to database")
 
 def add_customer():
 	r = request.get_json()
 	try:
 		customer = Customer.from_dict(r)
 	except Exception as e:
-		raise CustomerException(str(e))
+		print(e)
+		raise CustomerException("Could not convert dictionary to Customer")
 
 	#if customer_exists(customer):
 	#	raise CustomerException("Customer '" + customer.username + "' already exists", status_code = 400)
@@ -103,7 +105,8 @@ def remove_customer(customer_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise CustomerException(str(e))
+		print(e)
+		raise CustomerException("Could not remove customer from database")
 
 	customer.password = None
 	tmp = customer.to_dict()
@@ -133,7 +136,8 @@ def unprotected_edit_customer(customer_id, customer_dict):
 		try:
 			customer.password = auth.create_hash(customer_dict["password_new"])
 		except Exception as e:
-			raise CustomerException(str(e))
+			print(e)
+			raise CustomerException("Could not create password hash")
 
 	if "address1" in customer_dict and customer_dict["address1"] != "":
 		customer.address1 = customer_dict["address1"]
@@ -161,7 +165,8 @@ def edit_customer(customer_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise CustomerException(str(e))
+		print(e)
+		raise CustomerException("Could not edit customer")
 
 	# Remove password hash from the response
 	customer.password = None
@@ -184,11 +189,36 @@ def edit_profile():
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise CustomerException(str(e))
+		print(e)
+		raise CustomerException("Could not edit customer profile")
 	# Remove password hash from the response
 	customer.password = None
 	tmp = customer.to_dict()
 	return(json_util.dumps(tmp))
+
+@auth.required()
+def get_orders():
+	session_id = request.headers.get('Authorization', None)
+	if not session_id:
+		raise SessionException("Header field 'Authorization' not found.")
+	try:
+		session = auth.lookup(session_id)
+	except SessionException:
+		raise SessionException("Session not found")
+
+	res = db.db.session.query(Order).filter_by(customer_id = session["user"].id).all()
+	orders = []
+
+	for order in res:
+		tmp = order.to_dict()
+		tmp["shipping"] = order.shipping.to_dict()
+		products = []
+		for ordered_product in order.ordered_products:
+			products.append(ordered_product.product.to_dict())
+		tmp["products"] = products
+		orders.append(tmp)
+
+	return(json_util.dumps(orders))
 
 customers.add_url_rule('', view_func=get_customers, methods=['GET'])
 customers.add_url_rule('', view_func=add_customer, methods=['POST'])
@@ -197,3 +227,5 @@ customers.add_url_rule('/<string:customer_id>', view_func=edit_customer, methods
 customers.add_url_rule('/<string:customer_id>', view_func=remove_customer, methods=['DELETE'])
 profile.add_url_rule('', view_func=get_profile, methods=['GET'])
 profile.add_url_rule('', view_func=edit_profile, methods=['PUT'])
+profile.add_url_rule('/orders', view_func=get_orders, methods=['GET'])
+
