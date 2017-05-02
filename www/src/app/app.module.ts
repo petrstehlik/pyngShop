@@ -11,7 +11,8 @@ import { HomeComponent } from './components/';
 import { LoginComponent } from './components/';
 import { LogoutComponent } from './components/';
 import { SetupComponent } from './components/';
-import { NullComponent, TopBarComponent } from './components/';
+import { NullComponent } from './components/';
+import { TopBarModule } from './components/topbar/top-bar.module';
 import { CustomerLoginComponent } from './components/customer-login/login.component';
 
 
@@ -126,7 +127,6 @@ export function setFactory (xhrBackend: XHRBackend,
     LogoutComponent,
     SetupComponent,
     NullComponent,
-    TopBarComponent,
     CategoryBarComponent,
     CategoryItemComponent,
     CategoryComponent,
@@ -146,6 +146,7 @@ export function setFactory (xhrBackend: XHRBackend,
   ],
   imports: [
 	modules,
+	TopBarModule,
 	SafePipeModule,
     BrowserModule,
 	FormsModule,
