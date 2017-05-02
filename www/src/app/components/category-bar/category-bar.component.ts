@@ -11,28 +11,21 @@ import {UserService } from 'app/services/user.service';
 })
 export class CategoryBarComponent implements OnInit {
 
-    categories = [
-        {
-            "slug" : "ebooks",
-            "name" : "Ebooks",
-            "sub" : [
-                {
-                    "slug" : "beletry",
-                    "name" : "Beletry"
-                }
-            ]
-
-        }
-    ]
-
+    categories : Array<Object>;
     newcat = "+ Add Category";
+    newsub = "+ Add Subcategory";
 
     constructor(private category : CategoryService,
                private user : UserService) { }
 
     ngOnInit() {
-        this.category.fetchAll().subscribe(
+    	this.load();
+    }
+
+    load() {
+		this.category.fetchAll().subscribe(
             data => {
+            	console.log(data);
                 this.categories = data
             },
             error => {
@@ -46,6 +39,34 @@ export class CategoryBarComponent implements OnInit {
             return;
         }
         console.log(event);
+
+        this.category.add({"name" : event}).subscribe(
+			data => {
+				this.load();
+				this.newcat = "+ Add Category";
+			},
+			error => {
+				console.log(error);
+				this.newcat = "+ Add Category";
+			}
+    	);
+
     }
 
+    newSubCat(event, id : Number) {
+    	if (event == "+ Add Subcategory") {
+			return;
+    	}
+
+    	this.category.add({"name" : event, "parent" : {"id" : id}, "hidden" : false}).subscribe(
+			data => {
+				this.load();
+				this.newsub = "+ Add Subcategory";
+			},
+			error => {
+				console.log(error);
+				this.newsub = "+ Add Subcategory";
+			}
+    	);
+    }
 }
