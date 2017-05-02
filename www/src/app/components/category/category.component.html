@@ -1,11 +1,38 @@
 <topbar></topbar>
 <category-bar></category-bar>
 
-<p>
-  category works!
-</p>
+<div class="container">
+	<div class="row">
+		<h2>{{ category.name }}</h2>
+	</div>
+	<div class="row">
+		<p *ngIf="!user.isAdmin(); else admin_edit">
+			{{ category.description }}
+		</p>
+
+		<ng-template #admin_edit>
+			<div>
+
+			<inline-editor type="textarea" [(ngModel)]="category.description" (onSave)="update($event)" name="description"></inline-editor>
+
+			{{ category | json }}
+			</div>
+		</ng-template>
+	</div>
 
 
-{{ category | json }}
+	{{ id }}
 
-{{ id }}
+
+	<div class="row product-listing">
+		<product-card [item]="product" *ngFor="let product of category.products"></product-card>
+
+		<div class="col-4">
+			<a class="card" [routerLink]="['/', 'category', id, 'product', 'new']">
+				<img class="card-img-top" src="assets/add_icon.png" alt="Add new product" />
+				<span class="btn btn-primary">Add new product</span>
+			</a>
+		</div>
+	</div>
+</div>
+

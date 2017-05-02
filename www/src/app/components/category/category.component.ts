@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { CategoryService } from 'app/services/category.service';
+import { UserService } from 'app/services/user.service';
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
-  providers : [CategoryService]
+  providers : [CategoryService, UserService]
 })
 export class CategoryComponent implements OnInit {
 
@@ -15,7 +16,8 @@ export class CategoryComponent implements OnInit {
     category : Array<Object> = [];
 
     constructor(private route: ActivatedRoute,
-               private categoryService : CategoryService) {}
+               private categoryService : CategoryService,
+               private user : UserService) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -36,6 +38,10 @@ export class CategoryComponent implements OnInit {
                 console.log(error);
             }
         );
+    }
+
+    update(event) {
+		console.log(event, this.category)
     }
 
 }
