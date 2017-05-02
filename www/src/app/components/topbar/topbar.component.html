@@ -20,7 +20,7 @@
                     <a [routerLink]="['/', 'admin']">Administration</a>
                 </li>
                 <li *ngIf="!user.isAdmin()">
-                    <a [routerLink]="['cart']" >
+                    <a [routerLink]="['/','cart']" >
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                         Cart <small>({{cart.length()}})</small>
                     </a>
