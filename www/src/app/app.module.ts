@@ -29,6 +29,7 @@ import { RegisterComponent } from './components/register/register.component'
 
 import {InlineEditorModule} from 'ng2-inline-editor';
 import { ProductCardComponent } from './components/product-card/product-card.component';
+import { ProductNewComponent } from './components/product-new/product-new.component';
 import { Contact } from './components/contact/contact.component';
 import { AccountComponent } from './components/account/account.component';
 
@@ -58,6 +59,22 @@ export const appRoutes: Routes = [
         path : 'category/:id',
         component : CategoryComponent
     },
+	{
+		path : 'category/:categoryid/product/new',
+		component : ProductNewComponent,
+		canActivate : [AuthGuard],
+		data : {
+			role: 0
+		}
+	},
+	{
+		path: 'admin',
+		component : NullComponent,
+		canActivate : [AuthGuard],
+		data : {
+			role : 0
+		}
+	},
 	{
 		path: '',
 		component: HomeComponent,
@@ -89,6 +106,7 @@ export function setFactory (xhrBackend: XHRBackend,
     CategoryItemComponent,
     CategoryComponent,
     ProductCardComponent,
+    ProductNewComponent,
     RegisterComponent,
     Contact,
     AccountComponent

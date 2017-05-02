@@ -4,9 +4,9 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 @Injectable()
 export class ProductService {
 
-	constructor(private http : Http) {}
+  constructor(private http : Http) {}
 
-	fetchAll() {
+  fetchAll() {
         return this.http.get('/products')
             .map((r : Response) => {
                 let response = r.json();
