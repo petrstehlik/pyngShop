@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CustomerAuthService } from 'app/services/customer-auth.service';
 import { Contact} from 'app/components/contact/contact.component'
+import { CustomFormsModule } from 'ng2-validation'
 
 @Component({
   selector: 'app-account',
