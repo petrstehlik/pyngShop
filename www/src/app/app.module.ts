@@ -38,10 +38,11 @@ import { AdminComponent } from './components/admin/admin.component';
 import { AdminManufacturerComponent } from './components/admin-manufacturer/admin-manufacturer.component';
 import { AdminShippingComponent } from './components/admin-shipping/admin-shipping.component';
 import { Manufacturer } from './components/manufacturer/manufacturer.component';
-=======
 import { TruncatePipe } from './utils/truncate.pipe';
 import { ProductComponent } from './components/product/product.component';
->>>>>>> f3cad11... Component: Product Component
+import { CartComponent } from './components/cart/cart.component';
+import { TotalPipe } from './utils/total.pipe';
+>>>>>>> e2ca8f8... Cart basic implementation
 
 export const appRoutes: Routes = [
 	{
@@ -98,6 +99,10 @@ export const appRoutes: Routes = [
 		}
 	},
 	{
+		path : 'cart',
+		component : CartComponent
+	},
+	{
 		path: '',
 		component: HomeComponent,
 		canActivate : []
@@ -137,7 +142,9 @@ export function setFactory (xhrBackend: XHRBackend,
     AdminShippingComponent,
     Manufacturer
     TruncatePipe,
-    ProductComponent
+    ProductComponent,
+    CartComponent,
+    TotalPipe
   ],
   imports: [
 	modules,
