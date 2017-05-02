@@ -63,21 +63,20 @@ nav {
 			position: relative;
 
 
-			a {
+			a, inline-editor {
 				color: #000;
 				padding: 0.35em 0;
 				display: inline-block;
-				// float: left;
 				// clear: both;
 			}
 
-			span.glyphicon {
+			span.fa {
 				float: left;
 				margin-right: 0.2em;
 				margin-top: 0.35em;
 				color: red;
 
-				&.glyphicon-edit {
+				&.fa-edit {
 					float: right;
 					color: #000;
 					margin-left: 0.35em;
@@ -88,7 +87,7 @@ nav {
 				padding: 1em;
 				display: none;
 				position: absolute;
-				min-width: 150px;
+				min-width: 250px;
 				background: darken(#FFF, 5%);
 
 <<<<<<< HEAD

@@ -1,9 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { UserService } from 'app/services';
 import {CategoryService } from 'app/services/category.service';
 
@@ -12,35 +8,10 @@ import {CategoryService } from 'app/services/category.service';
   templateUrl: './category-item.component.html',
   styleUrls: ['./category-item.component.scss'],
   providers : [UserService]
-=======
-=======
->>>>>>> 9107357... Components: Category Bar and Item
-=======
->>>>>>> 9107357... Components: Category Bar and Item
-=======
->>>>>>> 9107357... Components: Category Bar and Item
-@Component({
-  selector: 'category-item',
-  templateUrl: './category-item.component.html',
-  styleUrls: ['./category-item.component.scss']
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 9107357... Components: Category Bar and Item
-=======
->>>>>>> 9107357... Components: Category Bar and Item
-=======
->>>>>>> 9107357... Components: Category Bar and Item
-=======
->>>>>>> 9107357... Components: Category Bar and Item
 })
 export class CategoryItemComponent implements OnInit {
 
     @Input() item : Object;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 
     edit_enabled = false;
 
@@ -60,31 +31,5 @@ export class CategoryItemComponent implements OnInit {
 			}
 		);
     }
-=======
-=======
->>>>>>> 9107357... Components: Category Bar and Item
-=======
->>>>>>> 9107357... Components: Category Bar and Item
-=======
->>>>>>> 9107357... Components: Category Bar and Item
-    user = {
-        admin: false
-    }
-
-  constructor() { }
-
-  ngOnInit() {
-      console.log(this.item);
-  }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 9107357... Components: Category Bar and Item
-=======
->>>>>>> 9107357... Components: Category Bar and Item
-=======
->>>>>>> 9107357... Components: Category Bar and Item
-=======
->>>>>>> 9107357... Components: Category Bar and Item
 
 }

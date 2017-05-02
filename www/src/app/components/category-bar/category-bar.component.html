@@ -40,17 +40,16 @@
 		<li>
 			<a [routerLink]="['/']">Home</a>
 		</li>
-		<li *ngFor="let menu_item of categories" [hidden]="!menu_item.hidden">
-            <category-item [item]="menu_item"></category-item>
+		<li *ngFor="let menu_item of categories">
+            <category-item [item]="menu_item" [hidden]="menu_item.hidden"></category-item>
 
-            <ul *ngIf="menu_item?.children?.length > 0 || user.admin">
-				<li *ngFor="let submenu_item of menu_item.children" [hidden]="!submenu_item.hidden">
-				    <category-item [item]="submenu_item"></category-item>
+            <ul *ngIf="menu_item.children.length > 0 || user.isAdmin()">
+				<li *ngFor="let submenu_item of menu_item.children">
+				    <category-item [item]="submenu_item" [hidden]="submenu_item.hidden"></category-item>
 				</li>
-				<li *ngIf="user.isAdmin()">
-                    <a href="#">
-                        <span *ngIf="!newcat.name">+ Add Subcategory</span>
-                    </a>
+
+				<li class="row no-gutters" *ngIf="user.isAdmin()">
+					<inline-editor class="col" type="text" [(ngModel)]="newsub" (onSave)="newSubCat($event, menu_item.id)" name="item" pattern="(?!\+ Add Subcategory)"></inline-editor>
 				</li>
 			</ul>
 		</li>
