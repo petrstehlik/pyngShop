@@ -1,0 +1,89 @@
+<topbar></topbar>
+
+	<div class="container">
+		<a [routerLink]="['/', 'admin']"><span class="fa fa-chevron-left"></span> Back to admin</a>
+		<h2>Order #{{ id }}</h2>
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Price</th>
+				<th>Quantity</th>
+				<th>Total</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr class="cart-item" *ngFor="let item of order?.ordered_products">
+				<td><a [routerLink]="['/product', item.product.id]">{{ item.product.name }}</a></td>
+				<td>{{ item.product.price }}</td>
+				<td>{{ item.quantity }}</td>
+				<td>{{ item.quantity*item.product.price }}</td>
+			</tr>
+
+			<tr>
+				<td>Shipping - {{ order?.shipping.name }}</td>
+				<td></td>
+				<td></td>
+				<td>{{ order?.shipping.price }}</td>
+			</tr>
+			<tr>
+				<td>Status</td>
+				<td></td>
+				<td></td>
+				<td>{{ order?.status }}</td>
+			</tr>
+
+
+		</tbody>
+
+		<tfoot>
+			<td colspan="3">
+				<h3>Total</h3>
+			</td>
+			<td>
+				<h4>{{ order?.full_price }}</h4>
+			</td>
+		</tfoot>
+
+	</table>
+
+
+	<h3>Person details</h3>
+
+	<div class="shipping-info">
+				<p>
+					First Name: {{ order?.customer.first_name }}
+					<span *ngIf="!order?.customer.first_name" class="alert alert-warning">Missing!</span>
+				</p>
+				<p>
+					Last Name: {{ order?.customer.last_name }}
+					<span *ngIf="!order?.customer.last_name" class="alert alert-warning">Missing!</span>
+				</p>
+				<p>
+					Email: {{ order?.customer.email }}
+					<span *ngIf="!order?.customer.email" class="alert alert-warning">Missing!</span>
+				</p>
+				<p>
+					Address: {{ order?.customer.address1 }}
+					<span *ngIf="!order?.customer.address1" class="alert alert-warning">Missing!</span>
+				</p>
+				<p>
+					Phone: {{ order?.customer.phone }}
+					<span *ngIf="!order?.customer.phone" class="alert alert-warning">Missing!</span>
+				</p>
+				<p>
+					State: {{ order?.customer.state }}
+					<span *ngIf="!order?.customer.state" class="alert alert-warning">Missing!</span>
+				</p>
+				<p>
+					Postal code: {{ order?.customer.postal_code}}
+					<span *ngIf="!order?.customer.postal_code" class="alert alert-warning">Missing!</span>
+				</p>
+			</div>
+
+
+	<button (click)="markShipped()" class="btn btn-primary">Mark shipped</button>
+
+	</div>

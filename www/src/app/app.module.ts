@@ -43,6 +43,7 @@ import { ProductComponent } from './components/product/product.component';
 import { CartComponent } from './components/cart/cart.component';
 import { TotalPipe } from './utils/total.pipe';
 import { AdminOrdersComponent } from './components/admin-orders/admin-orders.component';
+import { AdminOrderDetailComponent } from './components/admin-order-detail/admin-order-detail.component';
 
 export const appRoutes: Routes = [
 	{
@@ -60,6 +61,10 @@ export const appRoutes: Routes = [
 	{
 		path : 'admin/orders',
 		component : AdminOrdersComponent
+	},
+	{
+		path : 'admin/orders/:id',
+		component : AdminOrderDetailComponent
 	},
 	{
 		path : 'login',
@@ -148,7 +153,8 @@ export function setFactory (xhrBackend: XHRBackend,
     ProductComponent,
     CartComponent,
     TotalPipe,
-    AdminOrdersComponent
+    AdminOrdersComponent,
+    AdminOrderDetailComponent
   ],
   imports: [
 	modules,
