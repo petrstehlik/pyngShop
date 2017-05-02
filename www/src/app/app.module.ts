@@ -32,11 +32,16 @@ import { ProductCardComponent } from './components/product-card/product-card.com
 import { ProductNewComponent } from './components/product-new/product-new.component';
 import { Contact } from './components/contact/contact.component';
 import { AccountComponent } from './components/account/account.component';
+<<<<<<< HEAD
 import { CustomFormsModule } from 'ng2-validation';
 import { AdminComponent } from './components/admin/admin.component';
 import { AdminManufacturerComponent } from './components/admin-manufacturer/admin-manufacturer.component';
 import { AdminShippingComponent } from './components/admin-shipping/admin-shipping.component';
 import { Manufacturer } from './components/manufacturer/manufacturer.component';
+=======
+import { TruncatePipe } from './utils/truncate.pipe';
+import { ProductComponent } from './components/product/product.component';
+>>>>>>> f3cad11... Component: Product Component
 
 export const appRoutes: Routes = [
 	{
@@ -79,6 +84,10 @@ export const appRoutes: Routes = [
 		data : {
 			role: 0
 		}
+	},
+	{
+		path : 'product/:id',
+		component : ProductComponent
 	},
 	{
 		path: 'admin',
@@ -127,6 +136,8 @@ export function setFactory (xhrBackend: XHRBackend,
     AdminManufacturerComponent,
     AdminShippingComponent,
     Manufacturer
+    TruncatePipe,
+    ProductComponent
   ],
   imports: [
 	modules,
