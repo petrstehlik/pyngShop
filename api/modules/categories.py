@@ -41,7 +41,8 @@ def add_category():
 	try:
 		category = Category.from_dict(r)
 	except Exception as e:
-		raise CategoryException(str(e))
+		print(e)
+		raise CategoryException("Could not convert dictionary to Category")
 
 	try:
 		if parent != None:
@@ -52,7 +53,7 @@ def add_category():
 	except Exception as e:
 		db.db.session.rollback()
 		print(e)
-		raise CategoryException(str(e))
+		raise CategoryException("Could not add category to database")
 
 	inserted = Category.query.get_or_404(category.id)
 
@@ -74,7 +75,8 @@ def remove_category(category_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise CategoryException(str(e))
+		print(e)
+		raise CategoryException("Could not remove category from database")
 
 	tmp = category.to_dict()
 
@@ -113,7 +115,8 @@ def edit_category(category_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise CategoryException(str(e))
+		print(e)
+		raise CategoryException("Could not edit category")
 
 	tmp = category.to_dict()
 	tmp["parent"] = category.parent_dict()
