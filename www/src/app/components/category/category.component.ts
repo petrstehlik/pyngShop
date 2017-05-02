@@ -41,7 +41,16 @@ export class CategoryComponent implements OnInit {
     }
 
     update(event) {
-		console.log(event, this.category)
+		console.log(this.category)
+
+		this.categoryService.update(this.category).subscribe(
+			data => {
+				this.category = data;
+			},
+			err => {
+				console.log(err);
+			}
+		);
     }
 
 }
