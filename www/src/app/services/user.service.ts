@@ -10,7 +10,6 @@ export class UserService {
 
     refresh() {
         this.user = JSON.parse(localStorage.getItem('currentUser'));
-        console.log("refresh has been called", this.user);
 
         if (this.user == null) {
             console.warn("No user found");
