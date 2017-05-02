@@ -43,7 +43,9 @@
 	<div class="row product-listing">
 		<product-card [item]="product" *ngFor="let product of category.products"></product-card>
 
-		<div class="col-4">
+	</div>
+	<div class="row">
+		<div class="col-3" *ngIf="user.isAdmin()">
 			<a class="card" [routerLink]="['/', 'category', id, 'product', 'new']">
 				<img class="card-img-top" src="assets/add_icon.png" alt="Add new product" />
 				<span class="btn btn-primary">Add new product</span>
