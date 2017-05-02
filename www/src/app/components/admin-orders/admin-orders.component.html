@@ -3,32 +3,7 @@
 <div class="container">
 	<a [routerLink]="['/', 'admin']"><span class="fa fa-chevron-left"></span> Back to admin</a>
 
-		<h2>Order management</h2>
-		<section class="box d-flex flex-row">
-			<table class="table table-hover">
-				<thead>
-				<tr>
-					<th>ID</th>
-					<th>Price</th>
-					<th>Time</th>
-					<th>Status</th>
-					<th>Actions</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr *ngFor="let ord of orders">
-					<td>{{ ord.id }}</td>
-					<td>{{ ord.full_price }}</td>
-					<td>{{ ord.timestamp *1000 | date}}</td>
-					<td>{{ ord.status }}</td>
-					<td>
-						<button class="btn btn-secondary" [routerLink] = "[ord.id]">
-							<span class="fa fa-pencil"></span>
-						</button>
-					</td>
-				</tr>
-				</tbody>
-			</table>
-		</section>
+
+{{ orders | json }}
 
 </div>

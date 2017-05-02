@@ -4,14 +4,12 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 @Injectable()
 export class OrderService {
 
-  constructor(private http : Http) {}
+	constructor(private http : Http) {}
 
-  fetchAll() {
+	fetchAll() {
         return this.http.get('/orders')
             .map((r : Response) => {
-                let response = r.json();
-
-                return response;
+                return r.json();
             })
             .catch(this.handleError);
     }
@@ -19,9 +17,7 @@ export class OrderService {
     fetch(id : Number) {
         return this.http.get('/orders/' + Number(id))
             .map((r : Response) => {
-                let response = r.json();
-
-                return response;
+                return r.json();
             })
             .catch(this.handleError);
     }
@@ -29,9 +25,7 @@ export class OrderService {
     add(item : Object) {
         return this.http.post('/orders', JSON.stringify(item))
             .map((r : Response) => {
-                let response = r.json();
-
-                return response;
+                return r.json();
             })
             .catch(this.handleError);
     }
