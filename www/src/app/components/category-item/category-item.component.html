@@ -1,11 +1,21 @@
-<span *ngIf="user.admin" class="glyphicon glyphicon-remove" (click)="deleteCategory()"></span>
-
-<a [routerLink]="['/category', item.id]">
+<a [routerLink]="['/category', item.id]" *ngIf="!user.isAdmin(); else admin_edit">
     {{item.name}}
 </a>
 
-<span (click)="textBtnForm.$show()"
-    [hidden]="!textBtnForm.$visible"
-    *ngIf="user.admin"
-    class="glyphicon glyphicon-edit">
-</span>
+<ng-template #admin_edit>
+	<span *ngIf="!edit_enabled">
+	<a [routerLink]="['/category', item.id]">
+		{{item.name}}
+	</a>
+	</span>
+	<span class="fa fa-pencil" (click)="edit_enabled = !edit_enabled"></span>
+</ng-template>
+
+<div *ngIf="edit_enabled">
+	<div class="row no-gutters" *ngIf="!item.hidden">
+		<span class="fa fa-times" (click)="deleteCategory(item.id)"></span>
+
+		<inline-editor class="col" type="text" [(ngModel)]="item.name" (onSave)="saveEditable($event)" name="item"></inline-editor>
+	</div>
+</div>
+
