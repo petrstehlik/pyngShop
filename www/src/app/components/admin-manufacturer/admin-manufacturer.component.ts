@@ -1,19 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminManufacturerService } from 'app/services';
-//import { Manufacturer} from 'app/components/manufacturer/manufacturer.component';
-
-export class Manufacturer {
-
-	constructor(
-		public name : string,
-		public first_name : string,
-		public last_name : string,
-		public telephone : number,
-		public email : string,
-		public id : number,
-		public delivery_time : number
-	) { }
-}
+import { Manufacturer} from 'app/components/manufacturer/manufacturer.component';
 
 @Component({
 	selector: 'app-admin-manufacturer',
