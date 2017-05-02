@@ -39,6 +39,8 @@ import { AdminShippingComponent } from './components/admin-shipping/admin-shippi
 import { Manufacturer } from './components/manufacturer/manufacturer.component';
 import { TruncatePipe } from './utils/truncate.pipe';
 import { ProductComponent } from './components/product/product.component';
+import { CartComponent } from './components/cart/cart.component';
+import { TotalPipe } from './utils/total.pipe';
 
 export const appRoutes: Routes = [
 	{
@@ -95,6 +97,10 @@ export const appRoutes: Routes = [
 		}
 	},
 	{
+		path : 'cart',
+		component : CartComponent
+	},
+	{
 		path: '',
 		component: HomeComponent,
 		canActivate : []
@@ -134,7 +140,9 @@ export function setFactory (xhrBackend: XHRBackend,
     AdminShippingComponent,
     Manufacturer
     TruncatePipe,
-    ProductComponent
+    ProductComponent,
+    CartComponent,
+    TotalPipe
   ],
   imports: [
 	modules,
