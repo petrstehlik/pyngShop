@@ -34,11 +34,22 @@ import { Contact } from './components/contact/contact.component';
 import { AccountComponent } from './components/account/account.component';
 import { CustomFormsModule } from 'ng2-validation';
 import { AdminComponent } from './components/admin/admin.component';
+import { AdminManufacturerComponent } from './components/admin-manufacturer/admin-manufacturer.component';
+import { AdminShippingComponent } from './components/admin-shipping/admin-shipping.component';
+import { Manufacturer } from './components/manufacturer/manufacturer.component';
 
 export const appRoutes: Routes = [
 	{
 		path : 'admin/login',
 		component : LoginComponent
+	},
+	{
+		path : 'admin/manufacturers',
+		component : AdminManufacturerComponent
+	},
+	{
+		path : 'admin/shipping',
+		component : AdminShippingComponent
 	},
 	{
 		path : 'login',
@@ -112,7 +123,10 @@ export function setFactory (xhrBackend: XHRBackend,
     RegisterComponent,
     Contact,
     AccountComponent,
-    AdminComponent
+    AdminComponent,
+    AdminManufacturerComponent,
+    AdminShippingComponent,
+    Manufacturer
   ],
   imports: [
 	modules,
@@ -137,4 +151,5 @@ export function setFactory (xhrBackend: XHRBackend,
 
   ],
   bootstrap: [AppComponent]
+})
 export class AppModule { }
