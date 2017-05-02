@@ -1,0 +1,62 @@
+<topbar></topbar>
+<category-bar></category-bar>
+
+<section class="container">
+	<h3 *ngIf="total == 0; else showcart">No products in cart</h3>
+
+<ng-template #showcart>
+	<h4>Your cart</h4>
+
+	<table class="table table-hover" *ngIf="total > 0">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Quantity</th>
+				<th>Price</th>
+				<th>Total</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr class="cart-item" *ngFor="let item of cart">
+				<td><a [routerLink]="['/product', item.product.id]">{{ item.product.name }}</a></td>
+				<td>{{ item.product.price }}</td>
+				<td><input type="number" [(ngModel)]="item.quantity" name="quantity" (ngModelChange)="onChange(item)"></td>
+				<td>{{ item.quantity*item.product.price }}</td>
+				<td><a (click)="removeItem(item)"><span class="fa fa-times"></span></a></td>
+			</tr>
+		</tbody>
+
+		<tfoot>
+			<td colspan="4">
+				<h3>Total</h3>
+			</td>
+			<td>
+				<h4>{{ total }}</h4>
+			</td>
+		</tfoot>
+
+	</table>
+
+
+	<h4>Shipping method</h4>
+	<p>here should be shipping</p>
+	<h5 *ngIf="shipping.length == 0">No shipping available</h5>
+	{{ shipping | json }}
+
+
+	<div *ngIf="selectedShipping > 0">
+		<h4>address</h4>
+		<p>here should be address</p>
+	</div>
+
+
+	<div *ngIf="addressValid">
+		<h4>Recapitulation</h4>
+		<p>here should be recap</p>
+	</div>
+
+</ng-template>
+
+</section>

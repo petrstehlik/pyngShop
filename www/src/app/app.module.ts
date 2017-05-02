@@ -34,6 +34,8 @@ import { Contact } from './components/contact/contact.component';
 import { AccountComponent } from './components/account/account.component';
 import { TruncatePipe } from './utils/truncate.pipe';
 import { ProductComponent } from './components/product/product.component';
+import { CartComponent } from './components/cart/cart.component';
+import { TotalPipe } from './utils/total.pipe';
 
 export const appRoutes: Routes = [
 	{
@@ -82,6 +84,10 @@ export const appRoutes: Routes = [
 		}
 	},
 	{
+		path : 'cart',
+		component : CartComponent
+	},
+	{
 		path: '',
 		component: HomeComponent,
 		canActivate : []
@@ -117,7 +123,9 @@ export function setFactory (xhrBackend: XHRBackend,
     Contact,
     AccountComponent,
     TruncatePipe,
-    ProductComponent
+    ProductComponent,
+    CartComponent,
+    TotalPipe
   ],
   imports: [
 	modules,
