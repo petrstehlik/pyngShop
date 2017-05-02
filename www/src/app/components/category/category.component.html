@@ -3,22 +3,38 @@
 
 <div class="container">
 	<div class="row">
-		<h2>{{ category.name }}</h2>
-	</div>
-	<div class="row">
-		<p *ngIf="!user.isAdmin(); else admin_edit">
-			{{ category.description }}
-		</p>
+		<h2 *ngIf="!user.isAdmin(); else admin_edit_name">{{ category.name }}</h2>
 
-		<ng-template #admin_edit>
-			<div>
+		<ng-template #admin_edit_name>
+			<div class="form-control col-4">
+				<label>Category name</label>
+				<inline-editor type="text" [(ngModel)]="category.name" name="headline" (onSave)="update($event)"></inline-editor>
+			</div>
+			<div class="form-control col-2">
 
-			<inline-editor type="textarea" [(ngModel)]="category.description" (onSave)="update($event)" name="description"></inline-editor>
-
-			{{ category | json }}
+				<label>Slug</label>
+				<small>
+					<inline-editor type="text" [(ngModel)]="category.slug" name="slug" (onSave)="update($event)"></inline-editor>
+				</small>
 			</div>
 		</ng-template>
 	</div>
+	<div class="row">
+		<p *ngIf="!user.isAdmin(); else admin_edit_description">
+			{{ category.description }}
+		</p>
+
+		<ng-template #admin_edit_description>
+			<div class="form-control col">
+				<label>Description</label>
+
+			<inline-editor type="textarea" [(ngModel)]="category.description" (onSave)="update($event)" name="description"></inline-editor>
+
+			</div>
+		</ng-template>
+	</div>
+
+	{{ category | json }}
 
 
 	{{ id }}
