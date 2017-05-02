@@ -1,0 +1,30 @@
+<topbar></topbar>
+<category-bar></category-bar>
+
+<div class="container">
+	<section class="product">
+		<div class="row">
+		<div class="col-6">
+			<img class="img-fluid" [src]="product.image == null ? 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Image%20Missing&w=350&h=200' : product.image" alt="Product image">
+		</div>
+
+		<div class="col-6">
+			<h3>{{ product.name }}</h3>
+
+			<p class="h5">Price: {{ product.price }}</p>
+			<p>In Stock: {{ product.in_stock }}</p>
+
+			<label>Quantity</label>
+			<input type="number" [(ngModel)]="quantity">
+
+			<a class="btn btn-primary" (click)="addToCart()"><span class="fa fa-cart-plus"></span> Add to Cart</a>
+
+		</div>
+		</div>
+
+		<div class="row">
+			<p>{{ product.description }}</p>
+		</div>
+
+	</section>
+</div>
