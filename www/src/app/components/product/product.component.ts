@@ -16,6 +16,8 @@ export class ProductComponent implements OnInit {
 	product = {};
 	quantity = 1;
 	id = 0;
+  submitted = false;
+  message = null;
 
 	constructor(private route: ActivatedRoute,
                private productService : ProductService,
@@ -40,6 +42,22 @@ export class ProductComponent implements OnInit {
             }
         );
     }
+
+   update(event) {
+     this.submitted = true;
+     this.message = null;
+     this.productService.update(this.product).subscribe(
+       data => {
+         this.product = data;
+         this.message = "Update successfull";
+       },
+       error => {
+         console.log(error);
+         this.message = error["message"];
+         this.submitted = false;
+       }
+      );
+   }
 
     addToCart() {
 		this.cart.addItem(this.product, this.quantity);
