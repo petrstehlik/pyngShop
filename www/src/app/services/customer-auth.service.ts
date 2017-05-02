@@ -44,6 +44,7 @@ export class CustomerAuthService {
 			.map((response : Response) => {
 				console.log(response);
 				this.userService.refresh();
+				return response.json();
 			}).catch(this.handleError);
 			//localStorage.removeItem('currentUser');
 
@@ -53,14 +54,23 @@ export class CustomerAuthService {
 		return this.http.post('/customers', JSON.stringify(customer))
 		.map((response : Response) => {
 			console.log(response);
+			return response.json();
 		}).catch(this.handleError);
 	}
 
 	update(customer : Object) {
 		return this.http.put('/profile', JSON.stringify(customer))
 		.map((response : Response) => {
-			console.log(response);
+			return response.json();
 		}).catch(this.handleError);
+	}
+
+	fetch() {
+		return this.http.get('/profile').map(
+			(response : Response) => {
+				return response.json();
+			})
+			.catch(this.handleError);
 	}
 
 	checkSession() {
