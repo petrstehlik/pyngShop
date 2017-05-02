@@ -1,4 +1,5 @@
 appdirs==1.4.2
+awesome-slugify==1.6.5
 bcrypt==3.1.1
 cffi==1.8.3
 click==6.6
@@ -11,7 +12,9 @@ packaging==16.8
 pycparser==2.16
 pymongo==3.4.0
 pyparsing==2.1.10
+regex==2017.4.29
 requests==2.11.1
 six==1.10.0
 SQLAlchemy==1.1.5
+Unidecode==0.4.20
 Werkzeug==0.11.11

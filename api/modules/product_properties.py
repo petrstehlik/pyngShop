@@ -18,7 +18,7 @@ product_property = Module('product_properties', __name__, url_prefix='/product_p
 @auth.required(Role.admin)
 def count_products_property():
 	""" FIXME not used, remove """
-	return db.product_property.count()
+	return db.product_properties.count()
 
 @auth.required(Role.admin)
 def get_product_properties():
@@ -37,7 +37,8 @@ def add_product_property():
 	try:
 		product_property = ProductProperty.from_dict(r)
 	except Exception as e:
-		raise ProductPropertyException(str(e))
+		print(e)
+		raise ProductPropertyException("Could not convert dictionary to ProductProperty")
 
 	try:
 		db.db.session.add(product_property)
@@ -45,7 +46,7 @@ def add_product_property():
 	except Exception as e:
 		db.db.session.rollback()
 		print(e)
-		raise ProductPropertyException(str(e))
+		raise ProductPropertyException("Could not add product property to database")
 
 	inserted = ProductProperty.query.get_or_404(product_property.id)
 
@@ -66,7 +67,8 @@ def remove_product_property(product_property_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise ProductPropertyException(str(e))
+		print(e)
+		raise ProductPropertyException("Could not remove product property")
 
 	tmp = product_property.to_dict()
 
@@ -93,7 +95,8 @@ def edit_product_property(product_property_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise ProductPropertyException(str(e))
+		print(e)
+		raise ProductPropertyException("Could not edit product property")
 
 	tmp = product_property.to_dict()
 
