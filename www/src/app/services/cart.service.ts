@@ -44,6 +44,9 @@ export class CartService {
 
     addItem(item : Object, quantity : Number) {
         for (let product of this.cart) {
+        if (quantity > product["quantity"]) {
+            return;
+        }
             if (product["product"]["id"] == item["id"]) {
                 product["quantity"] += quantity;
                 this.save();
