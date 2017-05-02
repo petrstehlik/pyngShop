@@ -1,14 +1,27 @@
-<h2><a routerLink='/users'><i class="fa fa-chevron-left" aria-hidden="true"></i></a> Add new user</h2>
+<topbar></topbar>
+	<div class="container">
+		<a [routerLink]="['/', 'admin', 'users']"><span class="fa fa-chevron-left"></span> Back to users</a>
+
+
+<h2>Add new user</h2>
 
 <form class="example-form">
-	<div class="flex-container"
+	<div class="form-group"
 		fxLayout="column"
 		fxLayoutAlign="center left">
+		<label> Username </label>
 			<input
 				placeholder="Username"
 				[(ngModel)]="user.username"
 				required
 				name="username">
+
+		</div>
+			<label> Email </label>
+
+		<div class="form-group"
+		fxLayout="column"
+		fxLayoutAlign="center left">
 
 			<input
 				placeholder="E-mail"
@@ -43,7 +56,7 @@
 		</div>
 	</div>
 
-	<div class="flex-container">
+	<div class="form-group">
 			<input
 				placeholder="First name"
 				[(ngModel)]="user.first_name"
@@ -55,14 +68,14 @@
 				name="last_name">
 	</div>
 
-	<div class="flex-container">
+	<!--div class="flex-container">
 		<select placeholder="Role" [(ngModel)]="user.role" name="role" class="custom-select">
 		<option *ngFor="let role of roles" [value]="role.value">
 		  {{role.viewValue}}
 		</option>
 	  </select>
 
-	</div>
+	</div-->
 
 	<div class="flex-item">
 		<button
