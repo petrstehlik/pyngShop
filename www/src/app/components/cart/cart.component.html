@@ -26,6 +26,23 @@
 				<td>{{ item.quantity*item.product.price }}</td>
 				<td><a (click)="removeItem(item)"><span class="fa fa-times"></span></a></td>
 			</tr>
+
+			<tr>
+				<td>Shipping method</td>
+				<td><td>
+				<td colspan="2">
+					<select placeholder="Shipping option" [(ngModel)]="selectedShipping" name="shipping" class="custom-select" (ngModelChange)="getTotal()">
+						<option [value]="-1" selected disabled>
+							-- Select shipping method --
+						</option>
+						<option  *ngFor="let ship of shipping" [value]="ship.id">
+							{{ ship.name }} - {{ ship.price }} CZK
+						</option>
+					</select>
+				</td>
+			</tr>
+
+
 		</tbody>
 
 		<tfoot>
@@ -38,24 +55,62 @@
 		</tfoot>
 
 	</table>
+	<div class="row">
+
+		<div *ngIf="!userService.isGuest()" class="col">
+			<h4>Delivery Address Info</h4>
+
+			<div class="shipping-info">
+				<p>
+					First Name: {{ customer.customer.first_name }}
+					<span *ngIf="!customer.customer.first_name" class="alert alert-warning">Missing!</span>
+				</p>
+				<p>
+					Last Name: {{ customer.customer.last_name }}
+					<span *ngIf="!customer.customer.last_name" class="alert alert-warning">Missing!</span>
+				</p>
+				<p>
+					Email: {{ customer.customer.email }}
+					<span *ngIf="!customer.customer.email" class="alert alert-warning">Missing!</span>
+				</p>
+				<p>
+					Address: {{ customer.customer.address1 }}
+					<span *ngIf="!customer.customer.address1" class="alert alert-warning">Missing!</span>
+				</p>
+				<p>
+					Phone: {{ customer.customer.phone }}
+					<span *ngIf="!customer.customer.phone" class="alert alert-warning">Missing!</span>
+				</p>
+				<p>
+					State: {{ customer.customer.state }}
+					<span *ngIf="!customer.customer.state" class="alert alert-warning">Missing!</span>
+				</p>
+				<p>
+					Postal code: {{ customer.customer.postal_code}}
+					<span *ngIf="!customer.customer.postal_code" class="alert alert-warning">Missing!</span>
+				</p>
+			</div>
+		</div>
+
+		<div class="col">
+			<div *ngIf="userService.isGuest()" class="alert alert-warning">
+				<p>In order to checkout you must be registered/logged in</p>
+				<a [routerLink]="['/','login']" class="btn btn-primary">Log In</a>
+				<a [routerLink]="['/','register']" class="btn btn-link">Register</a>
+			</div>
 
 
-	<h4>Shipping method</h4>
-	<p>here should be shipping</p>
-	<h5 *ngIf="shipping.length == 0">No shipping available</h5>
-	{{ shipping | json }}
+			<button [disabled]="!userValid() || selectedShipping < 0" (click)="placeOrder()" class="btn btn-primary btn-lg">
+				<span class="fa fa-checkout"> Checkout</span>
+			</button>
 
-
-	<div *ngIf="selectedShipping > 0">
-		<h4>address</h4>
-		<p>here should be address</p>
+			<div *ngIf="!userValid()" class="alert alert-warning">
+				<p>Please fill in all needed fields in your account</p>
+				<a [routerLink]="['/','account']" class="btn btn-primary">Go to Account</a>
+			</div>
+		</div>
 	</div>
 
-
-	<div *ngIf="addressValid">
-		<h4>Recapitulation</h4>
-		<p>here should be recap</p>
-	</div>
 
 </ng-template>
 
