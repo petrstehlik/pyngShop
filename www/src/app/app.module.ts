@@ -32,6 +32,8 @@ import { ProductCardComponent } from './components/product-card/product-card.com
 import { ProductNewComponent } from './components/product-new/product-new.component';
 import { Contact } from './components/contact/contact.component';
 import { AccountComponent } from './components/account/account.component';
+import { TruncatePipe } from './utils/truncate.pipe';
+import { ProductComponent } from './components/product/product.component';
 
 export const appRoutes: Routes = [
 	{
@@ -66,6 +68,10 @@ export const appRoutes: Routes = [
 		data : {
 			role: 0
 		}
+	},
+	{
+		path : 'product/:id',
+		component : ProductComponent
 	},
 	{
 		path: 'admin',
@@ -109,7 +115,9 @@ export function setFactory (xhrBackend: XHRBackend,
     ProductNewComponent,
     RegisterComponent,
     Contact,
-    AccountComponent
+    AccountComponent,
+    TruncatePipe,
+    ProductComponent
   ],
   imports: [
 	modules,
