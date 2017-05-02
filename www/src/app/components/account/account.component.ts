@@ -12,17 +12,18 @@ import { CustomFormsModule } from 'ng2-validation'
 })
 export class AccountComponent implements OnInit {
 	user = new Contact('', '', '', '', '', '', '', 0, +421, '');
+	lsUser = null;
 	constructor(private customerService : CustomerAuthService, private router : Router) { }
 	submitted = false;
+	message = null;
 
 	ngOnInit() {
-		this.customerService.checkSession().subscribe(
+		this.customerService.fetch().subscribe(
 			data => {
-				console.debug("Session data")
-				console.log(data);
-				this.user = JSON.parse(localStorage.getItem('currentUser'));
-				console.debug("PArsed user");
-				console.log(this.user);
+				this.user = data;
+				this.lsUser = JSON.parse(localStorage.getItem('currentUser'));
+				this.lsUser["customer"] = this.user;
+				localStorage.setItem('currentUser', JSON.stringify(this.lsUser));
 			},
 			err => {
 				console.log(err);
@@ -34,12 +35,18 @@ export class AccountComponent implements OnInit {
 		console.debug("Submit user");
 		console.log(this.user);
 		this.submitted = true;
+		this.message = null;
 		this.customerService.update(this.user).subscribe(
 			data => {
-				localStorage.setItem('currentUser', JSON.stringify(this.user));
+				this.user = data;
+				this.lsUser = JSON.parse(localStorage.getItem('currentUser'));
+				this.lsUser["customer"] = this.user;
+				localStorage.setItem('currentUser', JSON.stringify(this.lsUser));
+				this.message = "Update successfull";
 			},
 			err => {
 				console.log(err);
+				this.message = err["message"];
 				this.submitted = false;
 			}
 		);
