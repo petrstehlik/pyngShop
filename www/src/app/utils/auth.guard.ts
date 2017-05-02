@@ -22,10 +22,10 @@ export class AuthGuard implements CanActivate, CanLoad {
 	}
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+		let user = JSON.parse(localStorage.getItem('currentUser'));
         if (this.isLoggedIn()) {
 		// logged in so return true
 		//console.log(route.data)
-			let user = JSON.parse(localStorage.getItem('currentUser'));
 			if (route.data['role'] == undefined) {
 				console.warn('No role is set for route \'' + route.data['path'] + '\'');
 				return true;
@@ -39,8 +39,11 @@ export class AuthGuard implements CanActivate, CanLoad {
 			return false;
         }
 
+		if (route.data['role'] == 0)
+			this.router.navigate(['/admin/login'], { queryParams: { returnUrl: state.url }});
+		else
         // not logged in so redirect to login page with the return url
-        this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
+        	this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
         return false;
 	}
 
