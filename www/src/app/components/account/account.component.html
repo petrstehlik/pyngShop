@@ -8,7 +8,7 @@
 			<label for="username">Username *</label>
 			<input type="text" class="form-control" placeholder="Enter Your Username" required
 				[(ngModel)]="user.customer.username" #fusername="ngModel" name="user_name">
-			<div [hidden]="fusername.valid || fusername.pristine" class="alert alert-danger">
+			<div *ngIf="fusername.errors?.required" class="alert alert-danger">
 				Username is required
 			</div>
 		</div>
@@ -23,24 +23,28 @@
 			<label for="lastname">Last Name *</label>
 			<input type="text" class="form-control" placeholder="Enter Your Last Name" required
 				[(ngModel)]="user.customer.last_name" #flname="ngModel" name="last_name">
-			<div [hidden]="flname.valid || flname.pristine" class="alert alert-danger">
-				Lastname is required
+			<div *ngIf="flname.errors?.required" class="alert alert-danger">
+				Last Name is required
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label for="email">Email *</label>
-			<input type="email" class="form-control" placeholder="Enter Your Email" required
+			<input type="email" class="form-control" placeholder="Enter Your Email" required email
 				[(ngModel)]="user.customer.email" #fmail="ngModel" name="email">
-			<div [hidden]="fmail.valid || fmail.pristine" class="alert alert-danger">
-				Email is required
+			<div *ngIf="fmail.errors?.email" class="alert alert-danger">
+				Invalid email
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label for="phone">Phone</label>
 			<input type="text" class="form-control" placeholder="Enter Your Phone"
+			phone="CZ"
 				[(ngModel)]="user.customer.phone" #fphone="ngModel" name="phone">
+			<div *ngIf="fphone.errors?.phone" class="alert alert-danger">
+				Invalid phone number
+			</div>
 		</div>
 
 		<div class="form-group">
@@ -51,7 +55,7 @@
 
 		<div class="form-group">
 			<label for="postalcode">Postal code</label>
-			<input type="text" class="form-control" placeholder="Enter Your Postal Code"
+			<input type="number" class="form-control" placeholder="Enter Your Postal Code"
 				[(ngModel)]="user.customer.postal_code" #fpostal="ngModel" name="postalcode">
 		</div>
 
