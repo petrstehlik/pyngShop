@@ -41,7 +41,7 @@ export class ProductNewComponent implements OnInit {
 
 		this.productService.add(this.product).subscribe(
 		data => {
-			this.router.navigate(['/', 'products', data["id"]]);
+			this.router.navigate(['/', 'product', data["id"]]);
 		},
 		err => {
 			console.log(err);
