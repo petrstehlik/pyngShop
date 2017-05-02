@@ -10,6 +10,8 @@ import {
 	usersEditComponent
 	} from './users.component';
 
+import { TopBarModule } from 'app/components/topbar/top-bar.module';
+
 import { AuthGuard } from  'app/utils/auth.guard';
 
 const usersRoutes : Routes = [
@@ -61,6 +63,7 @@ const usersRoutes : Routes = [
 	imports : [
 		CommonModule,
 		FormsModule,
+		TopBarModule,
 		RouterModule.forChild(usersRoutes)
 	],
 	declarations : [usersComponent, usersAddComponent, usersListComponent, usersEditComponent],

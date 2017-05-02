@@ -73,6 +73,7 @@ export class usersAddComponent {
 @Component({
 	selector : 'users-list',
 	template : `
+	<topbar></topbar>
 	<div class="container">
 		<h2>Users management</h2>
 		<section class="box d-flex flex-row">
