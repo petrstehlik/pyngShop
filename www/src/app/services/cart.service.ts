@@ -38,6 +38,10 @@ export class CartService {
         return len;
     }
 
+    get() {
+		return JSON.parse(localStorage.getItem("cart"));
+    }
+
     addItem(item : Object, quantity : Number) {
         for (let product of this.cart) {
             if (product["product"]["id"] == item["id"]) {
@@ -52,15 +56,32 @@ export class CartService {
         this.save();
     }
 
-    removeItem(item : Object) {
-        for (let product of this.cart) {
+    updateItem(item : Object, quantity : Number) {
+		for (let product of this.cart) {
             if (product["product"]["id"] == item["id"]) {
-                product["quantity"] -= item["quantity"];
+                product["quantity"] = quantity;
                 this.save();
                 return;
             }
         }
 
+        this.save();
+
+    }
+
+    removeItem(item : Object) {
+    	let i = 0;
+        for (let product of this.cart) {
+            if (product["product"]["id"] == item["id"]) {
+                this.cart.splice(i, 1);
+
+                this.save();
+                return;
+            }
+        	i += 1;
+        }
+
         console.debug("Item not found in cart");
+        this.save();
     }
 }
