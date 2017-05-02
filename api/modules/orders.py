@@ -31,8 +31,10 @@ def get_orders():
 		tmp["shipping"] = order.shipping.to_dict()
 		products = []
 		for ordered_product in order.ordered_products:
-			products.append(ordered_product.product.to_dict())
-		tmp["products"] = products
+			op = ordered_product.to_dict()
+			op["product"] = ordered_product.product_dict()
+			products.append(op)
+		tmp["ordered_products"] = products
 		orders.append(tmp)
 
 	return(json_util.dumps(orders))
@@ -174,8 +176,10 @@ def get_order(order_id):
 	tmp["shipping"] = order.shipping.to_dict()
 	products = []
 	for ordered_product in order.ordered_products:
-		products.append(ordered_product.product.to_dict())
-	tmp["products"] = products
+		op = ordered_product.to_dict()
+		op["product"] = ordered_product.product_dict()
+		products.append(op)
+	tmp["ordered_products"] = products
 
 	return(json_util.dumps(tmp))
 
