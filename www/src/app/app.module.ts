@@ -42,6 +42,7 @@ import { TruncatePipe } from './utils/truncate.pipe';
 import { ProductComponent } from './components/product/product.component';
 import { CartComponent } from './components/cart/cart.component';
 import { TotalPipe } from './utils/total.pipe';
+import { AdminOrdersComponent } from './components/admin-orders/admin-orders.component';
 
 export const appRoutes: Routes = [
 	{
@@ -55,6 +56,10 @@ export const appRoutes: Routes = [
 	{
 		path : 'admin/shipping',
 		component : AdminShippingComponent
+	},
+	{
+		path : 'admin/orders',
+		component : AdminOrdersComponent
 	},
 	{
 		path : 'login',
@@ -142,7 +147,8 @@ export function setFactory (xhrBackend: XHRBackend,
     TruncatePipe,
     ProductComponent,
     CartComponent,
-    TotalPipe
+    TotalPipe,
+    AdminOrdersComponent
   ],
   imports: [
 	modules,
