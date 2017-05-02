@@ -35,7 +35,7 @@
 	</div>
 
 	<div class="row product-listing">
-		<product-card [item]="product" *ngFor="let product of category.products" class="col-4"></product-card>
+		<product-card [item]="product" *ngFor="let product of category.products" class="col-4" [hidden]="product?.hidden"></product-card>
 
 	</div>
 	<div class="row">
