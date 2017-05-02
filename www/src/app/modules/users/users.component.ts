@@ -20,7 +20,7 @@ export class usersComponent {};
 	providers : [UsersService]
 })
 export class usersAddComponent {
-	returnUrl = "/users";
+	returnUrl = "admin/users";
 
 	user = {
 		first_name : "",
@@ -138,8 +138,8 @@ export class usersListComponent {
 	}
 
 	removeUser(user:Object) {
-		console.log(user['id']['$oid']);
-		this.usersService.remove(user['id']['$oid']).subscribe(
+		console.log(user['id']);
+		this.usersService.remove(user['id']).subscribe(
 			data => {
 			console.log(data);
 			this.listUsers();
@@ -214,7 +214,7 @@ export class usersEditComponent {
 		if (Object.keys(diff_user).length > 0) {
 			this.usersService.update(this.userId, diff_user).subscribe(
 				data => {
-					this.router.navigate(['/users']);
+					this.router.navigate(['admin/users']);
 				},
 				error => {
 					console.log(error);
