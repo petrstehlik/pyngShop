@@ -15,7 +15,7 @@ export class Contact {
 	public email : string,
 	public address : string,
 	public city : string,
-	public postalcode : string,
+	public postalcode : number,
 	public phone : number,
 	public country : string
 	) {  }
