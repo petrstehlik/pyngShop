@@ -1,0 +1,82 @@
+	<div class="container">
+		<h2>Shipping shagement</h2>
+		<section class="box d-flex flex-row">
+			<table class="table table-hover">
+				<thead>
+				<tr>
+					<th>Name</th>
+					<th>Price</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr *ngFor="let sh of shippingList">
+					<td>{{ sh.name }}</td>
+					<td>{{ sh.price }}</td>
+					<td>
+						<button class="btn btn-secondary"(click)="edit(sh)">
+							<span class="fa fa-pencil"></span>
+						</button>
+						<button class="btn btn-danger" title="Remove shipping" (click)="remove(sh)"
+						>
+							<span class="fa fa-times"></span>
+						</button>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</section>
+	</div>
+
+<div class="container" *ngIf="!editMode">
+	<h2>New Shipping</h2>
+	<form (ngSubmit)="add()" #shippingForm="ngForm" novalidate>
+		<div class="form-group">
+			<label for="Name">Name *</label>
+			<input type="text" class="form-control" placeholder="Enter Your Name" required
+				[(ngModel)]="shipping.name" #fname="ngModel" name="name">
+			<div *ngIf="fname.errors?.required" class="alert alert-danger">
+				Name is required
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="price">Price *</label>
+			<input type="number" class="form-control" placeholder="Enter Shipping price" required
+				[(ngModel)]="shipping.price" #fprice="ngModel" name="price">
+			<div *ngIf="fprice.errors?.required" class="alert alert-danger">
+				Price is required
+			</div>
+		</div>
+
+		<button title="New shipping" class="btn btn-primary" type="submit" [disabled]="!shippingForm.form.valid">
+			New shipping
+		</button>
+	</form>
+</div>
+
+<div class="container" *ngIf="editMode">
+	<h2>Edit Shipping</h2>
+	<form (ngSubmit)="save()" #editShipForm="ngForm" novalidate>
+		<div class="form-group">
+			<label for="Name">Name *</label>
+			<input type="text" class="form-control" placeholder="Enter Name" required
+				[(ngModel)]="editShip.name" #fname="ngModel" name="name">
+			<div *ngIf="fname.errors?.required" class="alert alert-danger">
+				Name is required
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="price">Price *</label>
+			<input type="number" class="form-control" placeholder="Enter Shipping price" required
+				[(ngModel)]="editShip.price" #fprice="ngModel" name="price">
+			<div *ngIf="fprice.errors?.required" class="alert alert-danger">
+				Price is required
+			</div>
+		</div>
+
+		<button title="Save" class="btn btn-primary" type="submit" [disabled]="!editShipForm.form.valid">
+			Save
+		</button>
+	</form>
+</div>
