@@ -32,6 +32,7 @@ import { ProductCardComponent } from './components/product-card/product-card.com
 import { ProductNewComponent } from './components/product-new/product-new.component';
 import { Contact } from './components/contact/contact.component';
 import { AccountComponent } from './components/account/account.component';
+import { CustomFormsModule } from 'ng2-validation';
 
 export const appRoutes: Routes = [
 	{
@@ -118,6 +119,7 @@ export function setFactory (xhrBackend: XHRBackend,
 	FormsModule,
 	HttpModule,
 	InlineEditorModule,
+	CustomFormsModule,
 	NgbModule.forRoot(),
 	RouterModule.forRoot(appRoutes)
   ],
