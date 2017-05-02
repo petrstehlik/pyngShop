@@ -1,3 +1,12 @@
-<p>
-  product-card works!
-</p>
+<div class="card" (click)="redirect()">
+
+	<img class="card-img-top" [src]="item.image == null ? 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Image%20Missing&w=350&h=200' : item.image" alt="Product image">
+	<div class="card-block">
+		<h4 class="card-title">{{ item.name }}</h4>
+		<p class="card-text">{{ item.description | truncate : 500 }}</p>
+
+	<span class="price">{{ item.price }} CZK</span>
+	<span class="stock" *ngIf="item.in_stock > 0">In Stock</span>
+	<span class="stock" *ngIf="item.in_stock == 0">Out of Stock</span>
+	</div>
+</div>
