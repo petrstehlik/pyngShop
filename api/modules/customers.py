@@ -55,7 +55,8 @@ def unprotected_add_customer(customer_data):
 	try:
 		customer = Customer.from_dict(customer_data)
 	except Exception as e:
-		raise CustomerException(str(e))
+		print(e)
+		raise CustomerException("Could not convert dictionary to Customer")
 
 	if customer.password == None:
 		raise CustomerException("Missing password")
@@ -69,14 +70,15 @@ def unprotected_add_customer(customer_data):
 	except Exception as e:
 		db.db.session.rollback()
 		print(e)
-		raise CustomerException(str(e))
+		raise CustomerException("Could not add customer to database")
 
 def add_customer():
 	r = request.get_json()
 	try:
 		customer = Customer.from_dict(r)
 	except Exception as e:
-		raise CustomerException(str(e))
+		print(e)
+		raise CustomerException("Could not convert dictionary to Customer")
 
 	#if customer_exists(customer):
 	#	raise CustomerException("Customer '" + customer.username + "' already exists", status_code = 400)
@@ -103,7 +105,8 @@ def remove_customer(customer_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise CustomerException(str(e))
+		print(e)
+		raise CustomerException("Could not remove customer from database")
 
 	customer.password = None
 	tmp = customer.to_dict()
@@ -133,7 +136,8 @@ def unprotected_edit_customer(customer_id, customer_dict):
 		try:
 			customer.password = auth.create_hash(customer_dict["password_new"])
 		except Exception as e:
-			raise CustomerException(str(e))
+			print(e)
+			raise CustomerException("Could not create password hash")
 
 	if "address1" in customer_dict and customer_dict["address1"] != "":
 		customer.address1 = customer_dict["address1"]
@@ -161,7 +165,8 @@ def edit_customer(customer_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise CustomerException(str(e))
+		print(e)
+		raise CustomerException("Could not edit customer")
 
 	# Remove password hash from the response
 	customer.password = None
@@ -184,7 +189,8 @@ def edit_profile():
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise CustomerException(str(e))
+		print(e)
+		raise CustomerException("Could not edit customer profile")
 	# Remove password hash from the response
 	customer.password = None
 	tmp = customer.to_dict()

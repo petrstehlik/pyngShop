@@ -66,7 +66,8 @@ def unprotected_add_user(user_data):
 	try:
 		user = User.from_dict(user_data)
 	except Exception as e:
-		raise UserException(str(e))
+		print(e)
+		raise UserException("Could not convert dictionary to user")
 
 	if user.password == None:
 		raise UserException("Missing password")
@@ -80,7 +81,7 @@ def unprotected_add_user(user_data):
 	except Exception as e:
 		db.db.session.rollback()
 		print(e)
-		raise UserException(str(e))
+		raise UserException("Could not add user to database")
 
 @auth.required(Role.admin)
 def add_user():
@@ -88,7 +89,8 @@ def add_user():
 	try:
 		user = User.from_dict(r)
 	except Exception as e:
-		raise UserException(str(e))
+		print(e)
+		raise UserException("Could not convert dictionary to User")
 
 	#if user_exists(user):
 	#	raise UserException("User '" + user.username + "' already exists", status_code = 400)
@@ -115,7 +117,8 @@ def remove_user(user_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise UserException(str(e))
+		print(e)
+		raise UserException("Could not remove user")
 
 	user.password = None
 	tmp = user.to_dict()
@@ -154,14 +157,16 @@ def edit_user(user_id):
 		try:
 			user.password = auth.create_hash(user_dict["password_new"])
 		except Exception as e:
-			raise UserException(str(e))
+			print(e)
+			raise UserException("Could not create password hash")
 
 	# Update the user and return updated document
 	try:
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise UserException(str(e))
+		print(e)
+		raise UserException("Could not edit user")
 
 	# Remove password hash from the response
 	user.password = None
