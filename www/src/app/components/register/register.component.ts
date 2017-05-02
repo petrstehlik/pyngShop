@@ -31,7 +31,7 @@ export class RegisterComponent implements OnInit {
 	contact = new Contact('', '', '', '', '', '', '', 0, 0, '');
 	submitted = false;
 	active = true;
-
+	passMatch = '';
 	// dependencies
 	constructor(private customer : CustomerAuthService, private router : Router) { }
 

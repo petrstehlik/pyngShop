@@ -42,6 +42,22 @@
 		</div>
 
 		<div class="form-group">
+			<label for="password">Repeat Password *</label>
+			<input type="password" class="form-control" placeholder="Enter Your Password" required
+				[(ngModel)]="passMatch" #frepPass="ngModel" name="repeatPassword" [equalTo]="fpass"
+				[rangeLength]="[5, 99]">
+			<div *ngIf="frepPass.errors?.required" class="alert alert-danger">
+				Password is required
+			</div>
+			<div *ngIf="frepPass.errors?.rangeLength" class="alert alert-danger">
+				Password must be at least 5 characters long.
+			</div>
+			<div *ngIf="frepPass.errors?.equalTo" class="aler alert-danger">
+				Passwords do not match.
+			</div>
+		</div>
+
+		<div class="form-group">
 			<label for="email">Email *</label>
 			<input type="email" class="form-control" placeholder="Enter Your Email" required email
 				[(ngModel)]="contact.email" #fmail="ngModel" name="email">
