@@ -34,7 +34,13 @@ def get_products():
 def add_product():
 	r = request.get_json()
 	try:
+		categories_dict = r.pop("categories", [])
 		product = Product.from_dict(r)
+		for cat in categories_dict:
+			category_id = cat.get("id", None)
+			category = Category.query.get(category_id)
+			if category != None:
+				product.categories.append(category)
 	except Exception as e:
 		print(e)
 		raise ProductException("Could not convert dictionary to Product")
@@ -182,7 +188,6 @@ def get_properties(product_id):
 	return(json_util.dumps(product_properties))
 
 @auth.required(Role.admin)
-@auth.required()
 def add_property(product_id, property_id):
 	r = request.get_json()
 	r["product"] = Product.query.get_or_404(product_id)
