@@ -41,6 +41,8 @@ def add_product():
 			category = Category.query.get(category_id)
 			if category != None:
 				product.categories.append(category)
+			else:
+				raise CategoryException("Missing category")
 	except Exception as e:
 		print(e)
 		raise ProductException("Could not convert dictionary to Product")
@@ -57,6 +59,7 @@ def add_product():
 	inserted = Product.query.get_or_404(product.id)
 
 	product = inserted.to_dict()
+	product["categories"] = inserted.categories_dict()
 
 	return(json_util.dumps(product))
 
