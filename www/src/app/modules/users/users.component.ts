@@ -28,7 +28,7 @@ export class usersAddComponent {
 		username : "",
 		email : "",
 		password : "",
-		role : 10
+		role : 0
 	}
 
 	error = "";
@@ -98,7 +98,7 @@ export class usersAddComponent {
 					<td>{{ user.last_name }}</td>
 					<td>{{ user.role }}</td>
 					<td>
-						<button class="btn btn-secondary"routerLink="{{user.id.$oid}}">View user</button>
+						<a class="btn btn-secondary" [routerLink]="[user.id]">View user</a>
 						<button class="btn btn-danger" title="Remove user" (click)="removeUser(user)"
 						*ngIf="currentUser.user.username != user.username">Delete user</button>
 					</td>
