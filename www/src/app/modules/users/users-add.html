@@ -17,7 +17,7 @@
 				name="username">
 
 		</div>
-			<label> Email </label>
+			<label> Email *</label>
 
 		<div class="form-group"
 		fxLayout="column"
@@ -33,14 +33,14 @@
 
 	<div class="flex-container">
 			<input
-				placeholder="Password"
+				placeholder="Password *"
 				[(ngModel)]="user.password"
 				required
 				name="password"
 				type="password">
 
 			<input
-				placeholder="Password verification"
+				placeholder="Password verification *"
 				required
 				[(ngModel)]="passwordValidation"
 				name="password_validation"
