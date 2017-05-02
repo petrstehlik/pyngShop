@@ -11,7 +11,7 @@ import { Contact} from 'app/components/contact/contact.component'
 })
 
 export class RegisterComponent implements OnInit {
-	contact = new Contact('testuser', 'Test', 'User', 'test', 'test@user.eu', '', '', '', 0, '');
+	contact = new Contact('testuser', 'Test', 'User', 'test', 'test@user.eu', '', '', 0, 0, '');
 	submitted = false;
 	active = true;
 
@@ -25,12 +25,12 @@ export class RegisterComponent implements OnInit {
 		this.submitted = true;
 		this.customer.register(this.contact).subscribe(
 			data => {this.router.navigate(['/login'])},
-			err => {console.log(err); this.submitted = false}
+			err => {console.log(err); this.submitted = false;}
 		);
 	}
 
 	newContact() {
-		this.contact = new Contact('', '', '', '', '', '', '', '', +421, '');
+		this.contact = new Contact('', '', '', '', '', '', '', 0, +421, '');
 		this.active = false;
 		this.submitted = false;
 		setTimeout(()=> this.active=true, 0);

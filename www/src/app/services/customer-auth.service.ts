@@ -57,7 +57,7 @@ export class CustomerAuthService {
 	}
 
 	update(customer : Object) {
-		return this.http.put('/customer', JSON.stringify(customer))
+		return this.http.put('/profile', JSON.stringify(customer))
 		.map((response : Response) => {
 			console.log(response);
 		}).catch(this.handleError);

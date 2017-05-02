@@ -2,13 +2,13 @@
 <category-bar></category-bar>
 
 <div class="container">
-	<h2>Account info</h2>
-	<form (ngSubmit)="onSubmit()" #userForm="ngForm" novalidate *ngIf="user">
+	<h2>Account</h2>
+	<form (ngSubmit)="onSubmit()" #userForm="ngForm" novalidate *ngIf="user.customer">
 		<div class="form-group">
 			<label for="username">Username *</label>
 			<input type="text" class="form-control" placeholder="Enter Your Username" required
-				[(ngModel)]="user.username" #fusername="ngModel" name="user_name">
-			<div *ngIf="fusername.errors?.required" class="alert alert-danger">
+				[(ngModel)]="user.customer.username" #fusername="ngModel" name="user_name">
+			<div [hidden]="fusername.valid || fusername.pristine" class="alert alert-danger">
 				Username is required
 			</div>
 		</div>
@@ -16,66 +16,62 @@
 		<div class="form-group">
 			<label for="firstname">First Name</label>
 			<input type="text" class="form-control" placeholder="Enter Your First Name"
-				[(ngModel)]="user.first_name" #fname="ngModel" name="first_name">
+				[(ngModel)]="user.customer.first_name" #fname="ngModel" name="first_name">
 		</div>
 
 		<div class="form-group">
 			<label for="lastname">Last Name *</label>
 			<input type="text" class="form-control" placeholder="Enter Your Last Name" required
-				[(ngModel)]="user.last_name" #flname="ngModel" name="last_name">
-			<div *ngIf="flname.errors?.required" class="alert alert-danger">
-				Last Name is required
+				[(ngModel)]="user.customer.last_name" #flname="ngModel" name="last_name">
+			<div [hidden]="flname.valid || flname.pristine" class="alert alert-danger">
+				Lastname is required
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label for="email">Email *</label>
-			<input type="email" class="form-control" placeholder="Enter Your Email" required email
-				[(ngModel)]="user.email" #fmail="ngModel" name="email">
-			<div *ngIf="fmail.errors?.email" class="alert alert-danger">
-				Invalid email
+			<input type="email" class="form-control" placeholder="Enter Your Email" required
+				[(ngModel)]="user.customer.email" #fmail="ngModel" name="email">
+			<div [hidden]="fmail.valid || fmail.pristine" class="alert alert-danger">
+				Email is required
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label for="phone">Phone</label>
 			<input type="text" class="form-control" placeholder="Enter Your Phone"
-			phone="CZ"
-				[(ngModel)]="user.phone" #fphone="ngModel" name="phone">
-			<div *ngIf="fphone.errors?.phone" class="alert alert-danger">
-				Invalid phone number
-			</div>
+				[(ngModel)]="user.customer.phone" #fphone="ngModel" name="phone">
 		</div>
 
 		<div class="form-group">
 			<label for="address">Address</label>
 			<input type="text" class="form-control" placeholder="Enter Your Address"
-				[(ngModel)]="user.address1" #faddress="ngModel" name="address">
+				[(ngModel)]="user.customer.address1" #faddress="ngModel" name="address">
 		</div>
 
 		<div class="form-group">
 			<label for="postalcode">Postal code</label>
-			<input type="number" class="form-control" placeholder="Enter Your Postal Code"
-				[(ngModel)]="user.postal_code" #fpostal="ngModel" name="postalcode">
+			<input type="text" class="form-control" placeholder="Enter Your Postal Code"
+				[(ngModel)]="user.customer.postal_code" #fpostal="ngModel" name="postalcode">
 		</div>
 
 		<div class="form-group">
 			<label for="city">City</label>
 			<input type="text" class="form-control" placeholder="Enter Your City"
-				[(ngModel)]="user.city" #fcity="ngModel" name="city">
+				[(ngModel)]="user.customer.city" #fcity="ngModel" name="city">
 		</div>
 
 		<div class="form-group">
 			<label for="state">State</label>
 			<input type="text" class="form-control" placeholder="Enter Your State"
-				[(ngModel)]="user.state" #fstate="ngModel" name="state">
+				[(ngModel)]="user.customer.state" #fstate="ngModel" name="state">
 		</div>
 
 		<button type="submit" class="btn btn-primary" [disabled]="!userForm.form.valid">
 			Submit
 		</button>
-
-		<small *ngIf="message">{{ message }}</small>
 	</form>
 </div>
 
+
+{{user|json}}

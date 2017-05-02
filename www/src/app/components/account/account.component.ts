@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CustomerAuthService } from 'app/services/customer-auth.service';
 import { Contact} from 'app/components/contact/contact.component'
-import { CustomFormsModule } from 'ng2-validation'
 
 @Component({
   selector: 'app-account',
@@ -12,18 +11,17 @@ import { CustomFormsModule } from 'ng2-validation'
 })
 export class AccountComponent implements OnInit {
 	user = new Contact('', '', '', '', '', '', '', 0, +421, '');
-	lsUser = null;
 	constructor(private customerService : CustomerAuthService, private router : Router) { }
 	submitted = false;
-	message = null;
 
 	ngOnInit() {
-		this.customerService.fetch().subscribe(
+		this.customerService.checkSession().subscribe(
 			data => {
-				this.user = data;
-				this.lsUser = JSON.parse(localStorage.getItem('currentUser'));
-				this.lsUser["customer"] = this.user;
-				localStorage.setItem('currentUser', JSON.stringify(this.lsUser));
+				console.debug("Session data")
+				console.log(data);
+				this.user = JSON.parse(localStorage.getItem('currentUser'));
+				console.debug("PArsed user");
+				console.log(this.user);
 			},
 			err => {
 				console.log(err);
@@ -35,18 +33,12 @@ export class AccountComponent implements OnInit {
 		console.debug("Submit user");
 		console.log(this.user);
 		this.submitted = true;
-		this.message = null;
 		this.customerService.update(this.user).subscribe(
 			data => {
-				this.user = data;
-				this.lsUser = JSON.parse(localStorage.getItem('currentUser'));
-				this.lsUser["customer"] = this.user;
-				localStorage.setItem('currentUser', JSON.stringify(this.lsUser));
-				this.message = "Update successfull";
+				localStorage.setItem('currentUser', JSON.stringify(this.user));
 			},
 			err => {
 				console.log(err);
-				this.message = err["message"];
 				this.submitted = false;
 			}
 		);

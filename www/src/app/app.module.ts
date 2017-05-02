@@ -30,6 +30,7 @@ import { RegisterComponent } from './components/register/register.component'
 import {InlineEditorModule} from 'ng2-inline-editor';
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { Contact } from './components/contact/contact.component';
+import { AccountComponent } from './components/account/account.component';
 
 export const appRoutes: Routes = [
 	{
@@ -48,6 +49,10 @@ export const appRoutes: Routes = [
 	{
 		path : 'register',
 		component : RegisterComponent
+	},
+	{
+		path : 'account',
+		component : AccountComponent
 	},
     {
         path : 'category/:id',
@@ -83,12 +88,10 @@ export function setFactory (xhrBackend: XHRBackend,
     CategoryBarComponent,
     CategoryItemComponent,
     CategoryComponent,
-<<<<<<< 8015c76c710cda618660da91680e38d10ea194e6
-    ProductCardComponent
-=======
+    ProductCardComponent,
     RegisterComponent,
-    Contact
->>>>>>> Add registration form & components
+    Contact,
+    AccountComponent
   ],
   imports: [
 	modules,
