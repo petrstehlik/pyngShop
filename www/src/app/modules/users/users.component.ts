@@ -75,6 +75,8 @@ export class usersAddComponent {
 	template : `
 	<topbar></topbar>
 	<div class="container">
+		<a [routerLink]="['/', 'admin']"><span class="fa fa-chevron-left"></span> Back to admin</a>
+	
 		<h2>Users management</h2>
 		<section class="box d-flex flex-row">
 			<table class="table table-hover">
