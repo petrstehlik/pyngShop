@@ -67,14 +67,16 @@ def add_order():
 	try:
 		order = Order.from_dict(order)
 	except Exception as e:
-		raise OrderException(str(e))
+		print(e)
+		raise OrderException("Could not convert dictionary to Order")
 
 	try:
 		db.db.session.add(order)
 		res = db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise OrderException(str(e))
+		print(e)
+		raise OrderException("Could not add order to database")
 
 	inserted_order = Order.query.get_or_404(order.id)
 
@@ -88,14 +90,16 @@ def add_order():
 		try:
 			order_product = OrderedProduct.from_dict(order_product)
 		except Exception as e:
-			raise OrderedProductException(str(e))
+			print(e)
+			raise OrderedProductException("Could not convert dictionary to OrderedProduct")
 
 		try:
 			db.db.session.add(order_product)
 			res = db.db.session.commit()
 		except Exception as e:
 			db.db.session.rollback()
-			raise OrderedProductException(str(e))
+			print(e)
+			raise OrderedProductException("Could not add ordered product to database")
 
 	inserted = Order.query.get_or_404(order.id)
 
@@ -116,7 +120,8 @@ def remove_order(order_id):
 			db.db.session.commit()
 		except Exception as e:
 			db.db.session.rollback()
-			raise OrderException(str(e))
+			print(e)
+			raise OrderException("Could not remove ordered product")
 
 	order = Order.query.get_or_404(order_id)
 
@@ -125,7 +130,8 @@ def remove_order(order_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise OrderException(str(e))
+		print(e)
+		raise OrderException("Could not remove order")
 
 	tmp = order.to_dict()
 
@@ -153,7 +159,8 @@ def edit_order(order_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise OrderException(str(e))
+		print(e)
+		raise OrderException("Could not edit order")
 
 	tmp = order.to_dict()
 
