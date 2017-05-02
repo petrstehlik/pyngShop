@@ -65,6 +65,10 @@
 					<inline-editor type="text" [(ngModel)]="product.description" name="description" (onSave)="update($event)"></inline-editor>
 				</small>
 		</div>
+		<button class="btn btn-primary" (click)="remove()">
+			Remove
+		</button>
 	</ng-template>
 	<small *ngIf="message">{{ message }}</small>
+	{{ product | json}}
 </div>

@@ -59,6 +59,23 @@ export class ProductComponent implements OnInit {
       );
    }
 
+   remove() {
+     this.submitted = true;
+     this.message = null;
+     this.product["hidden"] = true;
+     this.productService.update(this.product).subscribe(
+       data => {
+         this.product = data;
+         this.message = "Update successfull";
+       },
+       error => {
+         console.log(error);
+         this.message = error["message"];
+         this.submitted = false;
+       }
+      );
+   }
+
     addToCart() {
 		this.cart.addItem(this.product, this.quantity);
     }
