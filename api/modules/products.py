@@ -112,6 +112,22 @@ def edit_product(product_id):
 	if "hidden" in product_dict and product_dict["hidden"] != "":
 		product.hidden = product_dict["hidden"]
 
+	# Clear product categories
+	product.categories = []
+	# Add all categories again
+	try:
+		categories_dict = product_dict.pop("categories", [])
+		for cat in categories_dict:
+			category_id = cat.get("id", None)
+			category = Category.query.get(category_id)
+			if category != None:
+				product.categories.append(category)
+			else:
+				raise CategoryException("Missing category")
+	except Exception as e:
+		print(e)
+		raise ProductException("Could not edit product's categories")
+
 	# Update the product and return updated document
 	try:
 		db.db.session.commit()
@@ -121,6 +137,7 @@ def edit_product(product_id):
 		raise ProductException("Could not edit product")
 
 	tmp = product.to_dict()
+	tmp["categories"] = product.categories_dict()
 
 	return(json_util.dumps(tmp))
 
