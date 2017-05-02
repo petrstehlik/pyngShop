@@ -2,39 +2,12 @@
 <category-bar></category-bar>
 
 <div class="container">
-	<section class="product">
-		<form class="row" (ngSubmit)="save()">
-			<div class="col-4">
-				<img [src]="product.image" (click)="uploadImage()" *ngIf="product.image">
-				<label>Path to image</label>
-				<input [(ngModel)]="product.image" type="text" name="image" (onSave)="null($event)">
-			</div>
+	<div class="row">
+		<p>
+		  product-new works!
+		</p>
 
-			<div class="col-8 form-group">
-				<div class="form-group">
-					<label>Name</label>
-					<input class="form-control" [(ngModel)]="product.name" type="text" name="name">
-				</div>
-
-				<div class="form-group">
-					<label>Description</label>
-					<textarea class="form-control" [(ngModel)]="product.description" name="desc"></textarea>
-				</div>
-
-				<div class="form-group">
-					<label>Price</label>
-					<input class="form-control" [(ngModel)]="product.price" type="number" name="price" (onSave)="null($event)"> CZK
-				</div>
-
-
-				<div class="form-group">
-					<label>In Stock</label>
-					<input class="form-control" [(ngModel)]="product.in_stock" type="number" name="stock">
-				</div>
-
-			</div>
-
-			<button type="submit" class="btn btn-primary">Add product</button>
-		</form>
-	</section>
+		{{ productid }}
+		{{ categoryid }}
+	</div>
 </div>
