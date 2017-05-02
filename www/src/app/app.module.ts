@@ -33,7 +33,6 @@ import { ProductCardComponent } from './components/product-card/product-card.com
 import { ProductNewComponent } from './components/product-new/product-new.component';
 import { Contact } from './components/contact/contact.component';
 import { AccountComponent } from './components/account/account.component';
-<<<<<<< HEAD
 import { CustomFormsModule } from 'ng2-validation';
 import { AdminComponent } from './components/admin/admin.component';
 import { AdminManufacturerComponent } from './components/admin-manufacturer/admin-manufacturer.component';
@@ -43,7 +42,7 @@ import { TruncatePipe } from './utils/truncate.pipe';
 import { ProductComponent } from './components/product/product.component';
 import { CartComponent } from './components/cart/cart.component';
 import { TotalPipe } from './utils/total.pipe';
->>>>>>> e2ca8f8... Cart basic implementation
+import { AdminOrdersComponent } from './components/admin-orders/admin-orders.component';
 
 export const appRoutes: Routes = [
 	{
@@ -57,6 +56,10 @@ export const appRoutes: Routes = [
 	{
 		path : 'admin/shipping',
 		component : AdminShippingComponent
+	},
+	{
+		path : 'admin/orders',
+		component : AdminOrdersComponent
 	},
 	{
 		path : 'login',
@@ -144,7 +147,8 @@ export function setFactory (xhrBackend: XHRBackend,
     TruncatePipe,
     ProductComponent,
     CartComponent,
-    TotalPipe
+    TotalPipe,
+    AdminOrdersComponent
   ],
   imports: [
 	modules,
