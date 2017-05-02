@@ -37,7 +37,8 @@ def add_manufacturer():
 	try:
 		manufacturer = Manufacturer.from_dict(r)
 	except Exception as e:
-		raise ManufacturerException(str(e))
+		print(e)
+		raise ManufacturerException("Could not convert dictionary to Manufacturer")
 
 	try:
 		db.db.session.add(manufacturer)
@@ -45,7 +46,7 @@ def add_manufacturer():
 	except Exception as e:
 		db.db.session.rollback()
 		print(e)
-		raise ManufacturerException(str(e))
+		raise ManufacturerException("Could not add manufacturer to database")
 
 	inserted = Manufacturer.query.get_or_404(manufacturer.id)
 
@@ -66,7 +67,8 @@ def remove_manufacturer(manufacturer_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise ManufacturerException(str(e))
+		print(e)
+		raise ManufacturerException("Could not remove manufacturer from database")
 
 	tmp = manufacturer.to_dict()
 
@@ -105,7 +107,8 @@ def edit_manufacturer(manufacturer_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise ManufacturerException(str(e))
+		print(e)
+		raise ManufacturerException("Could not edit manufacturer")
 
 	tmp = manufacturer.to_dict()
 
@@ -128,7 +131,8 @@ def add_product(manufacturer_id, product_id):
 		res = db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise ManufacturerException(str(e))
+		print(e)
+		raise ManufacturerException("Could not add product to manufacturer")
 
 	product = Product.query.get_or_404(product_id)
 	manufacturer = Manufacturer.query.get_or_404(manufacturer_id)
@@ -162,7 +166,8 @@ def remove_product(manufacturer_id, product_id):
 		db.db.session.commit()
 	except Exception as e:
 		db.db.session.rollback()
-		raise ManufacturerException(str(e))
+		print(e)
+		raise ManufacturerException("Could not remove product from manufacturer")
 
 	manufacturer = Manufacturer.query.get_or_404(manufacturer_id)
 
