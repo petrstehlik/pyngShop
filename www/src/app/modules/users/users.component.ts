@@ -20,7 +20,7 @@ export class usersComponent {};
 	providers : [UsersService]
 })
 export class usersAddComponent {
-	returnUrl = "/users";
+	returnUrl = "admin/users";
 
 	user = {
 		first_name : "",
@@ -73,42 +73,43 @@ export class usersAddComponent {
 @Component({
 	selector : 'users-list',
 	template : `
-	<h2>Users management</h2>
-	<section class="box d-flex flex-row">
-		<table class="table table-hover">
-			<thead>
-			<tr>
-				<th>Username</th>
-				<th>E-mail</th>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>Role</th>
-				<th>Action</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr *ngFor="let user of users">
-				<td>{{ user.username }}</td>
-				<td>{{ user.email }}</td>
-				<td>{{ user.first_name }}</td>
-				<td>{{ user.last_name }}</td>
-				<td>{{ user.role }}</td>
-				<td>
-					<button class="btn btn-secondary"routerLink="{{user.id.$oid}}">View user</button>
-					<button class="btn btn-danger" title="Remove user" (click)="removeUser(user)"
-					*ngIf="currentUser.user.username != user.username">Delete user</button>
-				</td>
-			</tr>
-			</tbody>
-			<tfoot>
+	<div class="container">
+		<h2>Users management</h2>
+		<section class="box d-flex flex-row">
+			<table class="table table-hover">
+				<thead>
 				<tr>
-					<td colspan="5"><button type="button" class="btn btn-primary" routerLink="add" routerLinkActive="active-link">Add new user</button>
-					<td>
+					<th>Username</th>
+					<th>E-mail</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Role</th>
+					<th>Action</th>
 				</tr>
-			</tfoot>
-		</table>
-	</section>
-
+				</thead>
+				<tbody>
+				<tr *ngFor="let user of users">
+					<td>{{ user.username }}</td>
+					<td>{{ user.email }}</td>
+					<td>{{ user.first_name }}</td>
+					<td>{{ user.last_name }}</td>
+					<td>{{ user.role }}</td>
+					<td>
+						<button class="btn btn-secondary"routerLink="{{user.id.$oid}}">View user</button>
+						<button class="btn btn-danger" title="Remove user" (click)="removeUser(user)"
+						*ngIf="currentUser.user.username != user.username">Delete user</button>
+					</td>
+				</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="5"><button type="button" class="btn btn-primary" routerLink="add" routerLinkActive="active-link">Add new user</button>
+						<td>
+					</tr>
+				</tfoot>
+			</table>
+		</section>
+	</div>
 		`,
 	providers : [UsersService]
 
@@ -137,8 +138,8 @@ export class usersListComponent {
 	}
 
 	removeUser(user:Object) {
-		console.log(user['id']['$oid']);
-		this.usersService.remove(user['id']['$oid']).subscribe(
+		console.log(user['id']);
+		this.usersService.remove(user['id']).subscribe(
 			data => {
 			console.log(data);
 			this.listUsers();
@@ -213,7 +214,7 @@ export class usersEditComponent {
 		if (Object.keys(diff_user).length > 0) {
 			this.usersService.update(this.userId, diff_user).subscribe(
 				data => {
-					this.router.navigate(['/users']);
+					this.router.navigate(['admin/users']);
 				},
 				error => {
 					console.log(error);
