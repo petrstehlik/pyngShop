@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <a ng-href="#/" class="logo">{{ logo }}</a>
+                <a [routerLink]="['/']" class="logo">{{ logo }}</a>
             </div>
 
             <div class="user-menu col-md-6 hidden-print">
@@ -10,9 +10,9 @@
                 <li *ngIf="user.user == null">
                     <a [routerLink]="['/', 'login']" ><span class="glyphicon glyphicon-log-in white"></span> Login</a>
                 </li>
-                <li *ngIf="!user.isAdmin()">
+                <!--li *ngIf="!user.isAdmin()">
                     <a [routerLink]="['/','invoice']">Check Invoice</a>
-                </li>
+                </li-->
                 <li *ngIf="user.isCustomer()">
                     <a [routerLink]="['/','account']">Account</a>
                 </li>
