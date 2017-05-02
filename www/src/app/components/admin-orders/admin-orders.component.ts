@@ -8,7 +8,6 @@ import { OrderService } from 'app/services';
   providers : [OrderService]
 })
 export class AdminOrdersComponent implements OnInit {
-
 	orders = null;
 
 	constructor(private orderService : OrderService) { }
@@ -22,7 +21,6 @@ export class AdminOrdersComponent implements OnInit {
 				console.log(err);
 			}
 		)
-
 	}
 
 }
