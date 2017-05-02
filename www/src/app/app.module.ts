@@ -27,6 +27,7 @@ import { CategoryComponent } from './components/category/category.component';
 import {UserService} from './services/user.service'
 
 import {InlineEditorModule} from 'ng2-inline-editor';
+import { ProductCardComponent } from './components/product-card/product-card.component';
 
 export const appRoutes: Routes = [
 	{
@@ -75,7 +76,8 @@ export function setFactory (xhrBackend: XHRBackend,
     TopBarComponent,
     CategoryBarComponent,
     CategoryItemComponent,
-    CategoryComponent
+    CategoryComponent,
+    ProductCardComponent
   ],
   imports: [
 	modules,
