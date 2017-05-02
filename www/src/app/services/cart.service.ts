@@ -32,19 +32,22 @@ export class CartService {
     }
 
     length() {
-        return this.cart.length;
+    	let len = 0;
+    	for (let item of this.cart)
+    		len += item["quantity"];
+        return len;
     }
 
-    addItem(item : Object) {
+    addItem(item : Object, quantity : Number) {
         for (let product of this.cart) {
             if (product["product"]["id"] == item["id"]) {
-                product["quantity"] += item["quantity"];
+                product["quantity"] += quantity;
                 this.save();
                 return;
             }
         }
 
-        this.cart.push(item);
+        this.cart.push({"product" : item, "quantity" : quantity});
 
         this.save();
     }
