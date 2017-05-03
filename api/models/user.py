@@ -2,7 +2,7 @@ from api.error import ApiException
 from api.role import Role
 
 class UserException(ApiException):
-	status_code = 401
+	status_code = 403
 
 class User(object):
 	"""
