@@ -2,6 +2,38 @@ inline-editor {
 	//float: left;
 }
 
+li {
+	display: block;
+	float: left;
+	position: relative;
+	padding: 0;
+
+	&.active a {
+		background-color: darken(#FFF, 5%);
+	}
+
+	a {
+		padding: 0.5em 1em;
+		color: lighten(#000, 10%);
+
+		&:hover {
+			background-color: darken(#FFF, 5%);
+		}
+	}
+
+	ul {
+		display: none;
+		position: absolute;
+		left: 0;
+		top: 100%;
+		width: 100px;
+	}
+
+	&:hover ul {
+		display: block;
+	}
+}
+
 span.fa {
 	float: left;
 	margin-right: 0.2em;
