@@ -26,6 +26,7 @@ def get_products():
 
 	for product in res:
 		tmp = product.to_dict()
+		tmp["categories"] = product.categories_dict()
 		products.append(tmp)
 
 	return(json_util.dumps(products))
@@ -143,9 +144,10 @@ def edit_product(product_id):
 
 def get_product(product_id):
 	product = Product.query.get_or_404(product_id)
-	product = product.to_dict()
+	product_dict = product.to_dict()
+	product_dict["categories"] = product.categories_dict()
 
-	return(json_util.dumps(product))
+	return(json_util.dumps(product_dict))
 
 @auth.required()
 def add_review(product_id):
