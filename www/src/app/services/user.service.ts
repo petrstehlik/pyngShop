@@ -21,6 +21,8 @@ export class UserService {
     }
 
     isAdmin() {
+		if (this.user == null)
+        		return false;
         try {
             return this.user["user"]["role"] === 0;
         } catch(e) {
@@ -30,9 +32,11 @@ export class UserService {
 
     isCustomer() {
         try {
-            return this.user["customer"]["role"] > 9;
+        	if (this.user == null)
+        		return false;
+			return this.user["customer"]["role"] > 9;
         } catch(e) {
-            return false;
+			return false;
         }
     }
 
