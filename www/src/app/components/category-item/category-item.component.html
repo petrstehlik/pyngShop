@@ -1,21 +1,33 @@
-<a [routerLink]="['/category', item.id]" *ngIf="!user.isAdmin(); else admin_edit">
-    {{item.name}}
-</a>
-
-<ng-template #admin_edit>
-	<span *ngIf="!edit_enabled">
-	<a [routerLink]="['/category', item.id]">
+<li [routerLinkActive]="['active']" class="navbar-item">
+	<a [routerLink]="['/category', item.id]" class="nav-link">
 		{{item.name}}
 	</a>
-	</span>
-	<span class="fa fa-pencil" (click)="edit_enabled = !edit_enabled"></span>
-</ng-template>
 
-<div *ngIf="edit_enabled">
-	<div class="row no-gutters" *ngIf="!item.hidden">
-		<span class="fa fa-times" (click)="deleteCategory(item.id)"></span>
+	<!--ng-template #admin_edit>
+		<a [routerLink]="['/category', item.id]" *ngIf="!edit_enabled">
+			{{item.name}}
 
-		<inline-editor class="col" type="text" [(ngModel)]="item.name" (onSave)="saveEditable($event)" name="item"></inline-editor>
-	</div>
-</div>
+			<span class="fa fa-pencil" (click)="edit_enabled = !edit_enabled"></span>
+		</a>
 
+		<div *ngIf="edit_enabled">
+			<inline-editor
+				type="text"
+				[(ngModel)]="item.name"
+				(onSave)="saveEditable($event)"
+				name="item">
+			</inline-editor>
+			<span class="fa fa-times" (click)="deleteCategory(item.id)"></span>
+		</div>
+	</ng-template-->
+
+	<!--ul *ngIf="item.children.length > 0 || user.isAdmin()">
+		<li *ngFor="let submenu_item of item.children">
+			<category-item [item]="submenu_item" [hidden]="submenu_item.hidden"></category-item>
+		</li>
+
+		<li class="row no-gutters" *ngIf="user.isAdmin()">
+			<inline-editor class="col" type="text" [(ngModel)]="newsub" (onSave)="newSubCat($event, menu_item.id)" name="item" pattern="(?!\+ Add Subcategory)"></inline-editor>
+		</li>
+	</ul-->	
+</li>
