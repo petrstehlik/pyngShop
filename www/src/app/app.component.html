@@ -2,10 +2,9 @@
 	<router-outlet></router-outlet>
 </section> <!-- container-fluid -->
 
-<div style="position: relative; bottom: 0px; width: 100%; height: 25px; border-top: 1px solid grey">
+<footer class="footer">
 	<div class="container">
-		<div class="row">
-			<a [routerLink]="['/admin']" class="col">Admin</a>
-		</div>
+		<small class="text-muted">pyngShop 2017</small> 
+		<a [routerLink]="['/admin']" class="btn btn-link">Admin</a>
 	</div>
-</div>
+</footer>
