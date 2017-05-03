@@ -121,6 +121,7 @@ def edit_category(category_id):
 	tmp = category.to_dict()
 	tmp["parent"] = category.parent_dict()
 	tmp["children"] = category.children_dict()
+	tmp["products"] = category.products_dict()
 
 	return(json_util.dumps(tmp))
 
