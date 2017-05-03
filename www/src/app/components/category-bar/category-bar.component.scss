@@ -1,54 +1,36 @@
-.main-menu {
+nav {
 	border-bottom: 1px solid lighten(#000, 80%);
-	padding: 2em 0 1.5em 0;
+	margin-bottom: 1em;
 
 	ul {
 		list-style-type: none;
 		text-decoration: none;
-		li {
-			position: relative;
+		position: relative;
+		margin-bottom: 0!important;
+	}
 
+	li {
+		display: block;
+		float: left;
+		padding: 0;
 
-			a, inline-editor {
-				color: #000;
-				padding: 0.35em 0;
-				display: inline-block;
-				// clear: both;
-			}
+		&.active a {
+			background-color: darken(#FFF, 5%);
+		}
 
-			span.fa {
-				float: left;
-				margin-right: 0.2em;
-				margin-top: 0.35em;
-				color: red;
+		a {
+			padding: 0.5em 1em;
+			color: lighten(#000, 10%);
 
-				&.fa-edit {
-					float: right;
-					color: #000;
-					margin-left: 0.35em;
-				}
-			}
-
-			ul {
-				padding: 1em;
-				display: none;
-				position: absolute;
-				min-width: 250px;
-				background: darken(#FFF, 5%);
-
+			&:hover {
+				background-color: darken(#FFF, 5%);
 			}
 		}
 	}
 
-	&> ul {
-		&> li {
-			float: left;
-			margin-left: 1em;
-			margin-bottom: 2em; 
-
-			&:hover ul {
-				display: block;
-			}
+	#inlineEditWrapper {
+		a {
+			line-height: 1!important;
 		}
 	}
 }

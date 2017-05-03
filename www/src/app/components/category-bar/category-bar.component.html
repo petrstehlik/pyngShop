@@ -1,25 +1,27 @@
-
-<div class="main-menu hidden-print">
-	<ul class="container">
-		<li>
-			<a [routerLink]="['/']">Home</a>
+<div class="container">
+<nav class="main-menu hidden-print navbar-light navbar">
+	<ul>
+		<!-- HOME BUTTON -->
+		<li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+			<a [routerLink]="['/']" class="nav-link">Home</a>
 		</li>
-		<li *ngFor="let menu_item of categories">
-            <category-item [item]="menu_item" [hidden]="menu_item.hidden"></category-item>
 
-            <ul *ngIf="menu_item.children.length > 0 || user.isAdmin()">
-				<li *ngFor="let submenu_item of menu_item.children">
-				    <category-item [item]="submenu_item" [hidden]="submenu_item.hidden"></category-item>
-				</li>
+		<!-- CATEGORY ITEM -->
+        <category-item [item]="menu_item"
+			[hidden]="menu_item.hidden && !user.isAdmin()"
+			*ngFor="let menu_item of categories">
+		</category-item>
 
-				<li class="row no-gutters" *ngIf="user.isAdmin()">
-					<inline-editor class="col" type="text" [(ngModel)]="newsub" (onSave)="newSubCat($event, menu_item.id)" name="item" pattern="(?!\+ Add Subcategory)"></inline-editor>
-				</li>
-			</ul>
-		</li>
+		<!-- ADD CATEGORY BUTTON (displayed only if admin is logged in)-->
 		<li *ngIf="user.isAdmin()">
-            <inline-editor type="text" [(ngModel)]="newcat" (onSave)="saveEditable($event)" name="editableText1" size="8"></inline-editor>
+            <inline-editor type="text"
+				[(ngModel)]="newcat"
+				(onSave)="saveEditable($event)"
+				name="editableText1"
+				size="12">
+			</inline-editor>
 		</li>
 	</ul>
+</nav>
 </div>
 
