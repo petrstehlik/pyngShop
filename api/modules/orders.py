@@ -60,6 +60,10 @@ def add_order():
 	order["full_price"] = shipping["price"]
 	for ordered_product in r["ordered_products"]:
 		product = Product.query.get_or_404(ordered_product["product"]["id"])
+		if product.in_stock - ordered_product["quantity"] < 0:
+			raise OrderException("Not enough products in stock", status_code=403)
+		else:
+			product.in_stock = product.in_stock - ordered_product["quantity"]
 		products.append(product)
 		product_dict = product.to_dict()
 		order["full_price"] += (product_dict["price"] * ordered_product["quantity"])
