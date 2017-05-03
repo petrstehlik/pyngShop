@@ -1,12 +1,22 @@
-<div class="card" (click)="redirect()">
+<div class="card" (click)="redirect()" [ngClass]="{
+		'out-of-stock' : item.in_stock == 0
+	}">
 
-	<img class="card-img-top" [src]="item.image == null ? 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Image%20Missing&w=350&h=200' : item.image" alt="Product image">
+	<span class="card-img-top"
+		[ngStyle]="{
+			'background-image' : 'url(' + item.image + ')'
+		}"
+	   alt="Product image"></span>
+
+	<span class="price">{{ item.price | currency:USD:'1.2-2' }}</span>
+	<small class="stock badge badge-success" *ngIf="item?.in_stock > 0">In Stock</small>
+	<small class="stock badge badge-danger" *ngIf="item?.in_stock == 0">Out of Stock</small>
+
+
 	<div class="card-block">
-		<h4 class="card-title">{{ item?.name }}</h4>
-		<p class="card-text">{{ item?.description | truncate : 500 }}</p>
+		<h4 class="card-title">{{ item?.name | truncate : 26 }} </h4>
+		<p class="card-text">{{ item?.description | truncate : 105 }}</p>
 
-	<span class="price">{{ item.price }} CZK</span>
-	<span class="stock" *ngIf="item?.in_stock > 0">In Stock</span>
-	<span class="stock" *ngIf="item?.in_stock == 0">Out of Stock</span>
+	<span class="btn btn-block btn-primary">Go to details </span>
 	</div>
 </div>
