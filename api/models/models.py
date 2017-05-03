@@ -13,7 +13,7 @@ conn = dbConnector()
 db = conn.db
 
 class CustomerException(ApiException):
-	status_code = 401
+	status_code = 403
 
 class Customer(db.Model):
 	__tablename__ = "customers"
@@ -130,7 +130,7 @@ class Customer(db.Model):
 		return '<Customer %r>' % self.username
 
 class ShippingException(ApiException):
-	status_code = 401
+	status_code = 403
 
 class Shipping(db.Model):
 	__tablename__ = "shipping"
@@ -172,7 +172,7 @@ class Shipping(db.Model):
 		return '<Shipping %r>' % str(self.id)
 
 class OrderException(ApiException):
-	status_code = 401
+	status_code = 403
 
 class Order(db.Model):
 	__tablename__ = "orders"
@@ -237,7 +237,7 @@ class Order(db.Model):
 		return '<Order %r>' % str(self.id)
 
 class ProductException(ApiException):
-	status_code = 401
+	status_code = 403
 
 class Product(db.Model):
 	__tablename__ = "products"
@@ -351,7 +351,7 @@ class Product(db.Model):
 		return '<Product %r>' % self.name
 
 class ReviewException(ApiException):
-	status_code = 401
+	status_code = 403
 
 class Review(db.Model):
 	__tablename__ = 'reviews'
@@ -406,7 +406,7 @@ class Review(db.Model):
 		return '<Review %r>' % str(self.timestamp)
 
 class OrderedProductException(ApiException):
-	status_code = 401
+	status_code = 403
 
 class OrderedProduct(db.Model):
 	__tablename__ = "ordered_products"
@@ -453,7 +453,7 @@ class OrderedProduct(db.Model):
 		return "<OrderedProduct %r>" % str(self.quantity)
 
 class ProductPropertyException(ApiException):
-	status_code = 401
+	status_code = 403
 
 class ProductProperty(db.Model):
 	__tablename__ = "product_properties"
@@ -511,7 +511,7 @@ class ProductProperty(db.Model):
 		return '<Product property %r>' % self.name
 
 class TypePropertyException(ApiException):
-	status_code = 401
+	status_code = 403
 
 class TypeProperty(db.Model):
 	__tablename__ = "type_properties"
@@ -562,7 +562,7 @@ product_manufacturers = db.Table("product_manufacturers",
 		db.Column("manufacturer_id", db.Integer, db.ForeignKey("manufacturers.id"), primary_key=True))
 
 class ManufacturerException(ApiException):
-	status_code = 401
+	status_code = 403
 
 class Manufacturer(db.Model):
 	__tablename__ = "manufacturers"
@@ -645,7 +645,7 @@ product_categories = db.Table("product_categories",
 		db.Column("category_id", db.Integer, db.ForeignKey("categories.id"), primary_key=True))
 
 class CategoryException(ApiException):
-	status_code = 401
+	status_code = 403
 
 class Category(db.Model):
 	__tablename__ = "categories"
