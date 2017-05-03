@@ -100,11 +100,11 @@
 			</div>
 
 
-			<button [disabled]="!userValid() || selectedShipping < 0" (click)="placeOrder()" class="btn btn-primary btn-lg">
+			<button [disabled]="!userValid() || selectedShipping < 0" *ngIf="!userService.isGuest()" (click)="placeOrder()" class="btn btn-primary btn-lg">
 				<span class="fa fa-checkout"> Checkout</span>
 			</button>
 
-			<div *ngIf="!userValid()" class="alert alert-warning">
+			<div *ngIf="!userValid() && !userService.isGuest()" class="alert alert-warning">
 				<p>Please fill in all needed fields in your account</p>
 				<a [routerLink]="['/','account']" class="btn btn-primary">Go to Account</a>
 			</div>

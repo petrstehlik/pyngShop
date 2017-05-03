@@ -82,6 +82,9 @@ export class CartComponent implements OnInit {
 	}
 
 	userValid() {
+		if (this.customer == null)
+			return false;
+
 		let c = this.customer["customer"];
 		if (c["first_name"] &&
 			c["last_name"] &&
