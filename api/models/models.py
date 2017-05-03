@@ -248,7 +248,7 @@ class Product(db.Model):
 	price = db.Column(db.Float, unique=False, default=0.00)
 	image = db.Column(db.String(255), unique=False)
 	in_stock = db.Column(db.Integer, unique=False, default=0)
-	hidden = db.Column(db.Boolean, unique=False, default=True)
+	hidden = db.Column(db.Boolean, unique=False, default=False)
 
 	def __init__(self,
 			name,
@@ -653,7 +653,7 @@ class Category(db.Model):
 	name = db.Column(db.String(255), unique=False)
 	description = db.Column(db.String(10000), unique=False)
 	slug = db.Column(db.String(255), unique=False)
-	hidden = db.Column(db.Boolean, unique=False, default=True)
+	hidden = db.Column(db.Boolean, unique=False, default=False)
 	parent_id = db.Column(db.Integer, db.ForeignKey("categories.id"))
 	products = db.relationship("Product", secondary=product_categories,
 			backref="categories")
