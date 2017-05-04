@@ -25,7 +25,6 @@ export class CategoryBarComponent implements OnInit {
     load() {
 		this.category.fetchAll().subscribe(
             data => {
-            	console.log(data);
                 this.categories = data
             },
             error => {
@@ -38,7 +37,6 @@ export class CategoryBarComponent implements OnInit {
         if (event == "+ Add Category") {
             return;
         }
-        console.log(event);
 
         this.category.add({"name" : event}).subscribe(
 			data => {
