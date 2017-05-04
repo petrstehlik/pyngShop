@@ -1,8 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+//import { Contact} from 'app/components/contact/contact.component'
 import { CustomerAuthService } from 'app/services/customer-auth.service';
-import { Contact} from 'app/components/contact/contact.component'
 import { CustomFormsModule } from 'ng2-validation'
+
+export class Contact {
+
+	constructor(
+	public username : string,
+	public first_name : string,
+	public last_name : string,
+	public password : string,
+	public email : string,
+	public address1 : string,
+	public city : string,
+	public postal_code : number,
+	public telephone : number,
+	public country : string
+	) {  }
+}
 
 @Component({
   selector: 'app-register',
@@ -12,7 +28,7 @@ import { CustomFormsModule } from 'ng2-validation'
 })
 
 export class RegisterComponent implements OnInit {
-	contact = new Contact('testuser', 'Test', 'User', 'test', 'test@user.eu', '', '', 0, 0, '');
+	contact = new Contact('', '', '', '', '', '', '', 0, 0, '');
 	submitted = false;
 	active = true;
 
@@ -31,7 +47,7 @@ export class RegisterComponent implements OnInit {
 	}
 
 	newContact() {
-		this.contact = new Contact('', '', '', '', '', '', '', 0, +421, '');
+		this.contact = new Contact('', '', '', '', '', '', '', 0, 0, '');
 		this.active = false;
 		this.submitted = false;
 		setTimeout(()=> this.active=true, 0);
