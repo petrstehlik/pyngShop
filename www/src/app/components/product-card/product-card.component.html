@@ -1,14 +1,14 @@
 <div class="card" (click)="redirect()" [ngClass]="{
-		'out-of-stock' : item.in_stock == 0
+		'out-of-stock' : item?.in_stock == 0
 	}">
 
 	<span class="card-img-top"
 		[ngStyle]="{
-			'background-image' : 'url(' + item.image + ')'
+			'background-image' : 'url(' + item?.image + ')'
 		}"
 	   alt="Product image"></span>
 
-	<span class="price">{{ item.price | currency:USD:'1.2-2' }}</span>
+	<span class="price">{{ item?.price | currency:USD:'1.2-2' }}</span>
 	<small class="stock badge badge-success" *ngIf="item?.in_stock > 0">In Stock</small>
 	<small class="stock badge badge-danger" *ngIf="item?.in_stock == 0">Out of Stock</small>
 
