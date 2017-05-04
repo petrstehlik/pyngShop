@@ -4,28 +4,85 @@
 <div class="container">
 	<section class="product" *ngIf = "!user.isAdmin(); else admin_edit">
 		<div class="row">
-		<div class="col-6">
-			<img class="img-fluid" [src]="product.image == null ? 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Image%20Missing&w=350&h=200' : product.image" alt="Product image">
-		</div>
+			<!-- PRODUCT IMAGE -->
+			<div class="col-6">
+				<img class="img-fluid"
+					[src]="product.image == null ? 'https://placeholdit.imgix.net/~text?txtsize=18&txt=Image%20Missing&w=350&h=200' : product.image"
+					alt="Product image">
+			</div>
 
-		<div class="col-6">
-			<h3>{{ product.name }}</h3>
+			<!-- PRODUCT INFO -->
+			<div class="col-6">
+				<h3>{{ product.name }}</h3>
 
-			<p class="h5">Price: {{ product.price }}</p>
-			<p>In Stock: {{ product.in_stock }}</p>
+				<p>Price <span class="h5">{{ product.price | currency:USD:'1.2-2'}}</span></p>
+				<p>In Stock: {{ product.in_stock }}</p>
 
-			<label>Quantity</label>
-			<input type="number" [(ngModel)]="quantity">
+				<div class="form-inline">
+					<label class="sr-only" for="inlineFormInputGroup">Quantity</label>
+					<div class="input-group mb-2 mr-sm-2 mb-sm-0">
+						<div class="input-group-addon">
+							<span class="fa fa-tags"></span>
+						</div>
 
-			<a class="btn btn-primary" (click)="addToCart()"><span class="fa fa-cart-plus"></span> Add to Cart</a>
+						<input type="text"
+							class="form-control quant"
+							type="number"
+							id="inlineFormInputGroup"
+							placeholder="1"
+							[(ngModel)]="quantity"
+							#quant="ngModel"
+							[range]="[1, product?.in_stock]">
+						<p *ngIf="quant.errors?.range" class="alert alert-warning">Wrong number of pieces.</p>
 
-		</div>
+						<button class="btn btn-primary" (click)="addToCart()" [disabled]="quant.errors"><span class="fa fa-cart-plus"></span> Add to Cart</button>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div class="row">
-			<p>{{ product.description }}</p>
+			<div class="col-6 col-offset-3">
+				<p>{{ product.description }}</p>
+			</div>
 		</div>
 
+		<div class="row">
+			<h4 class="col-12">Reviews</h4>
+			<div class="col-12">
+				<div class="row">
+					<hr>
+					<div class="col-12" *ngFor="let rev of reviews">
+						<small>Rating: {{ rev.rating }} | {{ rev.timestamp*1000 | date }} | {{ rev.customer.username }}</small>
+						<p>{{ rev.content }}</p>
+
+						<hr>
+					</div>
+				</div>
+			</div>
+			<div class="col-12">
+				<p class="alert alert-info" *ngIf="user.isGuest()">You must be logged in to review a product | <a [routerLink]="['/login']">Login</a></p>
+				<div class="form-group" *ngIf="!user.isGuest()">
+					<form (ngSubmit)="addReview()">
+						<textarea class="form-control" placeholder="Write a review..." [(ngModel)]="newReview.content" name="review">
+						</textarea>
+
+						<label>Rate the product *</label>
+						<select [(ngModel)]="newReview.rating" name="rating" #frate="ngModel" required="true" class="custom-select">
+							<option value="1">1 - worst</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5 - best</option>
+						</select>
+						<p *ngIf="!newReview.rating && frate?.errors" class="alert alert-warning">You must rate the product</p>
+
+						<button class="btn btn-primary" [disabled]="frate?.errors || message" type="submit">Add review</button>
+
+					</form>
+				</div>
+			</div>
+		</div>
 	</section>
 
 	<ng-template #admin_edit>
@@ -70,6 +127,7 @@
 			<span *ngIf="!product.hidden">Hide</span>
 		</button>
 	</ng-template>
-	<small *ngIf="message">{{ message }}</small>
-	{{ product | json}}
+	<small *ngIf="message && !message?.error" class="alert alert-success">{{ message?.message }}</small>
+
+	<p class="alert alert-danger" *ngIf="message && message?.error">{{ message?.message }}</p>
 </div>
