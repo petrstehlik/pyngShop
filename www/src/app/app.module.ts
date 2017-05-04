@@ -31,13 +31,12 @@ import { RegisterComponent } from './components/register/register.component'
 import {InlineEditorModule} from 'ng2-inline-editor';
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { ProductNewComponent } from './components/product-new/product-new.component';
-import { Contact } from './components/contact/contact.component';
 import { AccountComponent } from './components/account/account.component';
 import { CustomFormsModule } from 'ng2-validation';
 import { AdminComponent } from './components/admin/admin.component';
 import { AdminManufacturerComponent } from './components/admin-manufacturer/admin-manufacturer.component';
 import { AdminShippingComponent } from './components/admin-shipping/admin-shipping.component';
-import { Manufacturer } from './components/manufacturer/manufacturer.component';
+//import { Manufacturer } from './components/manufacturer/manufacturer.component';
 import { TruncatePipe } from './utils/truncate.pipe';
 import { ProductComponent } from './components/product/product.component';
 import { CartComponent } from './components/cart/cart.component';
@@ -143,12 +142,11 @@ export function setFactory (xhrBackend: XHRBackend,
     ProductCardComponent,
     ProductNewComponent,
     RegisterComponent,
-    Contact,
     AccountComponent,
     AdminComponent,
     AdminManufacturerComponent,
     AdminShippingComponent,
-    Manufacturer
+   // Manufacturer,
     TruncatePipe,
     ProductComponent,
     CartComponent,
