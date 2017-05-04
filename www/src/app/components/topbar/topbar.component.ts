@@ -17,10 +17,7 @@ export class TopBarComponent implements OnInit {
                 private route : ActivatedRoute,
                 private router : Router) { }
 
-    ngOnInit() {
-
-        console.log(this.route.snapshot.url.toString())
-    }
+    ngOnInit() {}
 
     logout() {
         this.auth.logout()
