@@ -1,10 +1,8 @@
 <topbar></topbar>
 <category-bar></category-bar>
 
-{{ user | json }}
-
 <div class="container">
-	<h2>Account</h2>
+	<h2>Account info</h2>
 	<form (ngSubmit)="onSubmit()" #userForm="ngForm" novalidate *ngIf="user">
 		<div class="form-group">
 			<label for="username">Username *</label>
@@ -81,5 +79,3 @@
 	</form>
 </div>
 
-
-{{user|json}}
