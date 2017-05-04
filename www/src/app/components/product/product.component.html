@@ -119,7 +119,7 @@
 
 				<label>Description</label>
 				<small>
-					<inline-editor type="text" [(ngModel)]="product.description" name="description" (onSave)="update($event)"></inline-editor>
+					<inline-editor type="textarea" [(ngModel)]="product.description" name="description" (onSave)="update($event)"></inline-editor>
 				</small>
 		</div>
 		<button class="btn btn-primary" (click)="remove()">
